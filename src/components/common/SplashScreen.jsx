@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const SplashScreen = ({ onComplete }) => {
   const [phase, setPhase] = useState(0); // 0=logo-in, 1=text-in, 2=shimmer, 3=exit
+  const called = useRef(false);
 
   useEffect(() => {
     const t1 = setTimeout(() => setPhase(1), 400);
     const t2 = setTimeout(() => setPhase(2), 1200);
     const t3 = setTimeout(() => setPhase(3), 2400);
-    const t4 = setTimeout(() => onComplete(), 3100);
+    const t4 = setTimeout(() => {
+      if (!called.current) { called.current = true; onComplete(); }
+    }, 3100);
     return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); };
   }, [onComplete]);
 
@@ -25,6 +28,7 @@ const SplashScreen = ({ onComplete }) => {
         justifyContent: 'center',
         opacity: phase >= 3 ? 0 : 1,
         transition: 'opacity .7s cubic-bezier(.4,0,.2,1)',
+        pointerEvents: phase >= 3 ? 'none' : 'all',
         overflow: 'hidden',
       }}
     >

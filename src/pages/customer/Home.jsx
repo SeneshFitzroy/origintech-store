@@ -141,17 +141,17 @@ const Home = () => {
           .hf4{animation:hFadeUp .9s .45s cubic-bezier(.16,1,.3,1) both}
           .h-layout{
             display:grid;
-            grid-template-columns:1fr 1.1fr;
-            gap:clamp(2rem,5vw,4.5rem);
+            grid-template-columns:1fr 1.3fr;
+            gap:clamp(2rem,4vw,3.5rem);
             align-items:center;
-            max-width:1280px;
+            max-width:1400px;
             margin:0 auto;
             padding:clamp(8rem,15vh,11rem) clamp(1.5rem,4vw,3rem) clamp(5rem,10vh,8rem);
             position:relative;z-index:2;
           }
           .h-dev-area{
             position:relative;display:flex;justify-content:center;
-            align-items:flex-end;min-height:500px;
+            align-items:flex-end;min-height:580px;
           }
           .h-device{
             border-radius:18px;overflow:hidden;
@@ -174,16 +174,23 @@ const Home = () => {
             transition:all .25s cubic-bezier(.16,1,.3,1);
             text-decoration:none;cursor:pointer;
           }
+          @media(max-width:1100px){
+            .h-layout{grid-template-columns:1fr 1fr;gap:clamp(1.5rem,3vw,2.5rem)}
+          }
           @media(max-width:960px){
             .h-layout{grid-template-columns:1fr;text-align:center}
-            .h-dev-area{min-height:380px;transform:scale(.8)}
+            .h-dev-area{min-height:420px;transform:scale(.75)}
             .h-cta-row{justify-content:center!important}
             .h-tag-row{justify-content:center!important}
             .h-h1{font-size:clamp(2.2rem,8vw,3.4rem)!important}
             .h-trust{justify-content:center!important}
           }
           @media(max-width:600px){
-            .h-dev-area{min-height:300px;transform:scale(.62)}
+            .h-dev-area{min-height:320px;transform:scale(.55)}
+            .h-h1{font-size:clamp(1.8rem,7vw,2.8rem)!important}
+          }
+          @media(max-width:400px){
+            .h-dev-area{min-height:280px;transform:scale(.45)}
           }
         `}} />
 
@@ -287,8 +294,8 @@ const Home = () => {
 
             {/* ─── LAPTOP (back-left) ─── */}
             <div style={{
-              position:'absolute',left:'-3%',bottom:'12%',zIndex:1,
-              width:230,perspective:1200,
+              position:'absolute',left:'-8%',bottom:'10%',zIndex:1,
+              width:300,perspective:1200,
               animation:'hFloat 8s ease-in-out infinite',animationDelay:'.4s',
             }}>
               <div className="h-device" style={{
@@ -297,14 +304,14 @@ const Home = () => {
                 padding:'10px 10px 3px',
               }}>
                 <div className="h-scr" style={{
-                  borderRadius:10,height:138,padding:10,
-                  display:'flex',flexDirection:'column',gap:4,
+                  borderRadius:10,height:180,padding:12,
+                  display:'flex',flexDirection:'column',gap:5,
                 }}>
                   <div style={{position:'absolute',left:0,right:0,height:'30%',
                     background:'linear-gradient(180deg,transparent,rgba(0,74,198,.03),transparent)',
                     animation:'hScan 5s linear infinite',pointerEvents:'none'}}/>
                   {/* Browser dots */}
-                  <div style={{display:'flex',gap:3,marginBottom:5}}>
+                  <div style={{display:'flex',gap:4,marginBottom:6}}>
                     <div style={{width:5,height:5,borderRadius:'50%',background:'#EF4444',opacity:.7}}/>
                     <div style={{width:5,height:5,borderRadius:'50%',background:'#F59E0B',opacity:.7}}/>
                     <div style={{width:5,height:5,borderRadius:'50%',background:'#22C55E',opacity:.7}}/>
@@ -336,27 +343,27 @@ const Home = () => {
 
             {/* ─── PHONE (center-front, hero device) ─── */}
             <div style={{
-              position:'relative',zIndex:3,width:175,flexShrink:0,
+              position:'relative',zIndex:3,width:230,flexShrink:0,
               animation:'hFloat 6s ease-in-out infinite',
             }}>
               {/* Glow behind phone */}
               <div style={{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)',
-                width:250,height:350,borderRadius:'40%',
+                width:320,height:440,borderRadius:'40%',
                 background:'radial-gradient(ellipse,rgba(0,74,198,.08) 0%,transparent 65%)',
                 pointerEvents:'none',animation:'hGlow 4s ease-in-out infinite'}}/>
               <div className="h-device" style={{
-                borderRadius:32,
+                borderRadius:36,
                 border:'1.5px solid rgba(0,74,198,.18)',
                 boxShadow:'0 40px 100px rgba(0,0,0,.5), 0 0 50px rgba(0,74,198,.08), inset 0 1px 0 rgba(255,255,255,.06)',
-                padding:'14px 10px',position:'relative',
+                padding:'16px 12px',position:'relative',
               }}>
                 {/* Dynamic Island */}
-                <div style={{width:56,height:6,borderRadius:3,
+                <div style={{width:70,height:7,borderRadius:4,
                   background:'#000e24',border:'1px solid rgba(255,255,255,.08)',
-                  margin:'0 auto 12px'}}/>
+                  margin:'0 auto 14px'}}/>
                 {/* Screen */}
                 <div className="h-scr" style={{
-                  borderRadius:20,height:230,padding:16,
+                  borderRadius:24,height:310,padding:20,
                   display:'flex',flexDirection:'column',alignItems:'center',
                   justifyContent:'center',gap:10,
                 }}>
@@ -370,19 +377,19 @@ const Home = () => {
                     border:'1px solid rgba(255,255,255,.06)',
                   }}>
                     {/* Product image area */}
-                    <div style={{height:65,background:'rgba(0,74,198,.04)',
+                    <div style={{height:85,background:'rgba(0,74,198,.04)',
                       display:'flex',alignItems:'center',justifyContent:'center'}}>
-                      <Smartphone size={22} strokeWidth={1.2} style={{color:'rgba(0,74,198,.35)'}}/>
+                      <Smartphone size={28} strokeWidth={1.2} style={{color:'rgba(0,74,198,.35)'}}/>    
                     </div>
                     {/* Product info */}
-                    <div style={{padding:'8px 10px'}}>
-                      <div style={{width:'70%',height:4,borderRadius:2,background:'rgba(255,255,255,.12)',marginBottom:5}}/>
-                      <div style={{width:'45%',height:3,borderRadius:2,background:'rgba(255,255,255,.06)',marginBottom:8}}/>
+                    <div style={{padding:'10px 12px'}}>
+                      <div style={{width:'70%',height:5,borderRadius:2,background:'rgba(255,255,255,.12)',marginBottom:6}}/>
+                      <div style={{width:'45%',height:4,borderRadius:2,background:'rgba(255,255,255,.06)',marginBottom:10}}/>    
                       <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-                        <div style={{fontSize:'.55rem',color:'#4d94ff',fontWeight:700}}>Rs. 120,000</div>
+                        <div style={{fontSize:'.65rem',color:'#4d94ff',fontWeight:700}}>Rs. 120,000</div>
                         <div style={{display:'flex',gap:1}}>
                           {[1,2,3,4,5].map(s=>(
-                            <Star key={s} size={6} fill="#FACC15" stroke="none" style={{opacity:s<=4?.8:.3}}/>
+                            <Star key={s} size={8} fill="#FACC15" stroke="none" style={{opacity:s<=4?.8:.3}}/>
                           ))}
                         </div>
                       </div>
@@ -390,26 +397,26 @@ const Home = () => {
                   </div>
                   {/* Verified badge */}
                   <div style={{
-                    display:'flex',alignItems:'center',gap:5,
+                    display:'flex',alignItems:'center',gap:6,
                     background:'rgba(34,197,94,.08)',border:'1px solid rgba(34,197,94,.15)',
-                    borderRadius:8,padding:'5px 12px',
+                    borderRadius:10,padding:'7px 16px',
                   }}>
-                    <ShieldCheck size={12} strokeWidth={2} style={{color:'#4ADE80'}}/>
-                    <span style={{fontSize:'.6rem',color:'#4ADE80',fontWeight:600,letterSpacing:'1px'}}>VERIFIED AUTHENTIC</span>
+                    <ShieldCheck size={14} strokeWidth={2} style={{color:'#4ADE80'}}/>
+                    <span style={{fontSize:'.7rem',color:'#4ADE80',fontWeight:600,letterSpacing:'1px'}}>VERIFIED AUTHENTIC</span>
                   </div>
                   {/* Buy button mockup */}
                   <div style={{
-                    width:'75%',height:22,borderRadius:6,
+                    width:'75%',height:30,borderRadius:8,
                     background:'linear-gradient(135deg,#004AC6,#003a9d)',
                     display:'flex',alignItems:'center',justifyContent:'center',
                     boxShadow:'0 4px 12px rgba(0,74,198,.3)',
                   }}>
-                    <span style={{fontSize:'.55rem',color:'#fff',fontWeight:700,letterSpacing:'.5px'}}>ADD TO CART</span>
+                    <span style={{fontSize:'.65rem',color:'#fff',fontWeight:700,letterSpacing:'.5px'}}>ADD TO CART</span>
                   </div>
                 </div>
                 {/* Home bar */}
-                <div style={{width:48,height:4,borderRadius:2,
-                  background:'rgba(255,255,255,.12)',margin:'12px auto 0'}}/>
+                <div style={{width:60,height:5,borderRadius:3,
+                  background:'rgba(255,255,255,.12)',margin:'14px auto 0'}}/>
               </div>
               <div style={{textAlign:'center',marginTop:14,fontSize:'.62rem',
                 color:'rgba(148,163,184,.5)',letterSpacing:'3px',textTransform:'uppercase',
@@ -420,8 +427,8 @@ const Home = () => {
 
             {/* ─── MONITOR (back-right) ─── */}
             <div style={{
-              position:'absolute',right:'-3%',bottom:'12%',zIndex:1,
-              width:245,perspective:1200,
+              position:'absolute',right:'-8%',bottom:'10%',zIndex:1,
+              width:310,perspective:1200,
               animation:'hFloat 9s ease-in-out infinite',animationDelay:'1s',
             }}>
               <div className="h-device" style={{
@@ -430,8 +437,8 @@ const Home = () => {
                 padding:'10px 10px 4px',
               }}>
                 <div className="h-scr" style={{
-                  borderRadius:10,height:148,padding:10,
-                  display:'flex',flexDirection:'column',gap:4,
+                  borderRadius:10,height:190,padding:12,
+                  display:'flex',flexDirection:'column',gap:5,
                 }}>
                   <div style={{position:'absolute',left:0,right:0,height:'28%',
                     background:'linear-gradient(180deg,transparent,rgba(0,74,198,.03),transparent)',
