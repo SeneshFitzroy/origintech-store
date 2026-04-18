@@ -125,14 +125,14 @@ const Browse = () => {
       <div className="page-header">
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div style={{ display: 'flex', justifyContent: 'center', gap: 12, marginBottom: '1.25rem' }}>
-            <div style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(59,130,246,.1)', border: '1px solid rgba(59,130,246,.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Smartphone size={18} style={{ color: '#60A5FA' }}/>
+            <div style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(0,74,198,.1)', border: '1px solid rgba(0,74,198,.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Smartphone size={18} style={{ color: '#4d94ff' }}/>
             </div>
-            <div style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(59,130,246,.1)', border: '1px solid rgba(59,130,246,.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Laptop size={18} style={{ color: '#60A5FA' }}/>
+            <div style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(0,74,198,.1)', border: '1px solid rgba(0,74,198,.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Laptop size={18} style={{ color: '#4d94ff' }}/>
             </div>
-            <div style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(59,130,246,.1)', border: '1px solid rgba(59,130,246,.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Monitor size={18} style={{ color: '#60A5FA' }}/>
+            <div style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(0,74,198,.1)', border: '1px solid rgba(0,74,198,.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Monitor size={18} style={{ color: '#4d94ff' }}/>
             </div>
           </div>
           <h1>Browse Products</h1>

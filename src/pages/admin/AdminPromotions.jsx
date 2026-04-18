@@ -43,7 +43,7 @@ const AdminPromotions = () => {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1rem', marginBottom: '2rem' }}>
         {[
           { label: 'Active Coupons', value: promos.filter(p => p.active).length, color: '#10B981' },
-          { label: 'Total Uses', value: promos.reduce((a, p) => a + p.uses, 0), color: '#3B82F6' },
+          { label: 'Total Uses', value: promos.reduce((a, p) => a + p.uses, 0), color: '#004AC6' },
           { label: 'Inactive', value: promos.filter(p => !p.active).length, color: '#EF4444' },
         ].map((s, i) => (
           <div key={i} className="card" style={{ padding: '1.25rem' }}>
@@ -60,7 +60,7 @@ const AdminPromotions = () => {
             <div className="flex justify-between items-start" style={{ marginBottom: '1rem' }}>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-                  <code style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--primary-blue)', fontFamily: 'monospace', background: '#EFF6FF', padding: '3px 10px', borderRadius: '8px' }}>{p.code}</code>
+                  <code style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--primary-blue)', fontFamily: 'monospace', background: '#e6f0ff', padding: '3px 10px', borderRadius: '8px' }}>{p.code}</code>
                   <button onClick={() => copyCode(p.code)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: copied === p.code ? '#10B981' : 'var(--text-muted)' }}>
                     {copied === p.code ? <Check size={15} /> : <Copy size={15} />}
                   </button>
@@ -81,7 +81,7 @@ const AdminPromotions = () => {
                 <span>{Math.round((p.uses / p.maxUses) * 100)}%</span>
               </div>
               <div style={{ height: '6px', background: 'var(--bg-main)', borderRadius: '999px' }}>
-                <div style={{ width: `${Math.min((p.uses / p.maxUses) * 100, 100)}%`, height: '100%', borderRadius: '999px', background: p.uses / p.maxUses > 0.8 ? '#EF4444' : '#3B82F6', transition: 'width 0.4s' }} />
+                <div style={{ width: `${Math.min((p.uses / p.maxUses) * 100, 100)}%`, height: '100%', borderRadius: '999px', background: p.uses / p.maxUses > 0.8 ? '#EF4444' : '#004AC6', transition: 'width 0.4s' }} />
               </div>
             </div>
 

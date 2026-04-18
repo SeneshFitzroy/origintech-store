@@ -95,7 +95,7 @@ const AdminDashboard = () => {
                     <td style={{ padding: '1.25rem 0' }}>{o.customer}</td>
                     <td style={{ padding: '1.25rem 0' }}>{o.date}</td>
                     <td style={{ padding: '1.25rem 0' }}>
-                      <span style={{ padding: '0.25rem 0.65rem', backgroundColor: o.status === 'Processing' ? '#FEF3C7' : o.status === 'Shipped' ? '#DBEAFE' : '#D1FAE5', color: o.status === 'Processing' ? '#92400E' : o.status === 'Shipped' ? '#1E40AF' : '#065F46', borderRadius: 'var(--radius-sm)', fontSize: '0.75rem', fontWeight: 700 }}>{o.status}</span>
+                      <span style={{ padding: '0.25rem 0.65rem', backgroundColor: o.status === 'Processing' ? '#FEF3C7' : o.status === 'Shipped' ? '#b3d1ff' : '#D1FAE5', color: o.status === 'Processing' ? '#92400E' : o.status === 'Shipped' ? '#003a9d' : '#065F46', borderRadius: 'var(--radius-sm)', fontSize: '0.75rem', fontWeight: 700 }}>{o.status}</span>
                     </td>
                     <td style={{ padding: '1.25rem 0', textAlign: 'right', fontWeight: 700 }}>{formatPrice(o.total, currency)}</td>
                   </tr>

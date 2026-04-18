@@ -45,7 +45,7 @@ const Tracking = () => {
       <div className="container" style={{ padding: '3rem 1rem 5rem', maxWidth: 860 }}>
 
         {/* Status banner */}
-        <div style={{ background: 'linear-gradient(135deg,var(--primary-blue),#1D4ED8)', borderRadius: 20, padding: '1.75rem 2rem', marginBottom: '2rem', color: '#fff', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', alignItems: 'center' }}>
+        <div style={{ background: 'linear-gradient(135deg,var(--primary-blue),#003a9d)', borderRadius: 20, padding: '1.75rem 2rem', marginBottom: '2rem', color: '#fff', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', alignItems: 'center' }}>
           <div>
             <div style={{ fontSize: '.8rem', opacity: .75, fontWeight: 600, textTransform: 'uppercase', letterSpacing: 1, marginBottom: '.4rem' }}>Tracking ID</div>
             <div style={{ fontWeight: 800, fontSize: '1.4rem', fontFamily: 'monospace', letterSpacing: 2 }}>ORD-99231</div>
@@ -85,7 +85,7 @@ const Tracking = () => {
                     ) : isActive ? (
                       <div style={{ position: 'relative', width: 28, height: 28 }}>
                         <div className="pulse-ring" style={{ position: 'absolute', inset: -4, borderRadius: '50%', border: '2px solid var(--primary-blue)', opacity: .5 }}/>
-                        <div style={{ width: 28, height: 28, borderRadius: '50%', background: '#EFF6FF', border: '2.5px solid var(--primary-blue)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 0 4px var(--bg-surface)' }}>
+                        <div style={{ width: 28, height: 28, borderRadius: '50%', background: '#e6f0ff', border: '2.5px solid var(--primary-blue)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 0 4px var(--bg-surface)' }}>
                           <Truck size={13} color="var(--primary-blue)" strokeWidth={2.5}/>
                         </div>
                       </div>

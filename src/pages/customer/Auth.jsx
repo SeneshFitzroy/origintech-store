@@ -75,7 +75,7 @@ const Auth = () => {
 
   const strength = pwStrength(regPw);
   const strengthLabel = ['', 'Weak', 'Fair', 'Good', 'Strong'][strength];
-  const strengthColor = ['', '#EF4444', '#F59E0B', '#3B82F6', '#10B981'][strength];
+  const strengthColor = ['', '#EF4444', '#F59E0B', '#004AC6', '#10B981'][strength];
 
   const InputWrapper = ({ icon: Icon, children }) => (
     <div style={{ position: 'relative' }}>
@@ -91,7 +91,7 @@ const Auth = () => {
     </div>
   );
 
-  const focusIn = e => { e.target.style.borderColor = 'var(--primary-blue)'; e.target.style.boxShadow = '0 0 0 3px rgba(37,99,235,0.12)'; };
+  const focusIn = e => { e.target.style.borderColor = 'var(--primary-blue)'; e.target.style.boxShadow = '0 0 0 3px rgba(0,74,198,0.12)'; };
   const focusOut = e => { e.target.style.borderColor = 'var(--border-color)'; e.target.style.boxShadow = 'none'; };
 
   return (
@@ -104,7 +104,7 @@ const Auth = () => {
         position: 'relative', overflow: 'hidden',
       }}>
         {/* decorative orbs */}
-        <div style={{ position: 'absolute', top: '-80px', right: '-80px', width: 300, height: 300, borderRadius: '50%', background: 'rgba(37,99,235,0.15)', pointerEvents: 'none' }}/>
+        <div style={{ position: 'absolute', top: '-80px', right: '-80px', width: 300, height: 300, borderRadius: '50%', background: 'rgba(0,74,198,0.15)', pointerEvents: 'none' }}/>
         <div style={{ position: 'absolute', bottom: '-60px', left: '-60px', width: 240, height: 240, borderRadius: '50%', background: 'rgba(124,58,237,0.1)', pointerEvents: 'none' }}/>
 
         <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: '3.5rem', textDecoration: 'none' }}>
@@ -115,7 +115,7 @@ const Auth = () => {
         </Link>
 
         <h2 style={{ color: '#fff', fontSize: '2.2rem', fontWeight: 800, lineHeight: 1.25, marginBottom: '1rem', letterSpacing: '-.02em' }}>
-          The future of<br/><span style={{ color: '#60A5FA' }}>premium electronics</span><br/>is here.
+          The future of<br/><span style={{ color: '#4d94ff' }}>premium electronics</span><br/>is here.
         </h2>
         <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '.95rem', lineHeight: 1.7, marginBottom: '3rem', maxWidth: 340 }}>
           Join 15,000+ customers who trust OriginTech for authentic, warranted smart devices.
@@ -124,7 +124,7 @@ const Auth = () => {
         <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           {FEATURES.map((f, i) => (
             <li key={i} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <CheckCircle size={16} style={{ color: '#60A5FA', flexShrink: 0 }}/>
+              <CheckCircle size={16} style={{ color: '#4d94ff', flexShrink: 0 }}/>
               <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '.88rem' }}>{f}</span>
             </li>
           ))}
@@ -135,7 +135,7 @@ const Auth = () => {
             "OriginTech gave me full peace of mind — the authenticity certificate is brilliant. My Origin Pro 15 arrived perfectly."
           </p>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: '.75rem' }}>
-            <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'linear-gradient(135deg,#3B82F6,#8B5CF6)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '.8rem', fontWeight: 700 }}>A</div>
+            <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'linear-gradient(135deg,#004AC6,#8B5CF6)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '.8rem', fontWeight: 700 }}>A</div>
             <div>
               <div style={{ color: '#fff', fontSize: '.8rem', fontWeight: 700 }}>Ashan P.</div>
               <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '.72rem' }}>Verified Buyer</div>

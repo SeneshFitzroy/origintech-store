@@ -207,7 +207,7 @@ const ProductDetail = () => {
                     <button key={c} onClick={() => setSelectedColor(c)} style={{
                       padding: '.45rem 1rem', borderRadius: 8, cursor: 'pointer',
                       border: selectedColor === c ? '2px solid var(--primary-blue)' : '1.5px solid var(--border-color)',
-                      backgroundColor: selectedColor === c ? 'rgba(37,99,235,0.06)' : 'var(--bg-surface)',
+                      backgroundColor: selectedColor === c ? 'rgba(0,74,198,0.06)' : 'var(--bg-surface)',
                       color: 'var(--text-main)', fontWeight: selectedColor === c ? 700 : 400,
                       fontSize: '.88rem', transition: 'all .15s',
                     }}>{c}</button>
@@ -225,7 +225,7 @@ const ProductDetail = () => {
                     <button key={s} onClick={() => setSelectedStorage(s)} style={{
                       padding: '.45rem 1rem', borderRadius: 8, cursor: 'pointer',
                       border: selectedStorage === s ? '2px solid var(--primary-blue)' : '1.5px solid var(--border-color)',
-                      backgroundColor: selectedStorage === s ? 'rgba(37,99,235,0.06)' : 'var(--bg-surface)',
+                      backgroundColor: selectedStorage === s ? 'rgba(0,74,198,0.06)' : 'var(--bg-surface)',
                       color: 'var(--text-main)', fontWeight: selectedStorage === s ? 700 : 400,
                       fontSize: '.88rem', transition: 'all .15s',
                     }}>{s}</button>
@@ -328,7 +328,7 @@ const ProductDetail = () => {
                 <div key={i} style={{ padding: '1.5rem', background: 'var(--bg-surface)', borderRadius: 14, border: '1px solid var(--border-color)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '.75rem' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                      <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'linear-gradient(135deg,#3B82F6,#8B5CF6)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 700, fontSize: '.85rem' }}>{r.name[0]}</div>
+                      <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'linear-gradient(135deg,#004AC6,#8B5CF6)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 700, fontSize: '.85rem' }}>{r.name[0]}</div>
                       <div>
                         <div style={{ fontWeight: 700, fontSize: '.9rem' }}>{r.name}</div>
                         <div style={{ color: 'var(--text-muted)', fontSize: '.78rem' }}>{r.date}</div>

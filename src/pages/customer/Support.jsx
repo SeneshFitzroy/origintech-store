@@ -9,7 +9,7 @@ const mockTickets = {
 };
 
 const TICKET_STATUS_COLOURS = {
-  Open:        { bg: '#DBEAFE', text: '#1E40AF' },
+  Open:        { bg: '#b3d1ff', text: '#003a9d' },
   'In Progress':{ bg: '#FEF3C7', text: '#92400E' },
   Resolved:    { bg: '#D1FAE5', text: '#065F46' },
 };
@@ -80,10 +80,10 @@ const Support = () => {
         <div className="grid support-cards-grid" style={{ gridTemplateColumns: 'repeat(3,1fr)', gap: '1.5rem', marginBottom: '4rem' }}>
           {[
             {
-              icon: <MessageCircle size={32} color="#3B82F6" />, bg: '#EFF6FF', title: 'Live Chat',
+              icon: <MessageCircle size={32} color="#004AC6" />, bg: '#e6f0ff', title: 'Live Chat',
               desc: 'Available 24/7 via OriginTech AI, or connect with a specialist.',
               btn: 'Start Chat', btnAction: () => openChat?.(),
-              btnStyle: { background: '#3B82F6', color: 'white' }
+              btnStyle: { background: '#004AC6', color: 'white' }
             },
             {
               icon: <Phone size={32} color="#10B981" />, bg: '#F0FDF4', title: 'Call Us',

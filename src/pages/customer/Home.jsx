@@ -156,11 +156,11 @@ const Home = () => {
           .h-device{
             border-radius:18px;overflow:hidden;
             background:linear-gradient(145deg,#0E1E35,#162D4D);
-            border:1px solid rgba(100,160,255,.12);
+            border:1px solid rgba(0,74,198,.12);
             transition:border-color .5s,box-shadow .5s;
           }
           .h-device:hover{
-            border-color:rgba(100,160,255,.25);
+            border-color:rgba(0,74,198,.25);
             box-shadow:0 0 40px rgba(0,100,255,.08);
           }
           .h-scr{
@@ -191,9 +191,9 @@ const Home = () => {
         <div style={{position:'absolute',top:'-20%',right:'-15%',width:700,height:700,borderRadius:'50%',
           background:'radial-gradient(circle,rgba(0,74,198,.15) 0%,transparent 65%)',pointerEvents:'none',zIndex:1}}/>
         <div style={{position:'absolute',bottom:'-25%',left:'-10%',width:600,height:600,borderRadius:'50%',
-          background:'radial-gradient(circle,rgba(30,64,175,.1) 0%,transparent 60%)',pointerEvents:'none',zIndex:1}}/>
+          background:'radial-gradient(circle,rgba(0,60,157,.1) 0%,transparent 60%)',pointerEvents:'none',zIndex:1}}/>
         <div style={{position:'absolute',top:'40%',left:'48%',width:500,height:300,borderRadius:'50%',
-          background:'radial-gradient(ellipse,rgba(59,130,246,.05) 0%,transparent 70%)',pointerEvents:'none',zIndex:1}}/>
+          background:'radial-gradient(ellipse,rgba(0,74,198,.05) 0%,transparent 70%)',pointerEvents:'none',zIndex:1}}/>
 
         {/* Subtle grid pattern */}
         <div style={{
@@ -207,10 +207,10 @@ const Home = () => {
           <div>
             <div className="hf1 h-tag-row" style={{
               display:'inline-flex',alignItems:'center',gap:8,
-              background:'rgba(59,130,246,.1)',
-              border:'1px solid rgba(59,130,246,.2)',borderRadius:999,
+              background:'rgba(0,74,198,.1)',
+              border:'1px solid rgba(0,74,198,.2)',borderRadius:999,
               padding:'8px 18px',marginBottom:'2rem',
-              fontSize:'.78rem',color:'#93C5FD',fontWeight:600,
+              fontSize:'.78rem',color:'#80b3ff',fontWeight:600,
               letterSpacing:'.3px',
             }}>
               <span style={{width:7,height:7,borderRadius:'50%',background:'#34D399',
@@ -225,7 +225,7 @@ const Home = () => {
             }}>
               The Future of<br/>
               <span style={{
-                background:'linear-gradient(90deg,#60A5FA 0%,#93C5FD 30%,#fff 50%,#93C5FD 70%,#60A5FA 100%)',
+                background:'linear-gradient(90deg,#4d94ff 0%,#80b3ff 30%,#fff 50%,#80b3ff 70%,#4d94ff 100%)',
                 backgroundSize:'200% auto',
                 WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',
                 animation:'hShimmer 5s ease-in-out infinite',
@@ -293,7 +293,7 @@ const Home = () => {
             }}>
               <div className="h-device" style={{
                 transform:'rotateY(14deg) rotateX(-4deg)',borderRadius:16,
-                boxShadow:'0 25px 70px rgba(0,0,0,.5), 0 0 30px rgba(59,130,246,.06)',
+                boxShadow:'0 25px 70px rgba(0,0,0,.5), 0 0 30px rgba(0,74,198,.06)',
                 padding:'10px 10px 3px',
               }}>
                 <div className="h-scr" style={{
@@ -301,7 +301,7 @@ const Home = () => {
                   display:'flex',flexDirection:'column',gap:4,
                 }}>
                   <div style={{position:'absolute',left:0,right:0,height:'30%',
-                    background:'linear-gradient(180deg,transparent,rgba(59,130,246,.03),transparent)',
+                    background:'linear-gradient(180deg,transparent,rgba(0,74,198,.03),transparent)',
                     animation:'hScan 5s linear infinite',pointerEvents:'none'}}/>
                   {/* Browser dots */}
                   <div style={{display:'flex',gap:3,marginBottom:5}}>
@@ -315,11 +315,11 @@ const Home = () => {
                   {/* Product grid mockup */}
                   <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:4,flex:1}}>
                     {[1,2,3,4].map(n=>(
-                      <div key={n} style={{borderRadius:4,background:'rgba(59,130,246,.04)',
-                        border:'1px solid rgba(59,130,246,.06)',
+                      <div key={n} style={{borderRadius:4,background:'rgba(0,74,198,.04)',
+                        border:'1px solid rgba(0,74,198,.06)',
                         display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:2,padding:3}}>
                         <div style={{width:'60%',height:3,borderRadius:1,background:'rgba(255,255,255,.08)'}}/>
-                        <div style={{width:'40%',height:2,borderRadius:1,background:'rgba(96,165,250,.15)'}}/>
+                        <div style={{width:'40%',height:2,borderRadius:1,background:'rgba(0,74,198,.15)'}}/>
                       </div>
                     ))}
                   </div>
@@ -342,12 +342,12 @@ const Home = () => {
               {/* Glow behind phone */}
               <div style={{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)',
                 width:250,height:350,borderRadius:'40%',
-                background:'radial-gradient(ellipse,rgba(59,130,246,.08) 0%,transparent 65%)',
+                background:'radial-gradient(ellipse,rgba(0,74,198,.08) 0%,transparent 65%)',
                 pointerEvents:'none',animation:'hGlow 4s ease-in-out infinite'}}/>
               <div className="h-device" style={{
                 borderRadius:32,
-                border:'1.5px solid rgba(100,160,255,.18)',
-                boxShadow:'0 40px 100px rgba(0,0,0,.5), 0 0 50px rgba(59,130,246,.08), inset 0 1px 0 rgba(255,255,255,.06)',
+                border:'1.5px solid rgba(0,74,198,.18)',
+                boxShadow:'0 40px 100px rgba(0,0,0,.5), 0 0 50px rgba(0,74,198,.08), inset 0 1px 0 rgba(255,255,255,.06)',
                 padding:'14px 10px',position:'relative',
               }}>
                 {/* Dynamic Island */}
@@ -361,7 +361,7 @@ const Home = () => {
                   justifyContent:'center',gap:10,
                 }}>
                   <div style={{position:'absolute',left:0,right:0,height:'25%',
-                    background:'linear-gradient(180deg,transparent,rgba(59,130,246,.03),transparent)',
+                    background:'linear-gradient(180deg,transparent,rgba(0,74,198,.03),transparent)',
                     animation:'hScan 3.5s linear infinite',pointerEvents:'none'}}/>
                   {/* Product card mockup inside phone */}
                   <div style={{
@@ -370,16 +370,16 @@ const Home = () => {
                     border:'1px solid rgba(255,255,255,.06)',
                   }}>
                     {/* Product image area */}
-                    <div style={{height:65,background:'rgba(59,130,246,.04)',
+                    <div style={{height:65,background:'rgba(0,74,198,.04)',
                       display:'flex',alignItems:'center',justifyContent:'center'}}>
-                      <Smartphone size={22} strokeWidth={1.2} style={{color:'rgba(96,165,250,.35)'}}/>
+                      <Smartphone size={22} strokeWidth={1.2} style={{color:'rgba(0,74,198,.35)'}}/>
                     </div>
                     {/* Product info */}
                     <div style={{padding:'8px 10px'}}>
                       <div style={{width:'70%',height:4,borderRadius:2,background:'rgba(255,255,255,.12)',marginBottom:5}}/>
                       <div style={{width:'45%',height:3,borderRadius:2,background:'rgba(255,255,255,.06)',marginBottom:8}}/>
                       <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-                        <div style={{fontSize:'.55rem',color:'#60A5FA',fontWeight:700}}>Rs. 120,000</div>
+                        <div style={{fontSize:'.55rem',color:'#4d94ff',fontWeight:700}}>Rs. 120,000</div>
                         <div style={{display:'flex',gap:1}}>
                           {[1,2,3,4,5].map(s=>(
                             <Star key={s} size={6} fill="#FACC15" stroke="none" style={{opacity:s<=4?.8:.3}}/>
@@ -400,9 +400,9 @@ const Home = () => {
                   {/* Buy button mockup */}
                   <div style={{
                     width:'75%',height:22,borderRadius:6,
-                    background:'linear-gradient(135deg,#2563EB,#1D4ED8)',
+                    background:'linear-gradient(135deg,#004AC6,#003a9d)',
                     display:'flex',alignItems:'center',justifyContent:'center',
-                    boxShadow:'0 4px 12px rgba(37,99,235,.3)',
+                    boxShadow:'0 4px 12px rgba(0,74,198,.3)',
                   }}>
                     <span style={{fontSize:'.55rem',color:'#fff',fontWeight:700,letterSpacing:'.5px'}}>ADD TO CART</span>
                   </div>
@@ -426,7 +426,7 @@ const Home = () => {
             }}>
               <div className="h-device" style={{
                 transform:'rotateY(-14deg) rotateX(-4deg)',borderRadius:16,
-                boxShadow:'0 25px 70px rgba(0,0,0,.5), 0 0 30px rgba(59,130,246,.06)',
+                boxShadow:'0 25px 70px rgba(0,0,0,.5), 0 0 30px rgba(0,74,198,.06)',
                 padding:'10px 10px 4px',
               }}>
                 <div className="h-scr" style={{
@@ -434,18 +434,18 @@ const Home = () => {
                   display:'flex',flexDirection:'column',gap:4,
                 }}>
                   <div style={{position:'absolute',left:0,right:0,height:'28%',
-                    background:'linear-gradient(180deg,transparent,rgba(59,130,246,.03),transparent)',
+                    background:'linear-gradient(180deg,transparent,rgba(0,74,198,.03),transparent)',
                     animation:'hScan 5.5s linear infinite',pointerEvents:'none'}}/>
                   {/* Dashboard header */}
                   <div style={{display:'flex',alignItems:'center',gap:5,marginBottom:4}}>
-                    <div style={{width:'25%',height:7,borderRadius:4,background:'rgba(96,165,250,.12)'}}/>
+                    <div style={{width:'25%',height:7,borderRadius:4,background:'rgba(0,74,198,.12)'}}/>
                     <div style={{flex:1}}/>
-                    <div style={{width:7,height:7,borderRadius:'50%',background:'rgba(96,165,250,.1)'}}/>
-                    <div style={{width:7,height:7,borderRadius:'50%',background:'rgba(96,165,250,.07)'}}/>
+                    <div style={{width:7,height:7,borderRadius:'50%',background:'rgba(0,74,198,.1)'}}/>
+                    <div style={{width:7,height:7,borderRadius:'50%',background:'rgba(0,74,198,.07)'}}/>
                   </div>
                   {/* Analytics-style content */}
                   <div style={{display:'flex',gap:4,marginBottom:4}}>
-                    {[{w:'30%',c:'rgba(34,197,94,.12)'},{w:'25%',c:'rgba(96,165,250,.1)'},{w:'20%',c:'rgba(250,204,21,.08)'}].map((b,i)=>(
+                    {[{w:'30%',c:'rgba(34,197,94,.12)'},{w:'25%',c:'rgba(0,74,198,.1)'},{w:'20%',c:'rgba(250,204,21,.08)'}].map((b,i)=>(
                       <div key={i} style={{width:b.w,height:16,borderRadius:4,background:b.c,
                         border:'1px solid rgba(255,255,255,.03)'}}/>
                     ))}
@@ -454,9 +454,9 @@ const Home = () => {
                   {[1,2,3].map(r=>(
                     <div key={r} style={{display:'flex',alignItems:'center',gap:5,
                       padding:'3px 4px',borderRadius:4,background:'rgba(255,255,255,.015)'}}>
-                      <div style={{width:10,height:10,borderRadius:3,background:'rgba(59,130,246,.08)'}}/>
+                      <div style={{width:10,height:10,borderRadius:3,background:'rgba(0,74,198,.08)'}}/>
                       <div style={{flex:1,height:3,borderRadius:2,background:'rgba(255,255,255,.06)'}}/>
-                      <div style={{width:'20%',height:3,borderRadius:2,background:'rgba(96,165,250,.12)'}}/>
+                      <div style={{width:'20%',height:3,borderRadius:2,background:'rgba(0,74,198,.12)'}}/>
                     </div>
                   ))}
                 </div>
@@ -475,8 +475,8 @@ const Home = () => {
 
             {/* Connector lines */}
             <svg style={{position:'absolute',inset:0,width:'100%',height:'100%',pointerEvents:'none',zIndex:0}}>
-              <line x1="22%" y1="55%" x2="45%" y2="58%" stroke="rgba(96,165,250,.07)" strokeWidth=".75" strokeDasharray="5 7"/>
-              <line x1="78%" y1="55%" x2="55%" y2="58%" stroke="rgba(96,165,250,.07)" strokeWidth=".75" strokeDasharray="5 7"/>
+              <line x1="22%" y1="55%" x2="45%" y2="58%" stroke="rgba(0,74,198,.07)" strokeWidth=".75" strokeDasharray="5 7"/>
+              <line x1="78%" y1="55%" x2="55%" y2="58%" stroke="rgba(0,74,198,.07)" strokeWidth=".75" strokeDasharray="5 7"/>
             </svg>
           </div>
         </div>
@@ -542,7 +542,7 @@ const Home = () => {
       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <section ref={statsRef} style={{
         padding:'5rem 1rem',
-        background:'linear-gradient(135deg,var(--primary-blue) 0%,#1E40AF 100%)',
+        background:'linear-gradient(135deg,var(--primary-blue) 0%,#003a9d 100%)',
         color:'#fff', overflow:'hidden', position:'relative',
       }}>
         <div style={{
@@ -694,7 +694,7 @@ const Home = () => {
           <div className={tradeVis ? 'anim-fade-left' : ''} style={{ opacity: tradeVis ? undefined : 0 }}>
             <div style={{
               display:'inline-flex', alignItems:'center', gap:7,
-              background:'rgba(37,99,235,.1)', border:'1px solid rgba(37,99,235,.22)',
+              background:'rgba(0,74,198,.1)', border:'1px solid rgba(0,74,198,.22)',
               borderRadius:999, padding:'.38rem .9rem',
               marginBottom:'1.5rem', fontSize:'.78rem',
               color:'var(--primary-blue)', fontWeight:700,
@@ -716,7 +716,7 @@ const Home = () => {
           {/* steps */}
           <div className={tradeVis ? 'anim-fade-right' : ''} style={{ opacity: tradeVis ? undefined : 0 }}>
             {[
-              { icon:<Smartphone size={24}/>, title:'1. Select Device',    desc:'Choose your current model from our database.', c:'#3B82F6', bg:'#EFF6FF', off:0   },
+              { icon:<Smartphone size={24}/>, title:'1. Select Device',    desc:'Choose your current model from our database.', c:'#004AC6', bg:'#e6f0ff', off:0   },
               { icon:<ShieldCheck size={24}/>, title:'2. Instant Valuation', desc:'Get a guaranteed price quote in seconds.',      c:'#22C55E', bg:'#F0FDF4', off:24  },
               { icon:<RefreshCw  size={24}/>, title:'3. Upgrade & Get Paid',desc:'Ship it free, get your credit applied fast.',   c:'#F59E0B', bg:'#FFFBEB', off:0   },
             ].map((step, i) => (
@@ -762,7 +762,7 @@ const Home = () => {
         }}>
           {/* info */}
           <div style={{ padding:'clamp(2rem,5vw,4rem)', display:'flex', flexDirection:'column', justifyContent:'center' }}>
-            <div style={{ display:'flex', alignItems:'center', gap:7, color:'#60A5FA', fontWeight:700,
+            <div style={{ display:'flex', alignItems:'center', gap:7, color:'#4d94ff', fontWeight:700,
               letterSpacing:'2px', textTransform:'uppercase', fontSize:'.72rem', marginBottom:'1rem' }}>
               <Zap size={13}/> {t.flashSale || 'Flash Sale'} - Ending Soon
             </div>
@@ -809,7 +809,7 @@ const Home = () => {
           }}>
             <div style={{
               position:'absolute', top:16, right:16,
-              background:'#2563EB', color:'#fff',
+              background:'#004AC6', color:'#fff',
               padding:'.85rem', borderRadius:'50%',
               fontWeight:800, fontSize:'1.1rem', transform:'rotate(15deg)', zIndex:1,
             }}>-24%</div>
@@ -901,14 +901,14 @@ const Home = () => {
       <section ref={newsRef} className="container" style={{ padding:'6rem 1rem' }}>
         <div className={newsVis ? 'anim-scale-in' : ''} style={{
           opacity: newsVis ? undefined : 0,
-          background: theme==='dark' ? 'linear-gradient(135deg,#111827 0%,#1E293B 100%)' : 'linear-gradient(135deg,#EFF6FF 0%,#E0F2FE 100%)',
+          background: theme==='dark' ? 'linear-gradient(135deg,#111827 0%,#1E293B 100%)' : 'linear-gradient(135deg,#e6f0ff 0%,#e6f0ff 100%)',
           borderRadius:32, padding:'clamp(3rem,6vw,5.5rem) 2rem',
           textAlign:'center', position:'relative', overflow:'hidden',
         }}>
           <div style={{
             position:'absolute', top:'-25%', right:'-5%', width:400, height:400,
             borderRadius:'50%', pointerEvents:'none',
-            background: theme==='dark' ? 'radial-gradient(circle,rgba(59,130,246,.06) 0%,transparent 70%)' : 'radial-gradient(circle,rgba(37,99,235,.08) 0%,transparent 70%)',
+            background: theme==='dark' ? 'radial-gradient(circle,rgba(0,74,198,.06) 0%,transparent 70%)' : 'radial-gradient(circle,rgba(0,74,198,.08) 0%,transparent 70%)',
           }}/>
           <div style={{ position:'relative', zIndex:1, maxWidth:600, margin:'0 auto' }}>
             <Mail size={40} style={{ color: 'var(--primary-blue)', marginBottom: '1rem' }}/>

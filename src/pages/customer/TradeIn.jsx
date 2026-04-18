@@ -90,7 +90,7 @@ const TradeIn = () => {
                     background: step > s.n ? '#10B981' : step === s.n ? 'var(--primary-blue)' : 'var(--bg-surface)',
                     color: step >= s.n ? 'white' : 'var(--text-muted)',
                     border: step >= s.n ? 'none' : '2px solid var(--border-color)',
-                    boxShadow: step === s.n ? '0 4px 12px rgba(37,99,235,0.3)' : 'none'
+                    boxShadow: step === s.n ? '0 4px 12px rgba(0,74,198,0.3)' : 'none'
                   }}>
                     {step > s.n ? <CheckCircle size={18} /> : s.n}
                   </div>
@@ -133,7 +133,7 @@ const TradeIn = () => {
               </div>
 
               {deviceVal.brand && deviceVal.storage && (
-                <div style={{ padding: '0.85rem 1rem', background: '#EFF6FF', border: '1px solid #BFDBFE', borderRadius: 'var(--radius-md)', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: '#1E40AF' }}>
+                <div style={{ padding: '0.85rem 1rem', background: '#e6f0ff', border: '1px solid #99c2ff', borderRadius: 'var(--radius-md)', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: '#003a9d' }}>
                   <Info size={15} />
                   Estimated base value: <strong>{formatPrice(Math.round(BASE_VALUES[deviceVal.brand] * (STORAGE_MULTIPLIERS[deviceVal.storage] || 1)), currency)}</strong> — condition will adjust this.
                 </div>

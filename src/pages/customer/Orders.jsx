@@ -27,7 +27,7 @@ const STATUS_COLOURS = {
   Processing: { bg: '#FEF3C7', text: '#92400E', dot: '#F59E0B' },
   Delivered:  { bg: '#D1FAE5', text: '#065F46', dot: '#10B981' },
   Cancelled:  { bg: '#FEE2E2', text: '#991B1B', dot: '#EF4444' },
-  Shipped:    { bg: '#DBEAFE', text: '#1E40AF', dot: '#3B82F6' },
+  Shipped:    { bg: '#b3d1ff', text: '#003a9d', dot: '#004AC6' },
 };
 
 const Orders = () => {
@@ -122,7 +122,7 @@ const Orders = () => {
                 background: filterStatus === f ? 'var(--primary-blue)' : 'var(--bg-surface)',
                 color: filterStatus === f ? 'white' : 'var(--text-muted)',
                 border: filterStatus === f ? 'none' : '1px solid var(--border-color)',
-                boxShadow: filterStatus === f ? '0 4px 12px rgba(37,99,235,0.25)' : 'none',
+                boxShadow: filterStatus === f ? '0 4px 12px rgba(0,74,198,0.25)' : 'none',
               }}
             >
               {f}

@@ -97,7 +97,7 @@ const AgentLayout = () => {
             {[
               { label: 'Resolved', value: '28', color: '#10B981' },
               { label: 'Open', value: '12', color: '#F59E0B' },
-              { label: 'Avg Response', value: '14m', color: '#60A5FA' },
+              { label: 'Avg Response', value: '14m', color: '#4d94ff' },
             ].map(s => (
               <div key={s.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.35rem 0', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
                 <span style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)' }}>{s.label}</span>

@@ -73,7 +73,7 @@ const AdminLayout = () => {
         <div style={{ padding: '1.5rem 1.25rem', borderBottom: '1px solid rgba(255,255,255,0.08)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div className="flex-column">
             <div className="flex items-center gap-2" style={{ marginBottom: '0.25rem' }}>
-              <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'linear-gradient(135deg,#3B82F6,#1D4ED8)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'linear-gradient(135deg,#004AC6,#003a9d)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Store size={18} color="white" />
               </div>
               <span style={{ color: 'white', fontWeight: 800, fontSize: '1.05rem' }}>OriginTech</span>
@@ -105,7 +105,7 @@ const AdminLayout = () => {
         {/* User Footer */}
         <div style={{ padding: '1rem 1.25rem', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
           <div className="flex items-center gap-2" style={{ marginBottom: '0.75rem' }}>
-            <div style={{ width: '34px', height: '34px', borderRadius: '50%', background: '#2563EB', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <div style={{ width: '34px', height: '34px', borderRadius: '50%', background: '#004AC6', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
               <span style={{ color: 'white', fontWeight: 700, fontSize: '0.85rem' }}>A</span>
             </div>
             <div>

@@ -4,7 +4,7 @@ import { formatPrice } from '../../data/mockData';
 import { useAppContext } from '../../context/AppContext';
 
 // Mini bar chart component (pure CSS/divs)
-const BarChart = ({ data, color = '#3B82F6', height = 80 }) => {
+const BarChart = ({ data, color = '#004AC6', height = 80 }) => {
   const max = Math.max(...data.map(d => d.value));
   return (
     <div style={{ display: 'flex', alignItems: 'flex-end', gap: '6px', height: `${height}px` }}>
@@ -63,7 +63,7 @@ const AdminAnalytics = () => {
   const { currency } = useAppContext();
 
   const kpis = [
-    { label: 'Total Revenue', value: formatPrice(5200000, currency), change: '+12.5%', up: true, icon: DollarSign, color: '#3B82F6', bg: '#EFF6FF' },
+    { label: 'Total Revenue', value: formatPrice(5200000, currency), change: '+12.5%', up: true, icon: DollarSign, color: '#004AC6', bg: '#e6f0ff' },
     { label: 'Total Orders',  value: '1,245', change: '+5.2%', up: true,  icon: ShoppingBag, color: '#10B981', bg: '#F0FDF4' },
     { label: 'Active Users',  value: '8,920', change: '-1.1%', up: false, icon: Users, color: '#F59E0B', bg: '#FFFBEB' },
     { label: 'Low Stock Items', value: '24', change: '+8 items', up: false, icon: Package, color: '#EF4444', bg: '#FEF2F2' },
@@ -109,7 +109,7 @@ const AdminAnalytics = () => {
               <ArrowUpRight size={14} /> +15.6%
             </div>
           </div>
-          <BarChart data={MONTHLY_REVENUE} color="#3B82F6" height={120} />
+          <BarChart data={MONTHLY_REVENUE} color="#004AC6" height={120} />
         </div>
 
         {/* User Growth */}

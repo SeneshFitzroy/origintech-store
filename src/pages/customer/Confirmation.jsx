@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { CheckCircle, Truck, Package, Download, Star, ShieldCheck, ArrowRight } from 'lucide-react';
 import { useAppContext } from '../../context/AppContext';
 
-const CONFETTI_COLORS = ['#2563EB','#10B981','#F59E0B','#8B5CF6','#EC4899','#06B6D4'];
+const CONFETTI_COLORS = ['#004AC6','#10B981','#F59E0B','#8B5CF6','#EC4899','#06B6D4'];
 
 const Confirmation = () => {
   const { setOrderHistory } = useAppContext();
@@ -141,11 +141,11 @@ const Confirmation = () => {
         </div>
 
         {/* Authenticity badge */}
-        <div style={{ background: 'linear-gradient(135deg,#EFF6FF,#DBEAFE)', border: '1px solid #BFDBFE', borderRadius: 16, padding: '1rem 1.5rem', display: 'flex', alignItems: 'center', gap: 12, marginBottom: '2rem' }}>
-          <ShieldCheck size={28} color="#2563EB"/>
+        <div style={{ background: 'linear-gradient(135deg,#e6f0ff,#b3d1ff)', border: '1px solid #99c2ff', borderRadius: 16, padding: '1rem 1.5rem', display: 'flex', alignItems: 'center', gap: 12, marginBottom: '2rem' }}>
+          <ShieldCheck size={28} color="#004AC6"/>
           <div>
             <div style={{ fontWeight: 700, color: '#1E3A8A', fontSize: '.9rem' }}>Authenticity Certificate Issued</div>
-            <div style={{ color: '#3B82F6', fontSize: '.8rem' }}>Your device's digital certificate will be emailed within 24 hours.</div>
+            <div style={{ color: '#004AC6', fontSize: '.8rem' }}>Your device's digital certificate will be emailed within 24 hours.</div>
           </div>
         </div>
 

@@ -30,7 +30,7 @@ const TICKETS = {
 const PRIORITY_CFG = {
   High:   { bg: '#FEE2E2', text: '#991B1B', dot: '#EF4444' },
   Medium: { bg: '#FEF3C7', text: '#92400E', dot: '#F59E0B' },
-  Low:    { bg: '#EFF6FF', text: '#1E40AF', dot: '#3B82F6' },
+  Low:    { bg: '#e6f0ff', text: '#003a9d', dot: '#004AC6' },
 };
 
 const QUICK_REPLIES = [
@@ -100,7 +100,7 @@ const AgentTicketDetail = () => {
               <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: pcfg.dot }} />
               {ticket.priority} Priority
             </span>
-            <span style={{ padding: '3px 8px', borderRadius: '999px', fontSize: '0.75rem', fontWeight: 700, background: status === 'Resolved' ? '#D1FAE5' : status === 'Escalated' ? '#FEE2E2' : '#DBEAFE', color: status === 'Resolved' ? '#065F46' : status === 'Escalated' ? '#991B1B' : '#1E40AF' }}>
+            <span style={{ padding: '3px 8px', borderRadius: '999px', fontSize: '0.75rem', fontWeight: 700, background: status === 'Resolved' ? '#D1FAE5' : status === 'Escalated' ? '#FEE2E2' : '#b3d1ff', color: status === 'Resolved' ? '#065F46' : status === 'Escalated' ? '#991B1B' : '#003a9d' }}>
               {status}
             </span>
           </div>

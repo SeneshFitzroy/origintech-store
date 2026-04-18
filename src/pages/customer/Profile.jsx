@@ -88,7 +88,7 @@ const Profile = () => {
           <div style={{ flex: 1 }}>
             <div style={{ fontWeight: 900, fontSize: '1.6rem', marginBottom: '.25rem' }}>{name || 'Your Name'}</div>
             <div style={{ opacity: .75, fontSize: '.88rem', marginBottom: '.75rem' }}>{email}</div>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '.35rem .9rem', background: 'rgba(37,99,235,.4)', borderRadius: 999, fontSize: '.78rem', fontWeight: 700, border: '1px solid rgba(37,99,235,.5)' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '.35rem .9rem', background: 'rgba(0,74,198,.4)', borderRadius: 999, fontSize: '.78rem', fontWeight: 700, border: '1px solid rgba(0,74,198,.5)' }}>
               OriginTech Member
             </div>
           </div>

@@ -38,7 +38,7 @@ const AdminUsers = () => {
       {/* Summary Cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '1rem', marginBottom: '1.75rem' }}>
         {[
-          { label: 'Total Users', value: users.length, color: '#3B82F6', bg: '#EFF6FF' },
+          { label: 'Total Users', value: users.length, color: '#004AC6', bg: '#e6f0ff' },
           { label: 'Active', value: users.filter(u => u.status === 'Active').length, color: '#10B981', bg: '#F0FDF4' },
           { label: 'Suspended', value: users.filter(u => u.status === 'Suspended').length, color: '#EF4444', bg: '#FEF2F2' },
           { label: 'Agents', value: users.filter(u => u.role === 'Agent').length, color: '#8B5CF6', bg: '#F5F3FF' },
@@ -90,7 +90,7 @@ const AdminUsers = () => {
                   </div>
                 </td>
                 <td style={{ padding: '1rem 1.25rem' }}>
-                  <span style={{ padding: '3px 10px', borderRadius: '999px', fontSize: '0.75rem', fontWeight: 700, background: u.role === 'Agent' ? '#F5F3FF' : '#F0F9FF', color: u.role === 'Agent' ? '#7C3AED' : '#0369A1' }}>
+                  <span style={{ padding: '3px 10px', borderRadius: '999px', fontSize: '0.75rem', fontWeight: 700, background: u.role === 'Agent' ? '#F5F3FF' : '#f0f5ff', color: u.role === 'Agent' ? '#7C3AED' : '#003a9d' }}>
                     {u.role}
                   </span>
                 </td>

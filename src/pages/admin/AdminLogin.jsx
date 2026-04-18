@@ -51,10 +51,10 @@ const AdminLogin = () => {
           <div style={{ 
             width: '60px', height: '60px', 
             borderRadius: '16px', 
-            background: 'linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%)',
+            background: 'linear-gradient(135deg, #004AC6 0%, #003a9d 100%)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             margin: '0 auto 1.5rem',
-            boxShadow: '0 0 20px rgba(59, 130, 246, 0.4)'
+            boxShadow: '0 0 20px rgba(0,74,198, 0.4)'
           }}>
             <ShieldCheck size={32} color="white" />
           </div>
@@ -110,11 +110,11 @@ const AdminLogin = () => {
             disabled={loading}
             style={{ 
               width: '100%', padding: '1rem', 
-              backgroundColor: '#3B82F6', color: 'white', 
+              backgroundColor: '#004AC6', color: 'white', 
               borderRadius: '10px', fontWeight: 700, fontSize: '0.95rem',
               border: 'none', cursor: 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-              boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)',
+              boxShadow: '0 4px 12px rgba(0,74,198, 0.3)',
               transition: 'all 0.2s',
               opacity: loading ? 0.7 : 1
             }}

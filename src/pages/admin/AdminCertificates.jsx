@@ -51,7 +51,7 @@ const AdminCertificates = () => {
       {/* Summary */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1rem', marginBottom: '1.75rem' }}>
         {[
-          { label: 'Total Issued', value: certs.length, color: '#3B82F6' },
+          { label: 'Total Issued', value: certs.length, color: '#004AC6' },
           { label: 'Valid', value: certs.filter(c => c.status === 'Valid').length, color: '#10B981' },
           { label: 'Revoked', value: certs.filter(c => c.status === 'Revoked').length, color: '#EF4444' },
         ].map((s, i) => (

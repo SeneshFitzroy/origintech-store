@@ -77,14 +77,14 @@ const ChatbotWidget = ({ forceOpen = false, onClose }) => {
           background: 'var(--bg-surface)'
         }}>
           {/* Header */}
-          <div style={{ background: 'linear-gradient(135deg,#1E3A5F,#2563EB)', color: 'white', padding: '1rem 1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ background: 'linear-gradient(135deg,#1E3A5F,#004AC6)', color: 'white', padding: '1rem 1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div className="flex items-center gap-2">
               <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Bot size={20} />
               </div>
               <div>
                 <div style={{ fontWeight: 700, fontSize: '0.95rem' }}>OriginTech Assistant</div>
-                <div style={{ fontSize: '0.72rem', color: '#93C5FD' }}>● Online · Replies instantly</div>
+                <div style={{ fontSize: '0.72rem', color: '#80b3ff' }}>● Online · Replies instantly</div>
               </div>
             </div>
             <button onClick={close} style={{ background: 'rgba(255,255,255,0.15)', border: 'none', borderRadius: '8px', padding: '0.4rem', cursor: 'pointer', color: 'white' }}>
@@ -98,12 +98,12 @@ const ChatbotWidget = ({ forceOpen = false, onClose }) => {
               <div key={idx} style={{ display: 'flex', flexDirection: 'column', alignItems: msg.sender === 'user' ? 'flex-end' : 'flex-start' }}>
                 <div style={{ display: 'flex', alignItems: 'flex-end', gap: '6px', flexDirection: msg.sender === 'user' ? 'row-reverse' : 'row' }}>
                   {msg.sender === 'bot' && (
-                    <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'linear-gradient(135deg,#2563EB,#1D4ED8)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'linear-gradient(135deg,#004AC6,#003a9d)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                       <Bot size={14} color="white" />
                     </div>
                   )}
                   <div style={{
-                    background: msg.sender === 'user' ? 'linear-gradient(135deg,#2563EB,#1D4ED8)' : 'var(--bg-surface)',
+                    background: msg.sender === 'user' ? 'linear-gradient(135deg,#004AC6,#003a9d)' : 'var(--bg-surface)',
                     color: msg.sender === 'user' ? 'white' : 'var(--text-main)',
                     padding: '0.7rem 0.9rem', borderRadius: '14px',
                     borderBottomRightRadius: msg.sender === 'user' ? '4px' : '14px',
@@ -121,7 +121,7 @@ const ChatbotWidget = ({ forceOpen = false, onClose }) => {
 
             {isTyping && (
               <div style={{ display: 'flex', alignItems: 'flex-end', gap: '6px' }}>
-                <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'linear-gradient(135deg,#2563EB,#1D4ED8)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'linear-gradient(135deg,#004AC6,#003a9d)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                   <Bot size={14} color="white" />
                 </div>
                 <div style={{ background: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: '14px', borderBottomLeftRadius: '4px', padding: '0.7rem 1rem', display: 'flex', gap: '4px', alignItems: 'center' }}>
@@ -167,7 +167,7 @@ const ChatbotWidget = ({ forceOpen = false, onClose }) => {
             <button
               onClick={() => handleSend()}
               aria-label="Send message"
-              style={{ width: '38px', height: '38px', borderRadius: '50%', background: 'linear-gradient(135deg,#2563EB,#1D4ED8)', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', flexShrink: 0, boxShadow: '0 4px 12px rgba(37,99,235,0.3)' }}
+              style={{ width: '38px', height: '38px', borderRadius: '50%', background: 'linear-gradient(135deg,#004AC6,#003a9d)', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', flexShrink: 0, boxShadow: '0 4px 12px rgba(0,74,198,0.3)' }}
             >
               <Send size={15} color="white" />
             </button>
@@ -180,7 +180,7 @@ const ChatbotWidget = ({ forceOpen = false, onClose }) => {
         <button
           onClick={() => setIsOpen(true)}
           aria-label="Open chat assistant"
-          style={{ width: '60px', height: '60px', borderRadius: '50%', background: 'linear-gradient(135deg,#2563EB,#1D4ED8)', border: 'none', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 24px rgba(37,99,235,0.4)', cursor: 'pointer', transition: 'transform 0.2s', float: 'right' }}
+          style={{ width: '60px', height: '60px', borderRadius: '50%', background: 'linear-gradient(135deg,#004AC6,#003a9d)', border: 'none', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 8px 24px rgba(0,74,198,0.4)', cursor: 'pointer', transition: 'transform 0.2s', float: 'right' }}
           onMouseOver={e => e.currentTarget.style.transform = 'scale(1.1)'}
           onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
         >

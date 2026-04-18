@@ -66,7 +66,7 @@ const AgentDashboard = () => {
       {/* Stats Grid */}
       <div className="grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.5rem', marginBottom: '2rem' }}>
         {[
-          { label: 'My Open Tickets', value: '12', icon: MessageSquare, color: 'var(--primary-blue)', bg: 'rgba(37, 99, 235, 0.1)' },
+          { label: 'My Open Tickets', value: '12', icon: MessageSquare, color: 'var(--primary-blue)', bg: 'rgba(0,74,198, 0.1)' },
           { label: 'Urgent / SLA Risk', value: '3', icon: AlertCircle, color: '#EF4444', bg: 'rgba(239, 68, 68, 0.1)' },
           { label: 'Avg Response Time', value: '14m', icon: Clock, color: '#10B981', bg: 'rgba(16, 185, 129, 0.1)' },
           { label: 'Resolved Today', value: '28', icon: CheckCircle2, color: '#10B981', bg: 'rgba(16, 185, 129, 0.1)' },

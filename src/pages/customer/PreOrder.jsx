@@ -73,8 +73,8 @@ const PreOrder = () => {
               position: 'relative', overflow: 'hidden',
               boxShadow: '0 32px 80px rgba(0,0,0,0.2)'
             }}>
-              <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 50% 40%, rgba(37,99,235,0.35) 0%, transparent 70%)' }} />
-              <img src="/images/vision.png" alt="Origin Vision X spatial computing headset" style={{ zIndex: 1, objectFit: 'contain', height: '75%', filter: 'drop-shadow(0 20px 40px rgba(37,99,235,0.3))' }} />
+              <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 50% 40%, rgba(0,74,198,0.35) 0%, transparent 70%)' }} />
+              <img src="/images/vision.png" alt="Origin Vision X spatial computing headset" style={{ zIndex: 1, objectFit: 'contain', height: '75%', filter: 'drop-shadow(0 20px 40px rgba(0,74,198,0.3))' }} />
               <div style={{ position: 'absolute', top: '1.25rem', left: '1.25rem', background: '#EF4444', color: 'white', padding: '0.4rem 1rem', borderRadius: '999px', fontWeight: 700, fontSize: '0.82rem', zIndex: 2, display: 'flex', alignItems: 'center', gap: '5px' }}>
                 <Zap size={13} /> Limited Pre-Order
               </div>
@@ -125,7 +125,7 @@ const PreOrder = () => {
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                   padding: '0.9rem 1rem', border: `2px solid ${paymentType === opt.key ? 'var(--primary-blue)' : 'var(--border-color)'}`,
                   borderRadius: 'var(--radius-md)', marginBottom: '0.75rem', cursor: 'pointer',
-                  background: paymentType === opt.key ? 'rgba(37,99,235,0.05)' : 'var(--bg-surface)',
+                  background: paymentType === opt.key ? 'rgba(0,74,198,0.05)' : 'var(--bg-surface)',
                   transition: 'all 0.2s'
                 }}>
                   <div className="flex items-center gap-3">

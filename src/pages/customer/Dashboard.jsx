@@ -10,7 +10,7 @@ import { formatPrice } from '../../data/mockData';
 
 const mockRecentOrders = [
   { id: 'ORD-4821', product: 'Origin Pro Max', date: 'Apr 10, 2026', status: 'Delivered', statusColor: '#10B981', amount: 120000 },
-  { id: 'ORD-4756', product: 'Sonic Buds Pro', date: 'Mar 28, 2026', status: 'In Transit', statusColor: '#3B82F6', amount: 25000 },
+  { id: 'ORD-4756', product: 'Sonic Buds Pro', date: 'Mar 28, 2026', status: 'In Transit', statusColor: '#004AC6', amount: 25000 },
   { id: 'ORD-4690', product: 'Origin Watch X', date: 'Mar 15, 2026', status: 'Processing', statusColor: '#F59E0B', amount: 65000 },
 ];
 
@@ -27,7 +27,7 @@ const Dashboard = () => {
   const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
 
   const quickLinks = [
-    { to: '/orders',   icon: Package,   label: 'My Orders',   sub: '3 orders',  gradient: 'linear-gradient(135deg,#3B82F6,#1D4ED8)' },
+    { to: '/orders',   icon: Package,   label: 'My Orders',   sub: '3 orders',  gradient: 'linear-gradient(135deg,#004AC6,#003a9d)' },
     { to: '/wishlist', icon: Heart,     label: 'Wishlist',    sub: '2 saved',   gradient: 'linear-gradient(135deg,#EC4899,#BE185D)' },
     { to: '/profile',  icon: UserIcon,  label: 'Profile',     sub: 'Edit info', gradient: 'linear-gradient(135deg,#8B5CF6,#6D28D9)' },
     { to: '/trade-in', icon: RefreshCw, label: 'Trade-In',    sub: tradeInCredit > 0 ? `${formatPrice(tradeInCredit, currency)} credit` : 'Get credit', gradient: 'linear-gradient(135deg,#10B981,#047857)' },
@@ -36,7 +36,7 @@ const Dashboard = () => {
   ];
 
   const stats = [
-    { label: 'Total Orders', value: '3', icon: Package, color: '#3B82F6', bg: '#EFF6FF' },
+    { label: 'Total Orders', value: '3', icon: Package, color: '#004AC6', bg: '#e6f0ff' },
     { label: 'Wishlist Items', value: '2', icon: Heart, color: '#EC4899', bg: '#FDF2F8' },
     { label: 'Loyalty Points', value: '1,240', icon: Star, color: '#F59E0B', bg: '#FFFBEB' },
     { label: 'Trade-In Credit', value: formatPrice(tradeInCredit, currency), icon: TrendingUp, color: '#10B981', bg: '#F0FDF4' },
@@ -70,15 +70,15 @@ const Dashboard = () => {
         overflow: 'hidden'
       }}>
         {/* Background decoration */}
-        <div style={{ position:'absolute', top:'-60px', right:'-60px', width:'380px', height:'380px', borderRadius:'50%', background:'rgba(59,130,246,0.08)', pointerEvents:'none' }} />
+        <div style={{ position:'absolute', top:'-60px', right:'-60px', width:'380px', height:'380px', borderRadius:'50%', background:'rgba(0,74,198,0.08)', pointerEvents:'none' }} />
         <div style={{ position:'absolute', bottom:'-80px', left:'10%', width:'260px', height:'260px', borderRadius:'50%', background:'rgba(139,92,246,0.07)', pointerEvents:'none' }} />
 
         <div className="container" style={{ position:'relative', zIndex:1 }}>
           <div className="flex justify-between items-center">
             <div>
-              <p style={{ color:'#93C5FD', fontSize:'0.95rem', marginBottom:'0.4rem', letterSpacing:'0.5px' }}>{greeting},</p>
+              <p style={{ color:'#80b3ff', fontSize:'0.95rem', marginBottom:'0.4rem', letterSpacing:'0.5px' }}>{greeting},</p>
               <h1 style={{ fontSize:'2.8rem', fontWeight:800, color:'white', marginBottom:'0.5rem', letterSpacing:'-0.02em' }}>
-                Welcome back, <span style={{ color:'#60A5FA' }}>{firstName}</span>
+                Welcome back, <span style={{ color:'#4d94ff' }}>{firstName}</span>
               </h1>
               <p style={{ color:'#94A3B8', fontSize:'1rem' }}>Here's what's happening with your account today.</p>
             </div>
@@ -199,7 +199,7 @@ const Dashboard = () => {
             {/* Loyalty Card */}
             <div className="dash-card" style={{
               borderRadius:'20px', padding:'1.5rem',
-              background:'linear-gradient(135deg,#1E3A5F,#2563EB)',
+              background:'linear-gradient(135deg,#1E3A5F,#004AC6)',
               color:'white', position:'relative', overflow:'hidden',
               animationDelay:'0.6s'
             }}>

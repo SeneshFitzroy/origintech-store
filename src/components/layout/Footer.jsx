@@ -139,7 +139,7 @@ const Footer = () => {
           transition: color .2s;
         }
         .footer-link:hover {
-          color: #60A5FA;
+          color: #4d94ff;
         }
         @media (max-width: 768px) {
           .footer-main {

@@ -5,7 +5,7 @@ import { useAppContext } from '../../context/AppContext';
 
 const STATUS_CONFIG = {
   Processing: { bg: '#FEF3C7', text: '#92400E', dot: '#F59E0B' },
-  Shipped:    { bg: '#DBEAFE', text: '#1E40AF', dot: '#3B82F6' },
+  Shipped:    { bg: '#b3d1ff', text: '#003a9d', dot: '#004AC6' },
   Delivered:  { bg: '#D1FAE5', text: '#065F46', dot: '#10B981' },
   Cancelled:  { bg: '#FEE2E2', text: '#991B1B', dot: '#EF4444' },
 };

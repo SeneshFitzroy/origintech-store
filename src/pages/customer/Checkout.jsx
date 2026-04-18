@@ -81,7 +81,7 @@ const Checkout = () => {
             border: step >= s.num ? 'none' : '2px solid var(--border-color)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             marginBottom: '0.5rem', transition: 'all 0.3s ease',
-            boxShadow: step >= s.num ? '0 4px 12px rgba(37,99,235,0.3)' : 'none'
+            boxShadow: step >= s.num ? '0 4px 12px rgba(0,74,198,0.3)' : 'none'
           }}>
             {step > s.num ? <Check size={20} /> : s.icon}
           </div>
@@ -184,7 +184,7 @@ const Checkout = () => {
                         display: 'flex', alignItems: 'center', gap: '1rem', padding: '0.9rem 1.25rem',
                         border: `2px solid ${payment.method === m.key ? 'var(--primary-blue)' : 'var(--border-color)'}`,
                         borderRadius: 'var(--radius-md)', cursor: 'pointer',
-                        background: payment.method === m.key ? 'rgba(37,99,235,0.05)' : 'var(--bg-surface)',
+                        background: payment.method === m.key ? 'rgba(0,74,198,0.05)' : 'var(--bg-surface)',
                         transition: 'all 0.2s'
                       }}>
                         <input type="radio" name="payment" checked={payment.method === m.key} onChange={() => setPayment({ ...payment, method: m.key })} />

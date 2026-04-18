@@ -12,10 +12,10 @@ const MOCK_TICKETS = [
 const PRIORITY_CFG = {
   High:   { bg: '#FEE2E2', text: '#991B1B', dot: '#EF4444' },
   Medium: { bg: '#FEF3C7', text: '#92400E', dot: '#F59E0B' },
-  Low:    { bg: '#F0F9FF', text: '#0369A1', dot: '#3B82F6' },
+  Low:    { bg: '#f0f5ff', text: '#003a9d', dot: '#004AC6' },
 };
 const STATUS_CFG = {
-  Open:        { bg: '#EFF6FF', text: '#1E40AF' },
+  Open:        { bg: '#e6f0ff', text: '#003a9d' },
   'In Progress':{ bg: '#FEF3C7', text: '#92400E' },
   Resolved:    { bg: '#D1FAE5', text: '#065F46' },
 };
@@ -46,7 +46,7 @@ const AdminTickets = () => {
       {/* Summary */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '1rem', marginBottom: '1.75rem' }}>
         {[
-          { label: 'Total Tickets', value: tickets.length, color: '#3B82F6' },
+          { label: 'Total Tickets', value: tickets.length, color: '#004AC6' },
           { label: 'Open', value: tickets.filter(t => t.status === 'Open').length, color: '#F59E0B' },
           { label: 'In Progress', value: tickets.filter(t => t.status === 'In Progress').length, color: '#8B5CF6' },
           { label: 'Resolved', value: tickets.filter(t => t.status === 'Resolved').length, color: '#10B981' },

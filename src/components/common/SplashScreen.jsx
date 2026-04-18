@@ -79,7 +79,7 @@ const SplashScreen = ({ onComplete }) => {
               width: 4 + Math.random() * 4,
               height: 4 + Math.random() * 4,
               borderRadius: '50%',
-              background: `rgba(96, 165, 250, ${0.15 + Math.random() * 0.2})`,
+              background: `rgba(0,74,198, ${0.15 + Math.random() * 0.2})`,
               top: '50%',
               left: '50%',
               '--tx': `${tx}px`,
@@ -100,7 +100,7 @@ const SplashScreen = ({ onComplete }) => {
             width: 100,
             height: 100,
             borderRadius: '50%',
-            border: '1px solid rgba(96, 165, 250, .15)',
+            border: '1px solid rgba(0,74,198, .15)',
             top: '50%',
             left: '50%',
             marginTop: -50,
@@ -117,7 +117,7 @@ const SplashScreen = ({ onComplete }) => {
         width: 160,
         height: 160,
         borderRadius: '50%',
-        border: '1px dashed rgba(96,165,250,.12)',
+        border: '1px dashed rgba(0,74,198,.12)',
         top: '50%',
         left: '50%',
         marginTop: -80,
@@ -133,8 +133,8 @@ const SplashScreen = ({ onComplete }) => {
           width: 6,
           height: 6,
           borderRadius: '50%',
-          background: '#60A5FA',
-          boxShadow: '0 0 12px rgba(96,165,250,.5)',
+          background: '#4d94ff',
+          boxShadow: '0 0 12px rgba(0,74,198,.5)',
         }} />
       </div>
 
@@ -231,7 +231,7 @@ const SplashScreen = ({ onComplete }) => {
         <div style={{
           height: '100%',
           borderRadius: 1,
-          background: 'linear-gradient(90deg, #004AC6, #60A5FA)',
+          background: 'linear-gradient(90deg, #004AC6, #4d94ff)',
           animation: 'sp-bar 2s cubic-bezier(.4,0,.2,1) both',
         }} />
       </div>
