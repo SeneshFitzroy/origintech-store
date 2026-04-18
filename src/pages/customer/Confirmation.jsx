@@ -61,10 +61,10 @@ const Confirmation = () => {
   const today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
   const steps = [
-    { label: 'Order Confirmed', done: true, icon: '✓' },
-    { label: 'Packing', done: false, icon: '📦' },
-    { label: 'Dispatched', done: false, icon: '🚚' },
-    { label: 'Delivered', done: false, icon: '🎉' },
+    { label: 'Confirmed', done: true },
+    { label: 'Packing', done: false },
+    { label: 'Dispatched', done: false },
+    { label: 'Delivered', done: false },
   ];
 
   return (
@@ -133,7 +133,7 @@ const Confirmation = () => {
                   color: s.done ? '#fff' : 'var(--text-muted)',
                   fontWeight: 700,
                   boxShadow: s.done ? '0 4px 12px rgba(16,185,129,0.3)' : 'none',
-                }}>{s.done ? '✓' : s.icon}</div>
+                }}>{s.done ? '✓' : (i + 1)}</div>
                 <span style={{ fontSize: '.7rem', fontWeight: s.done ? 700 : 400, color: s.done ? 'var(--text-main)' : 'var(--text-muted)', textAlign: 'center' }}>{s.label}</span>
               </div>
             ))}

@@ -47,10 +47,19 @@ const Dashboard = () => {
       <style>{`
         @keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
         .dash-card { animation: fadeUp 0.4s ease forwards; transition: transform 0.2s, box-shadow 0.2s; }
-        .dash-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.1); }
+        .dash-card:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(0,0,0,0.08); }
         .quick-link:hover .ql-arrow { transform: translateX(4px); }
         .ql-arrow { transition: transform 0.2s; }
         .order-row:hover { background: var(--bg-main) !important; }
+        @media (max-width: 1024px) {
+          .dash-main-grid { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 768px) {
+          .dash-quick-grid { grid-template-columns: repeat(3, 1fr) !important; }
+        }
+        @media (max-width: 480px) {
+          .dash-quick-grid { grid-template-columns: repeat(2, 1fr) !important; }
+        }
       `}</style>
 
       {/* Top Hero Banner */}
@@ -67,7 +76,7 @@ const Dashboard = () => {
         <div className="container" style={{ position:'relative', zIndex:1 }}>
           <div className="flex justify-between items-center">
             <div>
-              <p style={{ color:'#93C5FD', fontSize:'0.95rem', marginBottom:'0.4rem', letterSpacing:'0.5px' }}>{greeting} 👋</p>
+              <p style={{ color:'#93C5FD', fontSize:'0.95rem', marginBottom:'0.4rem', letterSpacing:'0.5px' }}>{greeting},</p>
               <h1 style={{ fontSize:'2.8rem', fontWeight:800, color:'white', marginBottom:'0.5rem', letterSpacing:'-0.02em' }}>
                 Welcome back, <span style={{ color:'#60A5FA' }}>{firstName}</span>
               </h1>
@@ -97,7 +106,7 @@ const Dashboard = () => {
       <div className="container" style={{ padding:'2rem 1rem 4rem' }}>
         {/* Quick Access Links */}
         <h2 style={{ fontSize:'1.25rem', fontWeight:700, color:'var(--text-main)', marginBottom:'1.25rem', marginTop:'0.5rem' }}>Quick Access</h2>
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(6,1fr)', gap:'1rem', marginBottom:'2.5rem' }}>
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(6,1fr)', gap:'1rem', marginBottom:'2.5rem' }} className="dash-quick-grid">
           {quickLinks.map((ql, i) => (
             <Link key={i} to={ql.to} className="dash-card quick-link" style={{
               borderRadius:'16px', padding:'1.5rem 1rem', textAlign:'center',
@@ -123,7 +132,7 @@ const Dashboard = () => {
         </div>
 
         {/* Main Content Grid */}
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 350px', gap:'1.75rem' }}>
+        <div className="dash-main-grid" style={{ display:'grid', gridTemplateColumns:'1fr 350px', gap:'1.75rem' }}>
 
           {/* Recent Orders */}
           <div className="dash-card" style={{

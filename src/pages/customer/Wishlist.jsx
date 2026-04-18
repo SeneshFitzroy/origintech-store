@@ -94,7 +94,7 @@ const Wishlist = () => {
               Your wishlist is empty
             </h2>
             <p style={{ color: 'var(--text-muted)', marginBottom: '2rem', maxWidth: '380px', margin: '0 auto 2rem' }}>
-              Tap the ❤️ icon on any product to save it here for quick access later.
+              Tap the heart icon on any product to save it here for quick access later.
             </p>
             <Link to="/browse" className="btn-primary" style={{
               display: 'inline-flex', alignItems: 'center', gap: '0.5rem',

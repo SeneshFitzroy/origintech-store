@@ -1,6 +1,6 @@
 ﻿import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { ShieldCheck, ArrowRight, Smartphone, RefreshCw, Star, Package, Zap, Users } from 'lucide-react';
+import { ShieldCheck, ArrowRight, Smartphone, RefreshCw, Star, Package, Zap, Users, Mail } from 'lucide-react';
 import { mockProducts, formatPrice, translationStrings } from '../../data/mockData';
 import { useAppContext } from '../../context/AppContext';
 
@@ -27,11 +27,11 @@ const onTilt = (e) => {
   const r  = el.getBoundingClientRect();
   const x  = (e.clientX - r.left) / r.width  - 0.5;
   const y  = (e.clientY - r.top)  / r.height - 0.5;
-  el.style.transform  = `perspective(900px) rotateY(${x * 14}deg) rotateX(${-y * 14}deg) scale(1.025)`;
+  el.style.transform  = `perspective(1200px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg) scale(1.01)`;
   el.style.transition = 'none';
 };
 const offTilt = (e) => {
-  e.currentTarget.style.transform  = 'perspective(900px) rotateY(0) rotateX(0) scale(1)';
+  e.currentTarget.style.transform  = 'perspective(1200px) rotateY(0) rotateX(0) scale(1)';
   e.currentTarget.style.transition = 'transform 0.55s cubic-bezier(.22,1,.36,1)';
 };
 
@@ -511,7 +511,7 @@ const Home = () => {
           <div style={{ padding:'clamp(2rem,5vw,4rem)', display:'flex', flexDirection:'column', justifyContent:'center' }}>
             <div style={{ display:'flex', alignItems:'center', gap:7, color:'#60A5FA', fontWeight:700,
               letterSpacing:'2px', textTransform:'uppercase', fontSize:'.72rem', marginBottom:'1rem' }}>
-              <Zap size={13}/> {t.flashSale || 'Flash Sale'} â€” Ending Soon
+              <Zap size={13}/> {t.flashSale || 'Flash Sale'} - Ending Soon
             </div>
             <h2 style={{ fontSize:'clamp(1.9rem,4vw,3rem)', lineHeight:1.1, marginBottom:'2rem', fontWeight:800 }}>
               OriginBook Pro<br/>16&quot;
@@ -598,7 +598,7 @@ const Home = () => {
                   animationDelay:`${i * .08}s`,
                   borderRadius:18, transition:'transform .3s ease,box-shadow .3s ease',
                 }}
-                onMouseOver={e=>{ e.currentTarget.style.transform='translateY(-7px)'; e.currentTarget.style.boxShadow='0 22px 44px rgba(0,0,0,.13)'; }}
+                onMouseOver={e=>{ e.currentTarget.style.transform='translateY(-5px)'; e.currentTarget.style.boxShadow='0 16px 32px rgba(0,0,0,.1)'; }}
                 onMouseOut={e=>{ e.currentTarget.style.transform=''; e.currentTarget.style.boxShadow=''; }}
               >
                 <div style={{
@@ -658,7 +658,7 @@ const Home = () => {
             background:'radial-gradient(circle,rgba(37,99,235,.08) 0%,transparent 70%)',
           }}/>
           <div style={{ position:'relative', zIndex:1, maxWidth:600, margin:'0 auto' }}>
-            <div style={{ fontSize:'2.5rem', marginBottom:'1rem' }}>ðŸ“¬</div>
+            <Mail size={40} style={{ color: 'var(--primary-blue)', marginBottom: '1rem' }}/>
             <h2 style={{ fontSize:'clamp(1.7rem,4vw,2.5rem)', fontWeight:800, marginBottom:'1rem', color:'#1E293B' }}>
               {t.newsletter || 'Stay ahead of the curve.'}
             </h2>
@@ -672,7 +672,7 @@ const Home = () => {
                 padding:'1rem 2rem', borderRadius:14,
                 display:'inline-flex', alignItems:'center', gap:8, fontWeight:700,
               }}>
-                <ShieldCheck size={20}/> You&apos;re subscribed â€” welcome!
+                <ShieldCheck size={20}/> You&apos;re subscribed. Welcome!
               </div>
             ) : (
               <form onSubmit={handleSub} style={{

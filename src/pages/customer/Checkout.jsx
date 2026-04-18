@@ -162,9 +162,9 @@ const Checkout = () => {
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.5rem' }}>
                     {[
-                      { key: 'card', label: 'Credit / Debit Card', icon: '💳' },
-                      { key: 'paypal', label: 'PayPal', icon: '🅿️' },
-                      { key: 'cod', label: 'Cash on Delivery', icon: '💵' },
+                      { key: 'card', label: 'Credit / Debit Card', icon: 'card' },
+                      { key: 'paypal', label: 'PayPal', icon: 'pp' },
+                      { key: 'cod', label: 'Cash on Delivery', icon: 'cod' },
                     ].map(m => (
                       <label key={m.key} style={{
                         display: 'flex', alignItems: 'center', gap: '1rem', padding: '0.9rem 1.25rem',
@@ -311,7 +311,7 @@ const Checkout = () => {
                     Place Order — {formatPrice(total, currency)}
                   </button>
                   <p style={{ textAlign: 'center', fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.75rem' }}>
-                    🔒 Your payment is secured with 256-bit SSL encryption
+                    Your payment is secured with 256-bit SSL encryption
                   </p>
                 </div>
               )}

@@ -12,10 +12,10 @@ const inputBase = {
 };
 
 const FEATURES = [
-  { icon: '🔐', text: 'Blockchain-verified authenticity' },
-  { icon: '🔄', text: 'Highest trade-in values in Sri Lanka' },
-  { icon: '🛡️', text: '12-month premium warranty on all products' },
-  { icon: '🚀', text: 'Free next-day delivery island-wide' },
+  'Blockchain-verified authenticity',
+  'Highest trade-in values in Sri Lanka',
+  '12-month premium warranty on all products',
+  'Free next-day delivery island-wide',
 ];
 
 const Auth = () => {
@@ -98,7 +98,7 @@ const Auth = () => {
     <div style={{ minHeight: '100vh', display: 'flex', backgroundColor: 'var(--bg-main)' }}>
 
       {/* Left branding panel */}
-      <div style={{
+      <div className="auth-panel-left" style={{
         flex: '0 0 45%', background: 'linear-gradient(145deg, #0A1628 0%, #0F2040 50%, #1a3557 100%)',
         padding: '4rem 3.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center',
         position: 'relative', overflow: 'hidden',
@@ -124,8 +124,8 @@ const Auth = () => {
         <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           {FEATURES.map((f, i) => (
             <li key={i} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <span style={{ fontSize: '1.1rem' }}>{f.icon}</span>
-              <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '.88rem' }}>{f.text}</span>
+              <CheckCircle size={16} style={{ color: '#60A5FA', flexShrink: 0 }}/>
+              <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '.88rem' }}>{f}</span>
             </li>
           ))}
         </ul>
@@ -138,7 +138,7 @@ const Auth = () => {
             <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'linear-gradient(135deg,#3B82F6,#8B5CF6)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '.8rem', fontWeight: 700 }}>A</div>
             <div>
               <div style={{ color: '#fff', fontSize: '.8rem', fontWeight: 700 }}>Ashan P.</div>
-              <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '.72rem' }}>Verified Buyer ⭐⭐⭐⭐⭐</div>
+              <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '.72rem' }}>Verified Buyer</div>
             </div>
           </div>
         </div>

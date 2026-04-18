@@ -31,7 +31,7 @@ const getResponse = (text) => {
 const ChatbotWidget = ({ forceOpen = false, onClose }) => {
   const [isOpen, setIsOpen] = useState(forceOpen);
   const [messages, setMessages] = useState([
-    { sender: 'bot', text: "Hi! I'm the OriginTech AI Assistant 👋\nI can help with orders, tracking, returns, trade-ins, and more. What can I help you with?", time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
+    { sender: 'bot', text: "Hi! I'm the OriginTech AI Assistant.\nI can help with orders, tracking, returns, trade-ins, and more. What can I help you with?", time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
   ]);
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -59,7 +59,7 @@ const ChatbotWidget = ({ forceOpen = false, onClose }) => {
     setEscalated(true);
     setMessages(prev => [...prev,
       { sender: 'user', text: 'Talk to a human agent', time: now() },
-      { sender: 'bot', text: "Connecting you to a live support agent now... 🔄\n\n**Ticket created: #TKT-" + (Math.floor(10000 + Math.random() * 90000)) + "**\n\nA human agent will respond within 15 minutes. You can also visit our Support page to track your ticket.", time: now() }
+      { sender: 'bot', text: "Connecting you to a live support agent now...\n\n**Ticket created: #TKT-" + (Math.floor(10000 + Math.random() * 90000)) + "**\n\nA human agent will respond within 15 minutes. You can also visit our Support page to track your ticket.", time: now() }
     ]);
   };
 

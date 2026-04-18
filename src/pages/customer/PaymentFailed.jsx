@@ -91,7 +91,7 @@ const PaymentFailed = () => {
 
         {/* SSL Note */}
         <div style={{ textAlign: 'center', marginTop: '1.25rem', fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-          🔒 All transactions are secured with 256-bit SSL encryption
+          All transactions are secured with 256-bit SSL encryption
         </div>
       </div>
     </div>

@@ -1,14 +1,14 @@
 ﻿import React, { useState, useEffect, useMemo } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import { Search, Filter, Heart, ShieldCheck, Star, SlidersHorizontal } from 'lucide-react';
+import { Search, Filter, Heart, ShieldCheck, Star, SlidersHorizontal, X } from 'lucide-react';
 import { mockProducts, formatPrice, translationStrings } from '../../data/mockData';
 import { useAppContext } from '../../context/AppContext';
 
 const CATEGORIES = [
-  { key: 'all',        label: 'All Products', emoji: '🛍️' },
-  { key: 'phones',     label: 'Phones',       emoji: '📱' },
-  { key: 'tablets',    label: 'Tablets',       emoji: '💻' },
-  { key: 'accessories',label: 'Accessories',   emoji: '🎧' },
+  { key: 'all',        label: 'All Products' },
+  { key: 'phones',     label: 'Phones' },
+  { key: 'tablets',    label: 'Tablets' },
+  { key: 'accessories',label: 'Accessories' },
 ];
 
 const PRICE_MIN_GLOBAL = 0;
@@ -72,7 +72,7 @@ const Browse = () => {
               onMouseOver={e=>{ if (selectedCategory !== cat.key) e.currentTarget.style.background='var(--bg-main)'; }}
               onMouseOut={e=>{ if (selectedCategory !== cat.key) e.currentTarget.style.background='transparent'; }}
             >
-              <span>{cat.emoji}</span> {cat.label}
+              {cat.label}
             </button>
           ))}
         </div>
@@ -133,7 +133,7 @@ const Browse = () => {
               <span style={{ fontWeight: 700, fontSize: '1.1rem' }}>Filters</span>
               <button onClick={() => setSidebarOpen(false)}
                 style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}>
-                âœ•
+                <X size={16}/>
               </button>
             </div>
             <SidebarContent/>
@@ -156,7 +156,7 @@ const Browse = () => {
         <div style={{ display: 'flex', gap: 12, marginBottom: '2rem', flexWrap: 'wrap', alignItems: 'center' }}>
           <div style={{ position: 'relative', flex: '1 1 220px' }}>
             <input type="text"
-              placeholder="Search productsâ€¦"
+              placeholder="Search products..."
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
               style={{
@@ -192,8 +192,8 @@ const Browse = () => {
               outline: 'none', fontSize: '.88rem', cursor: 'pointer',
             }}>
               <option value="featured">Featured</option>
-              <option value="price-asc">Price: Low â†’ High</option>
-              <option value="price-desc">Price: High â†’ Low</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
               <option value="rating">Top Rated</option>
             </select>
           </div>
@@ -223,7 +223,7 @@ const Browse = () => {
           <div style={{ flex: '1 1 280px', minWidth: 0 }}>
             {filteredProducts.length === 0 ? (
               <div style={{ textAlign: 'center', padding: '6rem 0', color: 'var(--text-muted)' }}>
-                <div style={{ fontSize: '3.5rem', marginBottom: '1.5rem' }}>ðŸ”</div>
+                <Search size={48} style={{ color: 'var(--text-muted)', marginBottom: '1.5rem' }}/>
                 <h3 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: '.75rem' }}>
                   {t.noProducts || 'No products found'}
                 </h3>
@@ -241,7 +241,7 @@ const Browse = () => {
                       display: 'flex', flexDirection: 'column',
                       transition: 'transform .3s ease, box-shadow .3s ease',
                     }}
-                    onMouseOver={e=>{ e.currentTarget.style.transform='translateY(-6px)'; e.currentTarget.style.boxShadow='0 20px 40px rgba(0,0,0,.12)'; }}
+                    onMouseOver={e=>{ e.currentTarget.style.transform='translateY(-4px)'; e.currentTarget.style.boxShadow='0 12px 28px rgba(0,0,0,.08)'; }}
                     onMouseOut={e=>{ e.currentTarget.style.transform=''; e.currentTarget.style.boxShadow=''; }}
                   >
                     {/* image area */}

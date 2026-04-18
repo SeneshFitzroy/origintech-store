@@ -6,23 +6,23 @@
 
   /* Neutrals - Light Mode */
   --pure-white: #FFFFFF;
-  --bg-soft: #F2F4F6;
+  --bg-soft: #F5F5F7;
   
   /* Secondary / Slate Palette */
-  --slate-1: #64748B;
-  --slate-2: #475569;
-  --slate-3: #6B7280;
-  --slate-4: #737686;
-  --slate-5: #94A3B8;
+  --slate-1: #6E6E73;
+  --slate-2: #424245;
+  --slate-3: #86868B;
+  --slate-4: #86868B;
+  --slate-5: #D2D2D7;
 
   /* Theme Mapping (Light Default) */
-  --bg-main: var(--bg-soft);
+  --bg-main: #F5F5F7;
   --bg-surface: var(--pure-white);
   --bg-surface-elevated: var(--pure-white);
-  --text-main: var(--premium-navy);
+  --text-main: #1D1D1F;
   --text-secondary: var(--slate-2);
   --text-muted: var(--slate-1);
-  --border-color: var(--slate-5);
+  --border-color: #D2D2D7;
 
   /* Utilities */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
@@ -36,7 +36,7 @@
   --radius-xl: 16px;
 
   /* Typography */
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif;
 
   /* Breakpoints */
   --mobile: 480px;
@@ -47,19 +47,19 @@
 
 [data-theme="dark"] {
   /* Dark Surfaces */
-  --dark-surface-1: #191C1E;
-  --dark-surface-2: #434655;
+  --dark-surface-1: #1C1C1E;
+  --dark-surface-2: #2C2C2E;
 
   /* Theme Mapping (Dark) */
-  --bg-main: var(--premium-navy);
+  --bg-main: #000000;
   --bg-surface: var(--dark-surface-1);
   --bg-surface-elevated: var(--dark-surface-2);
-  --text-main: var(--pure-white);
-  --text-secondary: var(--slate-5);
-  --text-muted: var(--slate-4);
-  --border-color: var(--slate-2);
+  --text-main: #F5F5F7;
+  --text-secondary: #A1A1A6;
+  --text-muted: #86868B;
+  --border-color: #38383A;
 
-  --shadow-card: 0 4px 20px rgba(0,0,0,0.3);
+  --shadow-card: 0 2px 12px rgba(0,0,0,0.4);
 }
 
 * {
@@ -75,6 +75,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.5;
+  letter-spacing: -0.01em;
   transition: background-color 0.3s ease, color 0.3s ease;
   overflow-x: hidden; /* Prevent horizontal scroll */
 }
@@ -118,9 +119,11 @@ button {
   background-color: var(--primary-blue);
   color: var(--pure-white);
   padding: 0.75rem 1.5rem;
-  border-radius: var(--radius-md);
+  border-radius: 980px;
   font-weight: 600;
-  transition: background-color 0.2s ease;
+  font-size: 0.94rem;
+  letter-spacing: 0;
+  transition: background-color 0.2s ease, transform 0.15s ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -128,6 +131,10 @@ button {
 }
 .btn-primary:hover {
   background-color: var(--primary-blue-hover);
+  transform: scale(1.02);
+}
+.btn-primary:active {
+  transform: scale(0.98);
 }
 
 /* Flex utilities */
@@ -432,4 +439,67 @@ button {
 ::selection {
   background: rgba(37, 99, 235, 0.2);
   color: var(--text-main);
+}
+
+/* ==========================================
+   APPLE-LIKE GLOBAL POLISH
+   ========================================== */
+
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ==========================================
+   COMPREHENSIVE MOBILE RESPONSIVE
+   ========================================== */
+
+@media (max-width: 768px) {
+  h1 { font-size: clamp(1.6rem, 6vw, 2.2rem) !important; }
+  
+  .footer-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2rem !important;
+  }
+
+  .auth-panel-left {
+    display: none !important;
+  }
+
+  /* Dashboard hero responsive */
+  .dash-hero-actions { display: none !important; }
+
+  /* Tables scroll horizontally on mobile */
+  table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+
+@media (max-width: 480px) {
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+
+  .container {
+    padding: 0 0.75rem;
+  }
+
+  /* Stack flex items on very small screens */
+  .flex.gap-4 { gap: 0.5rem; }
+}
+
+/* Ensure all images are responsive */
+img, video, svg {
+  max-width: 100%;
+}
+
+/* Touch-friendly tap targets */
+@media (pointer: coarse) {
+  button, a, input, select {
+    min-height: 44px;
+  }
 }

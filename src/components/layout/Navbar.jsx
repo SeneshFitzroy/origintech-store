@@ -68,15 +68,15 @@ const Navbar = () => {
   return (
     <header style={{ 
       position: 'sticky', top: 0, zIndex: 100,
-      backgroundColor: scrolled ? 'var(--bg-surface)' : 'var(--bg-surface)',
+      backgroundColor: scrolled ? (theme === 'dark' ? 'rgba(28,28,30,0.72)' : 'rgba(255,255,255,0.72)') : 'var(--bg-surface)',
       backdropFilter: scrolled ? 'blur(20px) saturate(180%)' : 'none',
       WebkitBackdropFilter: scrolled ? 'blur(20px) saturate(180%)' : 'none',
       borderBottom: '1px solid var(--border-color)',
-      boxShadow: scrolled ? '0 4px 24px rgba(0,0,0,0.1)' : 'var(--shadow-sm)',
-      transition: 'box-shadow 0.3s ease, backdrop-filter 0.3s ease',
+      boxShadow: scrolled ? '0 1px 0 rgba(0,0,0,0.08)' : 'none',
+      transition: 'all 0.3s ease',
     }}>
       {/* Top Banner (Settings) */}
-      <div style={{ backgroundColor: 'var(--premium-navy)', color: 'var(--pure-white)', padding: '0.25rem 0', fontSize: '0.85rem' }}>
+      <div style={{ backgroundColor: '#1D1D1F', color: 'rgba(255,255,255,0.8)', padding: '0.3rem 0', fontSize: '0.75rem' }}>
         <div className="container flex justify-between items-center">
           <div>Free shipping on orders over {currency === 'LKR' ? 'Rs. 100,000' : '$300'}</div>
           <div className="flex gap-4 items-center">
@@ -113,7 +113,7 @@ const Navbar = () => {
           >
             <Menu size={24} />
           </button>
-          <Link to="/" style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--primary-blue)', textDecoration: 'none' }}>
+          <Link to="/" style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--text-main)', textDecoration: 'none', letterSpacing: '-0.03em' }}>
             OriginTech
           </Link>
         </div>
@@ -205,7 +205,7 @@ const Navbar = () => {
         </div>
 
         {/* Categories (Desktop) */}
-        <nav className="desktop-only flex gap-8" style={{ fontWeight: 500 }}>
+        <nav className="desktop-only flex gap-8" style={{ fontWeight: 400, fontSize: '0.88rem' }}>
           <Link to="/browse?category=phones" style={{ color: 'var(--text-main)', textDecoration: 'none', transition: 'color 0.2s' }}>{t.phones}</Link>
           <Link to="/browse?category=tablets" style={{ color: 'var(--text-main)', textDecoration: 'none' }}>{t.tablets}</Link>
           <Link to="/browse?category=accessories" style={{ color: 'var(--text-main)', textDecoration: 'none' }}>{t.accessories}</Link>
