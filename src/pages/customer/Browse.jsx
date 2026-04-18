@@ -17,19 +17,31 @@ const PRICE_MAX_GLOBAL = Math.max(...mockProducts.map(p => p.price));
 const Browse = () => {
   const [searchParams] = useSearchParams();
   const categoryParam = searchParams.get('category');
+  const maxPriceParam = searchParams.get('maxPrice');
+  const sortParam = searchParams.get('sort');
+  const inStockParam = searchParams.get('inStock');
+  const verifiedParam = searchParams.get('verified');
+  const queryParam = searchParams.get('q');
   const { currency, language } = useAppContext();
   const t = translationStrings[language] || translationStrings.EN;
 
-  const [searchTerm, setSearchTerm]           = useState('');
+  const [searchTerm, setSearchTerm]           = useState(queryParam || '');
   const [selectedCategory, setSelectedCategory] = useState(categoryParam || 'all');
-  const [sortBy, setSortBy]                   = useState('featured');
-  const [priceMax, setPriceMax]               = useState(PRICE_MAX_GLOBAL);
-  const [inStockOnly, setInStockOnly]         = useState(false);
-  const [verifiedOnly, setVerifiedOnly]       = useState(false);
+  const [sortBy, setSortBy]                   = useState(sortParam || 'featured');
+  const [priceMax, setPriceMax]               = useState(maxPriceParam ? Number(maxPriceParam) : PRICE_MAX_GLOBAL);
+  const [inStockOnly, setInStockOnly]         = useState(inStockParam === '1');
+  const [verifiedOnly, setVerifiedOnly]       = useState(verifiedParam === '1');
   const [wishlist, setWishlist]               = useState([]);
   const [sidebarOpen, setSidebarOpen]         = useState(false);
 
-  useEffect(() => { setSelectedCategory(categoryParam || 'all'); }, [categoryParam]);
+  useEffect(() => {
+    setSelectedCategory(categoryParam || 'all');
+    if (maxPriceParam) setPriceMax(Number(maxPriceParam));
+    if (sortParam) setSortBy(sortParam);
+    setInStockOnly(inStockParam === '1');
+    setVerifiedOnly(verifiedParam === '1');
+    if (queryParam) setSearchTerm(queryParam);
+  }, [categoryParam, maxPriceParam, sortParam, inStockParam, verifiedParam, queryParam]);
 
   const toggleWishlist = (id) => {
     setWishlist(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);

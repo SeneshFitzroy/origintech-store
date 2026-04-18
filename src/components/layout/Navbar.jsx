@@ -1,8 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ShoppingCart, User, Search, Moon, Sun, Globe, X, ArrowRight, Menu } from 'lucide-react';
+import { ShoppingCart, User, Search, Moon, Sun, Globe, X, ArrowRight, Menu, SlidersHorizontal, ShieldCheck } from 'lucide-react';
 import { useAppContext } from '../../context/AppContext';
 import { translationStrings, mockProducts, formatPrice } from '../../data/mockData';
+
+const CATEGORIES = [
+  { key: 'all',         label: 'All Products' },
+  { key: 'phones',      label: 'Phones' },
+  { key: 'tablets',     label: 'Tablets' },
+  { key: 'accessories', label: 'Accessories' },
+];
+const PRICE_MAX_GLOBAL = Math.max(...mockProducts.map(p => p.price));
+const SORT_OPTIONS = [
+  { value: 'featured',   label: 'Featured' },
+  { value: 'price-asc',  label: 'Price: Low → High' },
+  { value: 'price-desc', label: 'Price: High → Low' },
+  { value: 'rating',     label: 'Top Rated' },
+];
 
 const Navbar = () => {
   const { theme, setTheme, language, setLanguage, currency, setCurrency, cart, user } = useAppContext();
@@ -15,6 +29,23 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const searchRef = useRef(null);
+  const filterRef = useRef(null);
+
+  // Filter states
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [filterCategory, setFilterCategory] = useState('all');
+  const [filterPriceMax, setFilterPriceMax] = useState(PRICE_MAX_GLOBAL);
+  const [filterSort, setFilterSort] = useState('featured');
+  const [filterInStock, setFilterInStock] = useState(false);
+  const [filterVerified, setFilterVerified] = useState(false);
+
+  const activeFilterCount = [
+    filterCategory !== 'all',
+    filterPriceMax < PRICE_MAX_GLOBAL,
+    filterSort !== 'featured',
+    filterInStock,
+    filterVerified,
+  ].filter(Boolean).length;
 
   const toggleTheme = () => {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark');
@@ -32,6 +63,9 @@ const Navbar = () => {
     const handleClickOutside = (event) => {
       if (searchRef.current && !searchRef.current.contains(event.target)) {
         setIsSearchFocused(false);
+      }
+      if (filterRef.current && !filterRef.current.contains(event.target)) {
+        setIsFilterOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -63,6 +97,27 @@ const Navbar = () => {
   const handleResultClick = (productId) => {
     navigate(`/product/${productId}`);
     clearSearch();
+  };
+
+  const applyFilters = () => {
+    const params = new URLSearchParams();
+    if (filterCategory !== 'all') params.set('category', filterCategory);
+    if (filterPriceMax < PRICE_MAX_GLOBAL) params.set('maxPrice', filterPriceMax);
+    if (filterSort !== 'featured') params.set('sort', filterSort);
+    if (filterInStock) params.set('inStock', '1');
+    if (filterVerified) params.set('verified', '1');
+    if (searchQuery.trim()) params.set('q', searchQuery.trim());
+    navigate(`/browse${params.toString() ? '?' + params.toString() : ''}`);
+    setIsFilterOpen(false);
+    clearSearch();
+  };
+
+  const resetFilters = () => {
+    setFilterCategory('all');
+    setFilterPriceMax(PRICE_MAX_GLOBAL);
+    setFilterSort('featured');
+    setFilterInStock(false);
+    setFilterVerified(false);
   };
 
   return (
@@ -124,37 +179,39 @@ const Navbar = () => {
           </Link>
         </div>
 
-        {/* Search Bar (Desktop) */}
-        <div ref={searchRef} className="desktop-only" style={{ flex: 1, maxWidth: '400px', margin: '0 2rem', position: 'relative' }}>
-          <input 
-            type="text" 
-            placeholder={t.searchPlaceholder}
-            value={searchQuery}
-            onChange={handleSearch}
-            onFocus={() => searchQuery.trim().length > 1 && setIsSearchFocused(true)}
-            style={{
-              width: '100%', padding: '0.65rem 1rem 0.65rem 2.6rem',
-              borderRadius: 'var(--radius-xl)',
-              border: '1px solid var(--border-color)',
-              backgroundColor: 'var(--bg-main)',
-              color: 'var(--text-main)',
-              outline: 'none',
-              transition: 'border-color 0.2s',
-              borderColor: isSearchFocused ? 'var(--primary-blue)' : 'var(--border-color)'
-            }}
-          />
-          <Search size={18} style={{ position: 'absolute', left: '0.9rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-          
-          {searchQuery && (
-            <X 
-              size={16} 
-              onClick={clearSearch}
-              style={{ position: 'absolute', right: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', cursor: 'pointer' }} 
+        {/* Search Bar + Filter (Desktop) */}
+        <div className="desktop-only" style={{ flex: 1, maxWidth: '480px', margin: '0 2rem', display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div ref={searchRef} style={{ flex: 1, position: 'relative' }}>
+            <input 
+              type="text" 
+              placeholder={t.searchPlaceholder}
+              value={searchQuery}
+              onChange={handleSearch}
+              onFocus={() => searchQuery.trim().length > 1 && setIsSearchFocused(true)}
+              onKeyDown={e => { if (e.key === 'Enter') applyFilters(); }}
+              style={{
+                width: '100%', padding: '0.65rem 1rem 0.65rem 2.6rem',
+                borderRadius: 'var(--radius-xl)',
+                border: '1px solid var(--border-color)',
+                backgroundColor: 'var(--bg-main)',
+                color: 'var(--text-main)',
+                outline: 'none',
+                transition: 'border-color 0.2s',
+                borderColor: isSearchFocused ? 'var(--primary-blue)' : 'var(--border-color)'
+              }}
             />
-          )}
+            <Search size={18} style={{ position: 'absolute', left: '0.9rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+            
+            {searchQuery && (
+              <X 
+                size={16} 
+                onClick={clearSearch}
+                style={{ position: 'absolute', right: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', cursor: 'pointer' }} 
+              />
+            )}
 
-          {/* Search Suggestions Dropdown */}
-          {isSearchFocused && searchResults.length > 0 && (
+            {/* Search Suggestions Dropdown */}
+            {isSearchFocused && searchResults.length > 0 && (
             <div style={{
               position: 'absolute', top: '110%', left: 0, right: 0,
               backgroundColor: 'var(--bg-surface)',
@@ -208,6 +265,137 @@ const Navbar = () => {
               </Link>
             </div>
           )}
+          </div>
+
+          {/* Filter Button */}
+          <div ref={filterRef} style={{ position: 'relative' }}>
+            <button
+              onClick={() => setIsFilterOpen(prev => !prev)}
+              style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                width: 40, height: 40, borderRadius: 'var(--radius-xl)',
+                border: isFilterOpen ? '1.5px solid var(--primary-blue)' : '1px solid var(--border-color)',
+                backgroundColor: isFilterOpen ? 'rgba(0,74,198,.08)' : 'var(--bg-main)',
+                color: isFilterOpen ? 'var(--primary-blue)' : 'var(--text-muted)',
+                cursor: 'pointer', position: 'relative', transition: 'all .2s',
+              }}
+              title="Filters"
+            >
+              <SlidersHorizontal size={18} />
+              {activeFilterCount > 0 && (
+                <span style={{
+                  position: 'absolute', top: -4, right: -4,
+                  width: 18, height: 18, borderRadius: '50%',
+                  background: 'var(--primary-blue)', color: '#fff',
+                  fontSize: '.65rem', fontWeight: 700,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}>{activeFilterCount}</span>
+              )}
+            </button>
+
+            {/* Filter Dropdown Panel */}
+            {isFilterOpen && (
+              <div style={{
+                position: 'absolute', top: 'calc(100% + 10px)', right: 0,
+                width: 340, backgroundColor: 'var(--bg-surface)',
+                borderRadius: 'var(--radius-lg)',
+                boxShadow: '0 12px 40px rgba(0,0,0,.15)',
+                border: '1px solid var(--border-color)',
+                zIndex: 200, animation: 'fadeUp 0.2s ease-out',
+                overflow: 'hidden',
+              }}>
+                {/* Header */}
+                <div style={{ padding: '1rem 1.25rem', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--text-main)' }}>Filters</span>
+                  <button onClick={resetFilters} style={{ background: 'none', border: 'none', color: 'var(--primary-blue)', fontSize: '.82rem', fontWeight: 600, cursor: 'pointer' }}>Reset all</button>
+                </div>
+
+                <div style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                  {/* Category */}
+                  <div>
+                    <label style={{ fontWeight: 700, fontSize: '.78rem', textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--text-muted)', marginBottom: 8, display: 'block' }}>Category</label>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                      {CATEGORIES.map(cat => (
+                        <button key={cat.key} onClick={() => setFilterCategory(cat.key)} style={{
+                          padding: '6px 14px', borderRadius: 20, cursor: 'pointer',
+                          border: filterCategory === cat.key ? '1.5px solid var(--primary-blue)' : '1px solid var(--border-color)',
+                          background: filterCategory === cat.key ? 'rgba(0,74,198,.08)' : 'transparent',
+                          color: filterCategory === cat.key ? 'var(--primary-blue)' : 'var(--text-main)',
+                          fontWeight: filterCategory === cat.key ? 700 : 500, fontSize: '.84rem',
+                          transition: 'all .15s',
+                        }}>{cat.label}</button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Price Range */}
+                  <div>
+                    <label style={{ fontWeight: 700, fontSize: '.78rem', textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--text-muted)', marginBottom: 8, display: 'block' }}>Price Range</label>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '.82rem', color: 'var(--text-muted)', marginBottom: 6 }}>
+                      <span>{formatPrice(0, currency)}</span>
+                      <span style={{ fontWeight: 700, color: 'var(--primary-blue)' }}>{formatPrice(filterPriceMax, currency)}</span>
+                    </div>
+                    <input type="range" min={0} max={PRICE_MAX_GLOBAL} step={5000} value={filterPriceMax}
+                      onChange={e => setFilterPriceMax(Number(e.target.value))}
+                      style={{ width: '100%', accentColor: 'var(--primary-blue)', cursor: 'pointer' }}
+                    />
+                    {/* Quick price chips */}
+                    <div style={{ display: 'flex', gap: 6, marginTop: 8 }}>
+                      {[50000, 100000, 200000].map(v => (
+                        <button key={v} onClick={() => setFilterPriceMax(v)} style={{
+                          padding: '4px 10px', borderRadius: 14, fontSize: '.75rem', cursor: 'pointer',
+                          border: filterPriceMax === v ? '1.5px solid var(--primary-blue)' : '1px solid var(--border-color)',
+                          background: filterPriceMax === v ? 'rgba(0,74,198,.08)' : 'transparent',
+                          color: filterPriceMax === v ? 'var(--primary-blue)' : 'var(--text-muted)',
+                          fontWeight: 600,
+                        }}>Under {formatPrice(v, currency)}</button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Sort By */}
+                  <div>
+                    <label style={{ fontWeight: 700, fontSize: '.78rem', textTransform: 'uppercase', letterSpacing: '1px', color: 'var(--text-muted)', marginBottom: 8, display: 'block' }}>Sort By</label>
+                    <select value={filterSort} onChange={e => setFilterSort(e.target.value)} style={{
+                      width: '100%', padding: '.6rem .9rem', borderRadius: 'var(--radius-sm)',
+                      border: '1px solid var(--border-color)', backgroundColor: 'var(--bg-main)',
+                      color: 'var(--text-main)', outline: 'none', fontSize: '.88rem', cursor: 'pointer',
+                    }}>
+                      {SORT_OPTIONS.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+                    </select>
+                  </div>
+
+                  {/* Toggles */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', fontSize: '.9rem' }}>
+                      <input type="checkbox" checked={filterInStock} onChange={e => setFilterInStock(e.target.checked)}
+                        style={{ accentColor: 'var(--primary-blue)', width: 16, height: 16 }}/>
+                      In Stock Only
+                    </label>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', fontSize: '.9rem' }}>
+                      <input type="checkbox" checked={filterVerified} onChange={e => setFilterVerified(e.target.checked)}
+                        style={{ accentColor: 'var(--primary-blue)', width: 16, height: 16 }}/>
+                      <ShieldCheck size={14} style={{ color: '#10B981' }}/> Verified Authentic
+                    </label>
+                  </div>
+                </div>
+
+                {/* Apply Button */}
+                <div style={{ padding: '1rem 1.25rem', borderTop: '1px solid var(--border-color)', display: 'flex', gap: 10 }}>
+                  <button onClick={() => { resetFilters(); setIsFilterOpen(false); }} style={{
+                    flex: 1, padding: '.7rem', borderRadius: 'var(--radius-md)',
+                    border: '1px solid var(--border-color)', background: 'var(--bg-main)',
+                    color: 'var(--text-main)', fontSize: '.9rem', fontWeight: 600, cursor: 'pointer',
+                  }}>Clear</button>
+                  <button onClick={applyFilters} style={{
+                    flex: 2, padding: '.7rem', borderRadius: 'var(--radius-md)',
+                    border: 'none', background: 'var(--primary-blue)',
+                    color: '#fff', fontSize: '.9rem', fontWeight: 700, cursor: 'pointer',
+                  }}>Apply Filters{activeFilterCount > 0 ? ` (${activeFilterCount})` : ''}</button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Categories (Desktop) */}
