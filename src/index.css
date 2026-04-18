@@ -170,3 +170,266 @@ button {
 @media (min-width: 769px) {
   .mobile-only { display: none !important; }
 }
+
+/* ==========================================
+   ANIMATION KEYFRAMES
+   ========================================== */
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(36px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInLeft {
+  from { opacity: 0; transform: translateX(-40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.88); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes floatDevice {
+  0%,100% { transform: translateY(0px) rotate(0deg) scale(1.02); }
+  33%     { transform: translateY(-18px) rotate(0.5deg) scale(1.02); }
+  66%     { transform: translateY(-8px) rotate(-0.5deg) scale(1.02); }
+}
+
+@keyframes glowPulse {
+  0%,100% { filter: drop-shadow(0 0 30px rgba(37,99,235,0.35)); }
+  50%     { filter: drop-shadow(0 0 70px rgba(37,99,235,0.75)) drop-shadow(0 20px 30px rgba(0,0,0,0.3)); }
+}
+
+@keyframes particleRise {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
+  8%   { opacity: 1; }
+  92%  { opacity: 0.8; }
+  100% { transform: translateY(-95vh) rotate(540deg); opacity: 0; }
+}
+
+@keyframes bounceTyping {
+  0%,80%,100% { transform: translateY(0); }
+  40%         { transform: translateY(-6px); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -1200px 0; }
+  100% { background-position: 1200px 0; }
+}
+
+@keyframes spinOnce {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================
+   ANIMATION UTILITY CLASSES
+   ========================================== */
+
+.anim-fade-up   { animation: fadeInUp 0.7s cubic-bezier(.22,1,.36,1) both; }
+.anim-fade-down { animation: fadeInDown 0.7s cubic-bezier(.22,1,.36,1) both; }
+.anim-fade-left { animation: fadeInLeft 0.7s cubic-bezier(.22,1,.36,1) both; }
+.anim-fade-right{ animation: fadeInRight 0.7s cubic-bezier(.22,1,.36,1) both; }
+.anim-scale-in  { animation: scaleIn 0.6s cubic-bezier(.22,1,.36,1) both; }
+
+.delay-100 { animation-delay: 0.10s; }
+.delay-150 { animation-delay: 0.15s; }
+.delay-200 { animation-delay: 0.20s; }
+.delay-300 { animation-delay: 0.30s; }
+.delay-400 { animation-delay: 0.40s; }
+.delay-500 { animation-delay: 0.50s; }
+.delay-600 { animation-delay: 0.60s; }
+.delay-700 { animation-delay: 0.70s; }
+
+/* Scroll-reveal base state — elements start invisible until JS adds class */
+.reveal          { opacity: 0; }
+.reveal.is-visible { animation: fadeInUp 0.75s cubic-bezier(.22,1,.36,1) forwards; }
+.reveal-left.is-visible  { animation: fadeInLeft 0.75s cubic-bezier(.22,1,.36,1) forwards; }
+.reveal-right.is-visible { animation: fadeInRight 0.75s cubic-bezier(.22,1,.36,1) forwards; }
+.reveal-scale.is-visible { animation: scaleIn 0.65s cubic-bezier(.22,1,.36,1) forwards; }
+
+/* ==========================================
+   GLASSMORPHISM
+   ========================================== */
+
+.glass {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.glass-dark {
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ==========================================
+   3D TILT CARD
+   ========================================== */
+
+.tilt-card {
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(.22,1,.36,1), box-shadow 0.5s ease;
+  will-change: transform;
+}
+.tilt-card:hover {
+  box-shadow: 0 30px 60px rgba(0,0,0,0.18);
+}
+
+/* ==========================================
+   PRODUCT CARD
+   ========================================== */
+
+.product-card {
+  transition: transform 0.35s cubic-bezier(.22,1,.36,1), box-shadow 0.35s ease;
+  border-radius: 20px;
+  overflow: hidden;
+}
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 24px 50px rgba(0,0,0,0.14);
+}
+
+/* ==========================================
+   BADGE
+   ========================================== */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.badge-blue  { background: var(--primary-blue); color: #fff; }
+.badge-green { background: #10B981; color: #fff; }
+.badge-amber { background: #F59E0B; color: #fff; }
+.badge-red   { background: #EF4444; color: #fff; }
+
+/* ==========================================
+   TYPING INDICATOR DOTS
+   ========================================== */
+
+.typing-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--text-muted);
+  animation: bounceTyping 1.2s ease infinite;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.15s; }
+.typing-dot:nth-child(3) { animation-delay: 0.30s; }
+
+/* ==========================================
+   SHIMMER LOADER
+   ========================================== */
+
+.shimmer {
+  background: linear-gradient(90deg,
+    var(--bg-surface) 25%,
+    var(--border-color) 50%,
+    var(--bg-surface) 75%);
+  background-size: 1200px 100%;
+  animation: shimmer 1.8s infinite;
+}
+
+/* ==========================================
+   COUNTDOWN TILE
+   ========================================== */
+
+.countdown-tile {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 12px;
+  padding: 0.9rem 1.1rem;
+  text-align: center;
+  min-width: 66px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================
+   HERO PARTICLE
+   ========================================== */
+
+.hero-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(59, 130, 246, 0.12);
+  animation: particleRise linear infinite;
+  pointer-events: none;
+}
+
+/* ==========================================
+   SECTION HEADING
+   ========================================== */
+
+.section-eyebrow {
+  color: var(--primary-blue);
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+/* ==========================================
+   STAR RATING
+   ========================================== */
+
+.star-row {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  color: #F59E0B;
+}
+
+/* ==========================================
+   SCROLL BAR THIN
+   ========================================== */
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--slate-3); }
+
+/* ==========================================
+   FOCUS VISIBLE (Accessibility)
+   ========================================== */
+
+:focus-visible {
+  outline: 2px solid var(--primary-blue);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ==========================================
+   SELECTION COLOR
+   ========================================== */
+
+::selection {
+  background: rgba(37, 99, 235, 0.2);
+  color: var(--text-main);
+}
