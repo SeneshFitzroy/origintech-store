@@ -1,6 +1,6 @@
 ﻿import React, { useState, useEffect, useMemo } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import { Search, Filter, Heart, ShieldCheck, Star, SlidersHorizontal, X } from 'lucide-react';
+import { Search, Filter, Heart, ShieldCheck, Star, SlidersHorizontal, X, Smartphone, Laptop, Monitor } from 'lucide-react';
 import { mockProducts, formatPrice, translationStrings } from '../../data/mockData';
 import { useAppContext } from '../../context/AppContext';
 
@@ -120,6 +120,25 @@ const Browse = () => {
 
   return (
     <div style={{ backgroundColor: 'var(--bg-main)', minHeight: '100vh' }}>
+
+      {/* Premium Page Header */}
+      <div className="page-header">
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 12, marginBottom: '1.25rem' }}>
+            <div style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(59,130,246,.1)', border: '1px solid rgba(59,130,246,.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Smartphone size={18} style={{ color: '#60A5FA' }}/>
+            </div>
+            <div style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(59,130,246,.1)', border: '1px solid rgba(59,130,246,.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Laptop size={18} style={{ color: '#60A5FA' }}/>
+            </div>
+            <div style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(59,130,246,.1)', border: '1px solid rgba(59,130,246,.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Monitor size={18} style={{ color: '#60A5FA' }}/>
+            </div>
+          </div>
+          <h1>Browse Products</h1>
+          <p>Discover verified smartphones, laptops, and accessories with authenticity guaranteed</p>
+        </div>
+      </div>
       {/* Mobile filter drawer */}
       {sidebarOpen && (
         <div style={{ position: 'fixed', inset: 0, zIndex: 200, display: 'flex' }}>
@@ -142,14 +161,16 @@ const Browse = () => {
       )}
 
       <div className="container" style={{ padding: 'clamp(1.5rem,5vw,3rem) 1rem' }}>
-        {/* Page header */}
-        <div style={{ marginBottom: '2rem' }}>
-          <h1 style={{ fontSize: 'clamp(1.8rem,5vw,2.5rem)', fontWeight: 800, marginBottom: '.5rem' }}>
-            {CATEGORIES.find(c => c.key === selectedCategory)?.label || 'All Products'}
-          </h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: '.95rem' }}>
-            {filteredProducts.length} {t.results || 'result'}{filteredProducts.length !== 1 ? 's' : ''} found
-          </p>
+        {/* Results count */}
+        <div style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div>
+            <h2 style={{ fontSize: '1.3rem', fontWeight: 700, marginBottom: '.2rem', color: 'var(--text-main)' }}>
+              {CATEGORIES.find(c => c.key === selectedCategory)?.label || 'All Products'}
+            </h2>
+            <p style={{ color: 'var(--text-muted)', fontSize: '.88rem' }}>
+              {filteredProducts.length} {t.results || 'result'}{filteredProducts.length !== 1 ? 's' : ''} found
+            </p>
+          </div>
         </div>
 
         {/* Top bar: search + mobile filter + sort */}

@@ -113,8 +113,14 @@ const Navbar = () => {
           >
             <Menu size={24} />
           </button>
-          <Link to="/" style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--text-main)', textDecoration: 'none', letterSpacing: '-0.03em' }}>
-            OriginTech
+          <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
+            <svg width="28" height="28" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="40" height="40" rx="10" fill="var(--primary-blue)"/>
+              <path d="M20 8L28 14V26L20 32L12 26V14L20 8Z" stroke="#fff" strokeWidth="1.8" fill="none"/>
+              <circle cx="20" cy="20" r="5" stroke="#fff" strokeWidth="1.8" fill="none"/>
+              <path d="M20 15V25M15 20H25" stroke="#fff" strokeWidth="1.2" opacity=".5"/>
+            </svg>
+            <span style={{ fontSize: '1.3rem', fontWeight: 700, color: 'var(--text-main)', letterSpacing: '-0.03em' }}>OriginTech</span>
           </Link>
         </div>
 
@@ -246,29 +252,55 @@ const Navbar = () => {
         }} onClick={() => setIsMobileMenuOpen(false)}>
           <div 
             style={{
-              width: '80%', maxWidth: '300px', height: '100%',
+              width: '80%', maxWidth: '320px', height: '100%',
               backgroundColor: 'var(--bg-surface)',
               padding: '2rem',
-              animation: 'slideIn 0.3s ease-out'
+              animation: 'slideIn 0.3s ease-out',
+              overflowY: 'auto',
+              display: 'flex', flexDirection: 'column',
             }}
             onClick={e => e.stopPropagation()}
           >
-            <div className="flex justify-between items-center" style={{ marginBottom: '2rem' }}>
-              <span style={{ fontWeight: 800, color: 'var(--primary-blue)', fontSize: '1.2rem' }}>Menu</span>
-              <button onClick={() => setIsMobileMenuOpen(false)}><X size={24} /></button>
+            <div className="flex justify-between items-center" style={{ marginBottom: '2.5rem' }}>
+              <span style={{ fontWeight: 700, color: 'var(--text-main)', fontSize: '1.1rem', letterSpacing: '-.02em' }}>Menu</span>
+              <button onClick={() => setIsMobileMenuOpen(false)} style={{ color: 'var(--text-main)', background: 'none', border: 'none', cursor: 'pointer' }}><X size={22} /></button>
             </div>
 
-            <nav className="flex flex-column gap-6" style={{ fontSize: '1.1rem', fontWeight: 600 }}>
-              <Link to="/" onClick={() => setIsMobileMenuOpen(false)}>{t.home || 'Home'}</Link>
-              <Link to="/browse?category=phones" onClick={() => setIsMobileMenuOpen(false)}>{t.phones}</Link>
-              <Link to="/browse?category=tablets" onClick={() => setIsMobileMenuOpen(false)}>{t.tablets}</Link>
-              <Link to="/browse?category=accessories" onClick={() => setIsMobileMenuOpen(false)}>{t.accessories}</Link>
-              <div style={{ height: '1px', backgroundColor: 'var(--border-color)', margin: '1rem 0' }} />
-              <Link to="/support" onClick={() => setIsMobileMenuOpen(false)}>Support</Link>
-              <Link to="/tracking" onClick={() => setIsMobileMenuOpen(false)}>Order Tracking</Link>
+            <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', flex: 1 }}>
+              {[
+                { to: '/', label: t.home || 'Home' },
+                { to: '/browse?category=phones', label: t.phones },
+                { to: '/browse?category=tablets', label: t.tablets },
+                { to: '/browse?category=accessories', label: t.accessories },
+              ].map((link, i) => (
+                <Link key={i} to={link.to} onClick={() => setIsMobileMenuOpen(false)}
+                  style={{
+                    padding: '0.85rem 0.75rem', borderRadius: 'var(--radius-md)',
+                    fontSize: '1rem', fontWeight: 500, color: 'var(--text-main)',
+                    textDecoration: 'none', transition: 'background 0.15s',
+                  }}
+                  onMouseOver={e => e.currentTarget.style.background = 'var(--bg-soft)'}
+                  onMouseOut={e => e.currentTarget.style.background = ''}
+                >
+                  {link.label}
+                </Link>
+              ))}
               
-              <div style={{ marginTop: 'auto', paddingTop: '2rem' }}>
-                <button onClick={toggleTheme} className="flex items-center gap-2" style={{ width: '100%', padding: '0.75rem', borderRadius: 'var(--radius-md)', background: 'var(--bg-soft)' }}>
+              <div style={{ height: '1px', backgroundColor: 'var(--border-color)', margin: '0.75rem 0' }} />
+              
+              <Link to="/support" onClick={() => setIsMobileMenuOpen(false)}
+                style={{ padding: '0.85rem 0.75rem', borderRadius: 'var(--radius-md)', fontSize: '1rem', fontWeight: 500, color: 'var(--text-main)', textDecoration: 'none' }}
+              >Support</Link>
+              <Link to="/tracking" onClick={() => setIsMobileMenuOpen(false)}
+                style={{ padding: '0.85rem 0.75rem', borderRadius: 'var(--radius-md)', fontSize: '1rem', fontWeight: 500, color: 'var(--text-main)', textDecoration: 'none' }}
+              >Order Tracking</Link>
+              
+              <div style={{ marginTop: 'auto', paddingTop: '1.5rem' }}>
+                <button onClick={toggleTheme} className="flex items-center gap-2" style={{ 
+                  width: '100%', padding: '0.85rem', borderRadius: 'var(--radius-md)', 
+                  background: 'var(--bg-soft)', border: '1px solid var(--border-color)',
+                  color: 'var(--text-main)', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 500,
+                }}>
                   {theme === 'dark' ? <><Sun size={18} /> Light Mode</> : <><Moon size={18} /> Dark Mode</>}
                 </button>
               </div>

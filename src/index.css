@@ -35,6 +35,27 @@
   --radius-lg: 12px;
   --radius-xl: 16px;
 
+  /* Semantic Status Colors */
+  --color-success: #10B981;
+  --color-success-light: #F0FDF4;
+  --color-success-border: #86EFAC;
+  --color-error: #EF4444;
+  --color-error-light: #FEE2E2;
+  --color-error-border: #FECACA;
+  --color-warning: #F59E0B;
+  --color-warning-light: #FFFBEB;
+  --color-warning-border: #FCD34D;
+  --color-info: #3B82F6;
+  --color-info-light: #EFF6FF;
+  --color-info-border: #BFDBFE;
+
+  /* Page Header Gradient */
+  --header-gradient: linear-gradient(135deg, #04101E 0%, #0B1D36 45%, #132F52 100%);
+  --hero-gradient: linear-gradient(160deg, #04101E 0%, #0B1D36 35%, #0F2847 65%, #132F52 100%);
+
+  /* Accessibility */
+  --a11y-font-scale: 1;
+
   /* Typography */
   --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', system-ui, sans-serif;
 
@@ -290,6 +311,96 @@ button {
 }
 
 /* ==========================================
+   PAGE HEADER BANNER
+   ========================================== */
+
+.page-header {
+  background: var(--header-gradient);
+  padding: 3.5rem 1rem 3rem;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+.page-header::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -10%;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.page-header::after {
+  content: '';
+  position: absolute;
+  bottom: -50%;
+  left: -5%;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(30,64,175,0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.page-header .ph-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: rgba(59,130,246,0.12);
+  border: 1px solid rgba(59,130,246,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  color: #60A5FA;
+}
+
+.page-header h1 {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.page-header p {
+  color: #94A3B8;
+  font-size: 1rem;
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.page-header .ph-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 1rem;
+  padding: 0.4rem 1rem;
+  background: rgba(16,185,129,0.08);
+  border: 1px solid rgba(16,185,129,0.2);
+  border-radius: 999px;
+  color: #34D399;
+  font-weight: 700;
+  font-size: 0.82rem;
+}
+
+/* Section eyebrow */
+.section-eyebrow {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--primary-blue);
+  margin-bottom: 0.5rem;
+}
+
+/* ==========================================
    3D TILT CARD
    ========================================== */
 
@@ -461,11 +572,6 @@ img {
 
 @media (max-width: 768px) {
   h1 { font-size: clamp(1.6rem, 6vw, 2.2rem) !important; }
-  
-  .footer-grid {
-    grid-template-columns: 1fr 1fr !important;
-    gap: 2rem !important;
-  }
 
   .auth-panel-left {
     display: none !important;
@@ -476,20 +582,46 @@ img {
 
   /* Tables scroll horizontally on mobile */
   table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  /* ── Cart page ── */
+  .cart-items-col { flex: 1 1 100% !important; }
+  .cart-summary-col { flex: 1 1 100% !important; }
+
+  /* ── Checkout page ── */
+  .checkout-grid { grid-template-columns: 1fr !important; }
+  .checkout-form-grid { grid-template-columns: 1fr !important; }
+
+  /* ── Support page ── */
+  .support-cards-grid { grid-template-columns: 1fr !important; }
+  .support-main-grid { grid-template-columns: 1fr !important; gap: 2rem !important; }
+
+  /* ── Product Detail page ── */
+  .pd-gallery, .pd-info { flex: 1 1 100% !important; }
+  .pd-layout { gap: 1.5rem !important; }
+
+  /* ── Home hero ── */
+  .h-layout { padding-top: clamp(6rem, 12vh, 8rem) !important; padding-bottom: clamp(3rem, 6vh, 5rem) !important; }
+  .h-dev-area { min-height: 280px !important; transform: scale(0.58) !important; margin-top: -2rem; }
+  .h-h1 { font-size: clamp(2rem, 7vw, 3rem) !important; }
+  .h-cta { padding: 13px 24px !important; font-size: .88rem !important; }
+
+  /* ── Generic helpers ── */
+  .container { padding-left: 1rem; padding-right: 1rem; }
 }
 
 @media (max-width: 480px) {
-  .footer-grid {
-    grid-template-columns: 1fr !important;
-    gap: 1.5rem !important;
-  }
-
   .container {
     padding: 0 0.75rem;
   }
 
   /* Stack flex items on very small screens */
   .flex.gap-4 { gap: 0.5rem; }
+
+  /* Home hero on very small screens */
+  .h-dev-area { min-height: 240px !important; transform: scale(0.48) !important; }
+  .h-h1 { font-size: clamp(1.8rem, 8vw, 2.5rem) !important; }
+  .h-cta { padding: 11px 20px !important; font-size: .84rem !important; }
+  .h-trust { gap: 12px !important; }
 }
 
 /* Ensure all images are responsive */
@@ -502,4 +634,129 @@ img, video, svg {
   button, a, input, select {
     min-height: 44px;
   }
+}
+
+/* ==========================================
+   ACCESSIBILITY — HIGH CONTRAST
+   ========================================== */
+
+[data-high-contrast="true"] {
+  --bg-main: #000 !important;
+  --bg-surface: #111 !important;
+  --bg-surface-elevated: #1a1a1a !important;
+  --text-main: #fff !important;
+  --text-secondary: #e0e0e0 !important;
+  --text-muted: #ccc !important;
+  --border-color: #fff !important;
+  --primary-blue: #4d94ff !important;
+  --primary-blue-hover: #6aa8ff !important;
+  --pure-white: #111 !important;
+  --bg-soft: #222 !important;
+  --color-success-light: #0a1a0a !important;
+  --color-error-light: #1a0a0a !important;
+  --color-warning-light: #1a1a0a !important;
+  --color-info-light: #0a0a1a !important;
+}
+
+/* High-contrast body + main surfaces */
+html[data-high-contrast="true"],
+html[data-high-contrast="true"] body {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
+/* Override backgrounds on all structural elements */
+[data-high-contrast="true"] div,
+[data-high-contrast="true"] nav,
+[data-high-contrast="true"] footer,
+[data-high-contrast="true"] header,
+[data-high-contrast="true"] main,
+[data-high-contrast="true"] section,
+[data-high-contrast="true"] article,
+[data-high-contrast="true"] aside {
+  background-color: #000 !important;
+  color: #fff !important;
+  border-color: #444 !important;
+}
+
+/* Override light div backgrounds selectively via attribute selectors */
+[data-high-contrast="true"] [style*="background"][style*="#fff"],
+[data-high-contrast="true"] [style*="background"][style*="#FFF"],
+[data-high-contrast="true"] [style*="background"][style*="#FFFFFF"],
+[data-high-contrast="true"] [style*="background"][style*="#F5F5"],
+[data-high-contrast="true"] [style*="background"][style*="#f5f5"],
+[data-high-contrast="true"] [style*="background"][style*="#f8f8"],
+[data-high-contrast="true"] [style*="background"][style*="#fafafa"],
+[data-high-contrast="true"] [style*="background"][style*="rgb(255"],
+[data-high-contrast="true"] [style*="background"][style*="rgb(245"] {
+  background-color: #111 !important;
+  background: #111 !important;
+  color: #fff !important;
+}
+
+/* All text elements forced white */
+[data-high-contrast="true"] h1,
+[data-high-contrast="true"] h2,
+[data-high-contrast="true"] h3,
+[data-high-contrast="true"] h4,
+[data-high-contrast="true"] h5,
+[data-high-contrast="true"] h6,
+[data-high-contrast="true"] p,
+[data-high-contrast="true"] span,
+[data-high-contrast="true"] label,
+[data-high-contrast="true"] li,
+[data-high-contrast="true"] td,
+[data-high-contrast="true"] th {
+  color: #fff !important;
+}
+
+[data-high-contrast="true"] .page-header,
+[data-high-contrast="true"] .page-header h1,
+[data-high-contrast="true"] .page-header p {
+  color: #fff !important;
+}
+
+[data-high-contrast="true"] a {
+  color: #6aa8ff !important;
+  outline-offset: 2px;
+}
+
+[data-high-contrast="true"] button {
+  outline-offset: 2px;
+}
+
+/* Inputs & form elements */
+[data-high-contrast="true"] input,
+[data-high-contrast="true"] textarea,
+[data-high-contrast="true"] select {
+  background-color: #1a1a1a !important;
+  color: #fff !important;
+  border-color: #555 !important;
+}
+
+[data-high-contrast="true"] img {
+  filter: contrast(1.15);
+  mix-blend-mode: normal !important;
+}
+
+/* ==========================================
+   ACCESSIBILITY — COLOR VISION
+   ========================================== */
+
+[data-color-vision="protanopia"] {
+  filter: url('#protanopia-filter');
+}
+[data-color-vision="deuteranopia"] {
+  filter: url('#deuteranopia-filter');
+}
+[data-color-vision="tritanopia"] {
+  filter: url('#tritanopia-filter');
+}
+
+/* ==========================================
+   ACCESSIBILITY — FONT SCALE
+   ========================================== */
+
+html[data-font-scale] body {
+  font-size: calc(16px * var(--a11y-font-scale));
 }

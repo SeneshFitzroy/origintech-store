@@ -46,6 +46,15 @@ const Wishlist = () => {
 
   return (
     <div style={{ backgroundColor: 'var(--bg-main)', minHeight: '100vh' }}>
+
+      {/* Premium Page Header */}
+      <div className="page-header">
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+          <div className="ph-icon"><BookmarkCheck size={24}/></div>
+          <h1>My Wishlist</h1>
+          <p>Your curated collection of saved products, ready when you are</p>
+        </div>
+      </div>
       <style>{`
         @keyframes fadeSlideIn {
           from { opacity: 0; transform: translateY(20px); }
@@ -65,10 +74,9 @@ const Wishlist = () => {
 
       <div className="container" style={{ padding: '3rem 1rem', maxWidth: '1100px', margin: '0 auto' }}>
 
-        {/* Header */}
-        <div style={{ marginBottom: '2.5rem' }}>
-          <h1 style={{ fontSize: '2.4rem', fontWeight: 800, color: 'var(--text-main)', marginBottom: '0.4rem' }}>My Wishlist</h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>
+        {/* Item count */}
+        <div style={{ marginBottom: '1.5rem' }}>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.92rem' }}>
             {wishlistItems.length} {wishlistItems.length === 1 ? 'item' : 'items'} saved for later
           </p>
         </div>

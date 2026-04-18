@@ -94,24 +94,27 @@ const ProductDetail = () => {
 
   return (
     <div style={{ backgroundColor: 'var(--bg-main)', minHeight: '100vh' }}>
+
+      {/* Breadcrumb Bar */}
+      <div style={{ background: 'var(--bg-surface)', borderBottom: '1px solid var(--border-color)', padding: '.8rem 1rem' }}>
+        <div className="container" style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '.85rem', color: 'var(--text-muted)' }}>
+          <Link to="/" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Home</Link>
+          <span style={{ color: 'var(--border-color)' }}>›</span>
+          <Link to="/browse" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Products</Link>
+          <span style={{ color: 'var(--border-color)' }}>›</span>
+          <Link to={`/browse?category=${product.category.toLowerCase()}`} style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>{product.category}</Link>
+          <span style={{ color: 'var(--border-color)' }}>›</span>
+          <span style={{ color: 'var(--text-main)', fontWeight: 600 }}>{product.name}</span>
+        </div>
+      </div>
       <Toast show={toastVisible} product={product}/>
 
       <div className="container" style={{ padding: '2rem 1rem' }}>
-        {/* Breadcrumbs */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '.85rem', color: 'var(--text-muted)', marginBottom: '2rem', flexWrap: 'wrap' }}>
-          <Link to="/" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Home</Link>
-          <span>/</span>
-          <Link to="/browse" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Browse</Link>
-          <span>/</span>
-          <Link to={`/browse?category=${product.category.toLowerCase()}`} style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>{product.category}</Link>
-          <span>/</span>
-          <span style={{ color: 'var(--text-main)', fontWeight: 500 }}>{product.name}</span>
-        </div>
 
-        <div style={{ display: 'flex', gap: '3rem', flexWrap: 'wrap', marginBottom: '4rem' }}>
+        <div className="pd-layout" style={{ display: 'flex', gap: '3rem', flexWrap: 'wrap', marginBottom: '4rem' }}>
 
           {/* ── Gallery ── */}
-          <div style={{ flex: '1 1 400px' }}>
+          <div className="pd-gallery" style={{ flex: '1 1 400px', minWidth: 0 }}>
             {/* Main image */}
             <div
               onClick={() => setZoomed(!zoomed)}
@@ -160,8 +163,7 @@ const ProductDetail = () => {
           </div>
 
           {/* ── Product Info ── */}
-          <div style={{ flex: '1 1 400px' }}>
-            {/* Badges */}
+          <div className="pd-info" style={{ flex: '1 1 400px' }}>
             <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: '1rem' }}>
               {product.badges.map(b => (
                 <span key={b} style={{ display: 'inline-block', background: b === 'Best Seller' ? 'linear-gradient(90deg,#F59E0B,#D97706)' : 'var(--primary-blue)', color: '#fff', padding: '.2rem .8rem', borderRadius: 20, fontSize: '.72rem', fontWeight: 700 }}>{b}</span>
@@ -302,7 +304,7 @@ const ProductDetail = () => {
               <div style={{ display: 'grid', gap: 0 }}>
                 {Object.entries(product.specs || {}).map(([key, val], i) => (
                   <div key={key} style={{
-                    display: 'grid', gridTemplateColumns: '180px 1fr',
+                    display: 'grid', gridTemplateColumns: '140px 1fr',
                     padding: '1rem 1.25rem', gap: '1rem',
                     background: i % 2 === 0 ? 'var(--bg-surface)' : 'transparent',
                     borderRadius: i === 0 ? '12px 12px 0 0' : i === Object.entries(product.specs || {}).length - 1 ? '0 0 12px 12px' : 0,

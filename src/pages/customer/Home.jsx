@@ -1,6 +1,6 @@
 ﻿import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { ShieldCheck, ArrowRight, Smartphone, RefreshCw, Star, Package, Zap, Users, Mail } from 'lucide-react';
+import { ShieldCheck, ArrowRight, Smartphone, RefreshCw, Star, Package, Zap, Users, Mail, Laptop, Monitor } from 'lucide-react';
 import { mockProducts, formatPrice, translationStrings } from '../../data/mockData';
 import { useAppContext } from '../../context/AppContext';
 
@@ -36,7 +36,7 @@ const offTilt = (e) => {
 };
 
 const Home = () => {
-  const { currency, language } = useAppContext();
+  const { currency, language, theme } = useAppContext();
   const t = translationStrings[language] || translationStrings.EN;
 
   /* â”€â”€ real-time countdown â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
@@ -101,147 +101,399 @@ const Home = () => {
   return (
     <div style={{ backgroundColor: 'var(--bg-main)' }}>
 
-      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+
+
+
+      {/* ═══════════════════════════════════════════
           HERO
-      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+      ═══════════════════════════════════════════ */}
       <section style={{
-        position: 'relative',
-        background: 'linear-gradient(135deg, #07101F 0%, #0F2140 45%, #163A62 100%)',
-        color: '#fff',
-        padding: 'clamp(6rem,14vw,10rem) 2rem clamp(4rem,8vw,7rem)',
-        overflow: 'hidden',
-        minHeight: '92vh',
-        display: 'flex',
-        alignItems: 'center',
+        position:'relative',
+        background:'var(--hero-gradient)',
+        color:'#fff',
+        overflow:'hidden',
+        minHeight:'100vh',
+        display:'flex',
+        alignItems:'center',
       }}>
         <style dangerouslySetInnerHTML={{__html:`
-          @keyframes floatGlow {
-            0%,100% { transform:translateY(0) scale(1.02);
-              filter:drop-shadow(0 0 35px rgba(37,99,235,.4)); }
-            50%     { transform:translateY(-22px) scale(1.02);
-              filter:drop-shadow(0 0 75px rgba(37,99,235,.85))
-                     drop-shadow(0 30px 30px rgba(0,0,0,.35)); }
+          @keyframes hFloat{
+            0%,100%{transform:translateY(0)}
+            50%{transform:translateY(-12px)}
           }
-          @keyframes hParticle {
-            0%  { transform:translateY(0)     rotate(0deg); opacity:0; }
-            6%  { opacity:.9; }
-            94% { opacity:.7; }
-            100%{ transform:translateY(-96vh) rotate(500deg); opacity:0; }
+          @keyframes hFadeUp{
+            from{opacity:0;transform:translateY(32px)}
+            to{opacity:1;transform:translateY(0)}
           }
-          @keyframes heroFadeUp {
-            from { opacity:0; transform:translateY(32px); }
-            to   { opacity:1; transform:translateY(0); }
+          @keyframes hScan{
+            0%{top:-20%}100%{top:120%}
           }
-          .hero-txt  { animation:heroFadeUp .8s .2s cubic-bezier(.22,1,.36,1) both; }
-          .hero-img  { animation:heroFadeUp .8s .45s cubic-bezier(.22,1,.36,1) both; }
-          .hero-float{ animation:floatGlow 6.5s ease-in-out infinite; }
-          .h-grid{
-            display:grid; grid-template-columns:1fr 1fr;
-            gap:2rem; align-items:center; position:relative;
+          @keyframes hShimmer{
+            0%{background-position:-200% center}
+            100%{background-position:200% center}
           }
-          @media(max-width:860px){
-            .h-grid{ grid-template-columns:1fr; text-align:center; }
-            .hero-img{ display:none!important; }
-            .hero-ctas{ justify-content:center!important; }
-            .hero-badge{ justify-content:center!important; }
-            .hero-h1{ font-size:clamp(2.2rem,8vw,3.4rem)!important; }
+          @keyframes hGlow{
+            0%,100%{opacity:.5}50%{opacity:1}
           }
-        `}}/>
+          .hf1{animation:hFadeUp .8s .1s cubic-bezier(.16,1,.3,1) both}
+          .hf2{animation:hFadeUp .8s .22s cubic-bezier(.16,1,.3,1) both}
+          .hf3{animation:hFadeUp .8s .36s cubic-bezier(.16,1,.3,1) both}
+          .hf4{animation:hFadeUp .9s .45s cubic-bezier(.16,1,.3,1) both}
+          .h-layout{
+            display:grid;
+            grid-template-columns:1fr 1.1fr;
+            gap:clamp(2rem,5vw,4.5rem);
+            align-items:center;
+            max-width:1280px;
+            margin:0 auto;
+            padding:clamp(8rem,15vh,11rem) clamp(1.5rem,4vw,3rem) clamp(5rem,10vh,8rem);
+            position:relative;z-index:2;
+          }
+          .h-dev-area{
+            position:relative;display:flex;justify-content:center;
+            align-items:flex-end;min-height:500px;
+          }
+          .h-device{
+            border-radius:18px;overflow:hidden;
+            background:linear-gradient(145deg,#0E1E35,#162D4D);
+            border:1px solid rgba(100,160,255,.12);
+            transition:border-color .5s,box-shadow .5s;
+          }
+          .h-device:hover{
+            border-color:rgba(100,160,255,.25);
+            box-shadow:0 0 40px rgba(0,100,255,.08);
+          }
+          .h-scr{
+            background:linear-gradient(175deg,#0B1929 0%,#142640 100%);
+            position:relative;overflow:hidden;
+          }
+          .h-cta{
+            display:inline-flex;align-items:center;gap:10px;
+            font-weight:600;font-size:.95rem;
+            padding:15px 34px;border-radius:980px;
+            transition:all .25s cubic-bezier(.16,1,.3,1);
+            text-decoration:none;cursor:pointer;
+          }
+          @media(max-width:960px){
+            .h-layout{grid-template-columns:1fr;text-align:center}
+            .h-dev-area{min-height:380px;transform:scale(.8)}
+            .h-cta-row{justify-content:center!important}
+            .h-tag-row{justify-content:center!important}
+            .h-h1{font-size:clamp(2.2rem,8vw,3.4rem)!important}
+            .h-trust{justify-content:center!important}
+          }
+          @media(max-width:600px){
+            .h-dev-area{min-height:300px;transform:scale(.62)}
+          }
+        `}} />
 
-        {/* particles */}
-        {[
-          [8,  '8%',  '9s',  '0s'],
-          [12, '22%', '13s', '2s'],
-          [6,  '39%', '10s', '4s'],
-          [10, '55%', '14s', '1s'],
-          [8,  '71%', '11s', '3.5s'],
-          [14, '86%', '12s', '5s'],
-          [7,  '15%', '16s', '7s'],
-          [9,  '49%', '15s', '6.5s'],
-        ].map(([sz, left, dur, del], i) => (
-          <div key={i} className="hero-particle" style={{
-            width: sz, height: sz, left,
-            animationDuration: dur, animationDelay: del,
-          }}/>
-        ))}
+        {/* Background atmosphere */}
+        <div style={{position:'absolute',top:'-20%',right:'-15%',width:700,height:700,borderRadius:'50%',
+          background:'radial-gradient(circle,rgba(0,74,198,.15) 0%,transparent 65%)',pointerEvents:'none',zIndex:1}}/>
+        <div style={{position:'absolute',bottom:'-25%',left:'-10%',width:600,height:600,borderRadius:'50%',
+          background:'radial-gradient(circle,rgba(30,64,175,.1) 0%,transparent 60%)',pointerEvents:'none',zIndex:1}}/>
+        <div style={{position:'absolute',top:'40%',left:'48%',width:500,height:300,borderRadius:'50%',
+          background:'radial-gradient(ellipse,rgba(59,130,246,.05) 0%,transparent 70%)',pointerEvents:'none',zIndex:1}}/>
 
-        {/* ambient orbs */}
-        <div style={{ position:'absolute', top:'-18%', right:'-8%', width:560, height:560, borderRadius:'50%',
-          background:'radial-gradient(circle,rgba(37,99,235,.18) 0%,transparent 70%)', pointerEvents:'none' }}/>
-        <div style={{ position:'absolute', bottom:'-20%', left:'-8%', width:480, height:480, borderRadius:'50%',
-          background:'radial-gradient(circle,rgba(99,102,241,.14) 0%,transparent 70%)', pointerEvents:'none' }}/>
+        {/* Subtle grid pattern */}
+        <div style={{
+          position:'absolute',inset:0,zIndex:1,opacity:.03,pointerEvents:'none',
+          backgroundImage:'linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px)',
+          backgroundSize:'60px 60px',
+        }}/>
 
-        <div className="container h-grid">
-          {/* Text */}
-          <div className="hero-txt">
-            <div className="hero-badge flex items-center gap-2" style={{
-              display:'inline-flex', background:'rgba(37,99,235,.18)',
-              border:'1px solid rgba(37,99,235,.35)', borderRadius:999,
-              padding:'.4rem 1rem', marginBottom:'1.5rem',
-              fontSize:'.82rem', color:'#93C5FD',
+        <div className="h-layout">
+          {/* ── LEFT: Text ── */}
+          <div>
+            <div className="hf1 h-tag-row" style={{
+              display:'inline-flex',alignItems:'center',gap:8,
+              background:'rgba(59,130,246,.1)',
+              border:'1px solid rgba(59,130,246,.2)',borderRadius:999,
+              padding:'8px 18px',marginBottom:'2rem',
+              fontSize:'.78rem',color:'#93C5FD',fontWeight:600,
+              letterSpacing:'.3px',
             }}>
-              <span style={{ width:7, height:7, borderRadius:'50%', background:'#22C55E', display:'inline-block' }}/>
-              Serving 15,000+ verified customers
+              <span style={{width:7,height:7,borderRadius:'50%',background:'#34D399',
+                display:'inline-block',boxShadow:'0 0 8px rgba(52,211,153,.5)'}}/>
+              15,000+ Verified Customers
             </div>
 
-            <h1 className="hero-h1" style={{
-              fontSize:'clamp(2.6rem,5.5vw,4.8rem)',
-              fontWeight:800, lineHeight:1.06,
-              letterSpacing:'-.03em', marginBottom:'1.5rem',
+            <h1 className="hf1 h-h1" style={{
+              fontSize:'clamp(3rem,5.6vw,4.8rem)',
+              fontWeight:750,lineHeight:1.04,
+              letterSpacing:'-.04em',marginBottom:'1.6rem',
             }}>
-              The Future of Tech.<br/>
-              <span style={{ color:'#60A5FA' }}>Right in Your</span> Hands.
+              The Future of<br/>
+              <span style={{
+                background:'linear-gradient(90deg,#60A5FA 0%,#93C5FD 30%,#fff 50%,#93C5FD 70%,#60A5FA 100%)',
+                backgroundSize:'200% auto',
+                WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',
+                animation:'hShimmer 5s ease-in-out infinite',
+              }}>Premium Tech.</span>
             </h1>
 
-            <p style={{ fontSize:'1.2rem', color:'#94A3B8', marginBottom:'3rem', maxWidth:500, lineHeight:1.75 }}>
-              Discover the latest smartphones, premium laptops, and next-gen accessories with
-              verified authenticity and unmatched trade-in deals.
+            <p className="hf2" style={{
+              fontSize:'1.1rem',color:'#94A3B8',
+              marginBottom:'2.5rem',maxWidth:460,lineHeight:1.8,fontWeight:400,
+            }}>
+              Shop verified smartphones, laptops &amp; accessories with
+              authenticity guaranteed. Instant trade-in credit &amp; free shipping
+              on every order over Rs. 100,000.
             </p>
 
-            <div className="hero-ctas flex gap-4" style={{ flexWrap:'wrap' }}>
-              <Link to="/browse" style={{
-                display:'inline-flex', alignItems:'center', gap:8,
-                background:'#fff', color:'#0F172A',
-                padding:'1rem 2rem', borderRadius:14,
-                fontWeight:700, fontSize:'1rem',
-                transition:'transform .2s,box-shadow .2s',
+            <div className="hf3 h-cta-row" style={{display:'flex',gap:14,flexWrap:'wrap',marginBottom:'2.8rem'}}>
+              <Link to="/browse" className="h-cta" style={{
+                background:'#fff',color:'#0F172A',
+                fontWeight:700,
+                boxShadow:'0 4px 24px rgba(255,255,255,.15)',
               }}
-                onMouseOver={e=>{ e.currentTarget.style.transform='translateY(-3px)'; e.currentTarget.style.boxShadow='0 14px 32px rgba(255,255,255,.18)'; }}
-                onMouseOut={e=>{ e.currentTarget.style.transform=''; e.currentTarget.style.boxShadow=''; }}
+                onMouseOver={e=>{e.currentTarget.style.transform='translateY(-2px)';e.currentTarget.style.boxShadow='0 12px 40px rgba(255,255,255,.2)';}}
+                onMouseOut={e=>{e.currentTarget.style.transform='';e.currentTarget.style.boxShadow='0 4px 24px rgba(255,255,255,.15)';}}
               >
-                {t.shopNow} <ArrowRight size={18}/>
+                {t.shopNow} <ArrowRight size={16} strokeWidth={2.5}/>
               </Link>
-              <Link to="/pre-order" style={{
-                display:'inline-flex', alignItems:'center', gap:8,
-                background:'rgba(255,255,255,.1)', backdropFilter:'blur(12px)',
-                border:'1px solid rgba(255,255,255,.22)', color:'#fff',
-                padding:'1rem 2rem', borderRadius:14,
-                fontWeight:600, fontSize:'1rem', transition:'background .2s',
+              <Link to="/trade-in" className="h-cta" style={{
+                background:'rgba(255,255,255,.06)',color:'#E2E8F0',
+                border:'1px solid rgba(255,255,255,.15)',
+                backdropFilter:'blur(8px)',
               }}
-                onMouseOver={e=>e.currentTarget.style.background='rgba(255,255,255,.18)'}
-                onMouseOut={e=>e.currentTarget.style.background='rgba(255,255,255,.1)'}
+                onMouseOver={e=>{e.currentTarget.style.background='rgba(255,255,255,.12)';e.currentTarget.style.borderColor='rgba(255,255,255,.3)';}}
+                onMouseOut={e=>{e.currentTarget.style.background='rgba(255,255,255,.06)';e.currentTarget.style.borderColor='rgba(255,255,255,.15)';}}
               >
-                {t.preOrder}
+                Trade-In Deals
               </Link>
+            </div>
+
+            {/* Trust micro-strip */}
+            <div className="hf3 h-trust" style={{display:'flex',gap:20,flexWrap:'wrap',alignItems:'center'}}>
+              {[
+                {icon:<ShieldCheck size={15}/>,text:'Authenticity Verified'},
+                {icon:<RefreshCw size={15}/>,text:'Instant Trade-In'},
+                {icon:<Package size={15}/>,text:'Free Shipping'},
+              ].map((item,i)=>(
+                <div key={i} style={{
+                  display:'flex',alignItems:'center',gap:7,
+                  fontSize:'.76rem',color:'#64748B',fontWeight:500,
+                }}>
+                  <span style={{color:'#475569'}}>{item.icon}</span>
+                  {item.text}
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Device image */}
-          <div className="hero-img" style={{ display:'flex', justifyContent:'center' }}>
-            <img src="/images/macbook_real.png" alt="Premium device"
-              className="hero-float"
-              style={{ width:'115%', maxWidth:780, objectFit:'contain', mixBlendMode:'lighten', userSelect:'none' }}
-            />
+          {/* ── RIGHT: 3D Device Showcase ── */}
+          <div className="hf4 h-dev-area">
+
+            {/* ─── LAPTOP (back-left) ─── */}
+            <div style={{
+              position:'absolute',left:'-3%',bottom:'12%',zIndex:1,
+              width:230,perspective:1200,
+              animation:'hFloat 8s ease-in-out infinite',animationDelay:'.4s',
+            }}>
+              <div className="h-device" style={{
+                transform:'rotateY(14deg) rotateX(-4deg)',borderRadius:16,
+                boxShadow:'0 25px 70px rgba(0,0,0,.5), 0 0 30px rgba(59,130,246,.06)',
+                padding:'10px 10px 3px',
+              }}>
+                <div className="h-scr" style={{
+                  borderRadius:10,height:138,padding:10,
+                  display:'flex',flexDirection:'column',gap:4,
+                }}>
+                  <div style={{position:'absolute',left:0,right:0,height:'30%',
+                    background:'linear-gradient(180deg,transparent,rgba(59,130,246,.03),transparent)',
+                    animation:'hScan 5s linear infinite',pointerEvents:'none'}}/>
+                  {/* Browser dots */}
+                  <div style={{display:'flex',gap:3,marginBottom:5}}>
+                    <div style={{width:5,height:5,borderRadius:'50%',background:'#EF4444',opacity:.7}}/>
+                    <div style={{width:5,height:5,borderRadius:'50%',background:'#F59E0B',opacity:.7}}/>
+                    <div style={{width:5,height:5,borderRadius:'50%',background:'#22C55E',opacity:.7}}/>
+                  </div>
+                  {/* Search bar */}
+                  <div style={{width:'90%',height:7,borderRadius:4,background:'rgba(255,255,255,.06)',
+                    border:'1px solid rgba(255,255,255,.05)',marginBottom:6}}/>
+                  {/* Product grid mockup */}
+                  <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:4,flex:1}}>
+                    {[1,2,3,4].map(n=>(
+                      <div key={n} style={{borderRadius:4,background:'rgba(59,130,246,.04)',
+                        border:'1px solid rgba(59,130,246,.06)',
+                        display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:2,padding:3}}>
+                        <div style={{width:'60%',height:3,borderRadius:1,background:'rgba(255,255,255,.08)'}}/>
+                        <div style={{width:'40%',height:2,borderRadius:1,background:'rgba(96,165,250,.15)'}}/>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div style={{height:6,marginTop:3,borderRadius:'0 0 8px 8px',
+                  background:'linear-gradient(90deg,rgba(255,255,255,.03),rgba(255,255,255,.06),rgba(255,255,255,.03))'}}/>
+              </div>
+              <div style={{textAlign:'center',marginTop:12,fontSize:'.62rem',
+                color:'rgba(148,163,184,.5)',letterSpacing:'3px',textTransform:'uppercase',
+                display:'flex',alignItems:'center',justifyContent:'center',gap:6,fontWeight:500}}>
+                <Laptop size={11} strokeWidth={1.5}/> Laptops
+              </div>
+            </div>
+
+            {/* ─── PHONE (center-front, hero device) ─── */}
+            <div style={{
+              position:'relative',zIndex:3,width:175,flexShrink:0,
+              animation:'hFloat 6s ease-in-out infinite',
+            }}>
+              {/* Glow behind phone */}
+              <div style={{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)',
+                width:250,height:350,borderRadius:'40%',
+                background:'radial-gradient(ellipse,rgba(59,130,246,.08) 0%,transparent 65%)',
+                pointerEvents:'none',animation:'hGlow 4s ease-in-out infinite'}}/>
+              <div className="h-device" style={{
+                borderRadius:32,
+                border:'1.5px solid rgba(100,160,255,.18)',
+                boxShadow:'0 40px 100px rgba(0,0,0,.5), 0 0 50px rgba(59,130,246,.08), inset 0 1px 0 rgba(255,255,255,.06)',
+                padding:'14px 10px',position:'relative',
+              }}>
+                {/* Dynamic Island */}
+                <div style={{width:56,height:6,borderRadius:3,
+                  background:'#060E1A',border:'1px solid rgba(255,255,255,.08)',
+                  margin:'0 auto 12px'}}/>
+                {/* Screen */}
+                <div className="h-scr" style={{
+                  borderRadius:20,height:230,padding:16,
+                  display:'flex',flexDirection:'column',alignItems:'center',
+                  justifyContent:'center',gap:10,
+                }}>
+                  <div style={{position:'absolute',left:0,right:0,height:'25%',
+                    background:'linear-gradient(180deg,transparent,rgba(59,130,246,.03),transparent)',
+                    animation:'hScan 3.5s linear infinite',pointerEvents:'none'}}/>
+                  {/* Product card mockup inside phone */}
+                  <div style={{
+                    width:'85%',borderRadius:12,overflow:'hidden',
+                    background:'rgba(255,255,255,.03)',
+                    border:'1px solid rgba(255,255,255,.06)',
+                  }}>
+                    {/* Product image area */}
+                    <div style={{height:65,background:'rgba(59,130,246,.04)',
+                      display:'flex',alignItems:'center',justifyContent:'center'}}>
+                      <Smartphone size={22} strokeWidth={1.2} style={{color:'rgba(96,165,250,.35)'}}/>
+                    </div>
+                    {/* Product info */}
+                    <div style={{padding:'8px 10px'}}>
+                      <div style={{width:'70%',height:4,borderRadius:2,background:'rgba(255,255,255,.12)',marginBottom:5}}/>
+                      <div style={{width:'45%',height:3,borderRadius:2,background:'rgba(255,255,255,.06)',marginBottom:8}}/>
+                      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+                        <div style={{fontSize:'.55rem',color:'#60A5FA',fontWeight:700}}>Rs. 120,000</div>
+                        <div style={{display:'flex',gap:1}}>
+                          {[1,2,3,4,5].map(s=>(
+                            <Star key={s} size={6} fill="#FACC15" stroke="none" style={{opacity:s<=4?.8:.3}}/>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* Verified badge */}
+                  <div style={{
+                    display:'flex',alignItems:'center',gap:5,
+                    background:'rgba(34,197,94,.08)',border:'1px solid rgba(34,197,94,.15)',
+                    borderRadius:8,padding:'5px 12px',
+                  }}>
+                    <ShieldCheck size={12} strokeWidth={2} style={{color:'#4ADE80'}}/>
+                    <span style={{fontSize:'.6rem',color:'#4ADE80',fontWeight:600,letterSpacing:'1px'}}>VERIFIED AUTHENTIC</span>
+                  </div>
+                  {/* Buy button mockup */}
+                  <div style={{
+                    width:'75%',height:22,borderRadius:6,
+                    background:'linear-gradient(135deg,#2563EB,#1D4ED8)',
+                    display:'flex',alignItems:'center',justifyContent:'center',
+                    boxShadow:'0 4px 12px rgba(37,99,235,.3)',
+                  }}>
+                    <span style={{fontSize:'.55rem',color:'#fff',fontWeight:700,letterSpacing:'.5px'}}>ADD TO CART</span>
+                  </div>
+                </div>
+                {/* Home bar */}
+                <div style={{width:48,height:4,borderRadius:2,
+                  background:'rgba(255,255,255,.12)',margin:'12px auto 0'}}/>
+              </div>
+              <div style={{textAlign:'center',marginTop:14,fontSize:'.62rem',
+                color:'rgba(148,163,184,.5)',letterSpacing:'3px',textTransform:'uppercase',
+                display:'flex',alignItems:'center',justifyContent:'center',gap:6,fontWeight:500}}>
+                <Smartphone size={11} strokeWidth={1.5}/> Phones
+              </div>
+            </div>
+
+            {/* ─── MONITOR (back-right) ─── */}
+            <div style={{
+              position:'absolute',right:'-3%',bottom:'12%',zIndex:1,
+              width:245,perspective:1200,
+              animation:'hFloat 9s ease-in-out infinite',animationDelay:'1s',
+            }}>
+              <div className="h-device" style={{
+                transform:'rotateY(-14deg) rotateX(-4deg)',borderRadius:16,
+                boxShadow:'0 25px 70px rgba(0,0,0,.5), 0 0 30px rgba(59,130,246,.06)',
+                padding:'10px 10px 4px',
+              }}>
+                <div className="h-scr" style={{
+                  borderRadius:10,height:148,padding:10,
+                  display:'flex',flexDirection:'column',gap:4,
+                }}>
+                  <div style={{position:'absolute',left:0,right:0,height:'28%',
+                    background:'linear-gradient(180deg,transparent,rgba(59,130,246,.03),transparent)',
+                    animation:'hScan 5.5s linear infinite',pointerEvents:'none'}}/>
+                  {/* Dashboard header */}
+                  <div style={{display:'flex',alignItems:'center',gap:5,marginBottom:4}}>
+                    <div style={{width:'25%',height:7,borderRadius:4,background:'rgba(96,165,250,.12)'}}/>
+                    <div style={{flex:1}}/>
+                    <div style={{width:7,height:7,borderRadius:'50%',background:'rgba(96,165,250,.1)'}}/>
+                    <div style={{width:7,height:7,borderRadius:'50%',background:'rgba(96,165,250,.07)'}}/>
+                  </div>
+                  {/* Analytics-style content */}
+                  <div style={{display:'flex',gap:4,marginBottom:4}}>
+                    {[{w:'30%',c:'rgba(34,197,94,.12)'},{w:'25%',c:'rgba(96,165,250,.1)'},{w:'20%',c:'rgba(250,204,21,.08)'}].map((b,i)=>(
+                      <div key={i} style={{width:b.w,height:16,borderRadius:4,background:b.c,
+                        border:'1px solid rgba(255,255,255,.03)'}}/>
+                    ))}
+                  </div>
+                  {/* Product list rows */}
+                  {[1,2,3].map(r=>(
+                    <div key={r} style={{display:'flex',alignItems:'center',gap:5,
+                      padding:'3px 4px',borderRadius:4,background:'rgba(255,255,255,.015)'}}>
+                      <div style={{width:10,height:10,borderRadius:3,background:'rgba(59,130,246,.08)'}}/>
+                      <div style={{flex:1,height:3,borderRadius:2,background:'rgba(255,255,255,.06)'}}/>
+                      <div style={{width:'20%',height:3,borderRadius:2,background:'rgba(96,165,250,.12)'}}/>
+                    </div>
+                  ))}
+                </div>
+                {/* Stand */}
+                <div style={{display:'flex',flexDirection:'column',alignItems:'center',marginTop:4,gap:1}}>
+                  <div style={{width:2,height:12,background:'rgba(255,255,255,.05)'}}/>
+                  <div style={{width:40,height:3,borderRadius:2,background:'rgba(255,255,255,.05)'}}/>
+                </div>
+              </div>
+              <div style={{textAlign:'center',marginTop:12,fontSize:'.62rem',
+                color:'rgba(148,163,184,.5)',letterSpacing:'3px',textTransform:'uppercase',
+                display:'flex',alignItems:'center',justifyContent:'center',gap:6,fontWeight:500}}>
+                <Monitor size={11} strokeWidth={1.5}/> Desktops
+              </div>
+            </div>
+
+            {/* Connector lines */}
+            <svg style={{position:'absolute',inset:0,width:'100%',height:'100%',pointerEvents:'none',zIndex:0}}>
+              <line x1="22%" y1="55%" x2="45%" y2="58%" stroke="rgba(96,165,250,.07)" strokeWidth=".75" strokeDasharray="5 7"/>
+              <line x1="78%" y1="55%" x2="55%" y2="58%" stroke="rgba(96,165,250,.07)" strokeWidth=".75" strokeDasharray="5 7"/>
+            </svg>
           </div>
         </div>
 
-        {/* scroll cue */}
-        <div style={{ position:'absolute', bottom:'2rem', left:'50%', transform:'translateX(-50%)',
-          display:'flex', flexDirection:'column', alignItems:'center', gap:6, opacity:.45 }}>
-          <div style={{ width:1, height:40, background:'linear-gradient(to bottom,transparent,#fff)' }}/>
-          <span style={{ fontSize:'.65rem', letterSpacing:'2.5px', textTransform:'uppercase' }}>Scroll</span>
+        {/* Bottom fade into next section */}
+        <div style={{position:'absolute',bottom:0,left:0,right:0,height:100,
+          background:'linear-gradient(to top,var(--bg-surface),transparent)',
+          pointerEvents:'none',zIndex:3}}/>
+
+        {/* Scroll indicator */}
+        <div style={{position:'absolute',bottom:'2.5rem',left:'50%',transform:'translateX(-50%)',
+          display:'flex',flexDirection:'column',alignItems:'center',gap:8,opacity:.3,zIndex:4}}>
+          <div style={{width:1,height:28,background:'linear-gradient(to bottom,transparent,rgba(148,163,184,.5))'}}/>
+          <span style={{fontSize:'.6rem',letterSpacing:'3px',textTransform:'uppercase',fontWeight:500,color:'#64748B'}}>Scroll</span>
         </div>
       </section>
+
 
       {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
           TRUST BADGES
@@ -249,6 +501,7 @@ const Home = () => {
       <section ref={trustRef} style={{
         backgroundColor:'var(--bg-surface)',
         padding:'2.25rem 0',
+        borderTop:'1px solid var(--border-color)',
         borderBottom:'1px solid var(--border-color)',
       }}>
         <div className="container" style={{
@@ -648,21 +901,21 @@ const Home = () => {
       <section ref={newsRef} className="container" style={{ padding:'6rem 1rem' }}>
         <div className={newsVis ? 'anim-scale-in' : ''} style={{
           opacity: newsVis ? undefined : 0,
-          background:'linear-gradient(135deg,#EFF6FF 0%,#E0F2FE 100%)',
+          background: theme==='dark' ? 'linear-gradient(135deg,#111827 0%,#1E293B 100%)' : 'linear-gradient(135deg,#EFF6FF 0%,#E0F2FE 100%)',
           borderRadius:32, padding:'clamp(3rem,6vw,5.5rem) 2rem',
           textAlign:'center', position:'relative', overflow:'hidden',
         }}>
           <div style={{
             position:'absolute', top:'-25%', right:'-5%', width:400, height:400,
             borderRadius:'50%', pointerEvents:'none',
-            background:'radial-gradient(circle,rgba(37,99,235,.08) 0%,transparent 70%)',
+            background: theme==='dark' ? 'radial-gradient(circle,rgba(59,130,246,.06) 0%,transparent 70%)' : 'radial-gradient(circle,rgba(37,99,235,.08) 0%,transparent 70%)',
           }}/>
           <div style={{ position:'relative', zIndex:1, maxWidth:600, margin:'0 auto' }}>
             <Mail size={40} style={{ color: 'var(--primary-blue)', marginBottom: '1rem' }}/>
-            <h2 style={{ fontSize:'clamp(1.7rem,4vw,2.5rem)', fontWeight:800, marginBottom:'1rem', color:'#1E293B' }}>
+            <h2 style={{ fontSize:'clamp(1.7rem,4vw,2.5rem)', fontWeight:800, marginBottom:'1rem', color: theme==='dark' ? '#F1F5F9' : '#1E293B' }}>
               {t.newsletter || 'Stay ahead of the curve.'}
             </h2>
-            <p style={{ color:'#475569', fontSize:'1.05rem', marginBottom:'2.5rem', lineHeight:1.7 }}>
+            <p style={{ color: theme==='dark' ? '#94A3B8' : '#475569', fontSize:'1.05rem', marginBottom:'2.5rem', lineHeight:1.7 }}>
               {t.subscribeDesc || 'Join our inner circle to receive exclusive early access to product launches and curated tech deals.'}
             </p>
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Trash2, ArrowRight, ShoppingBag, Tag, CheckCircle, ChevronRight, Shield } from 'lucide-react';
+import { Trash2, ArrowRight, ShoppingBag, ShoppingCart, Tag, CheckCircle, ChevronRight, Shield } from 'lucide-react';
 import { formatPrice, mockProducts } from '../../data/mockData';
 import { useAppContext } from '../../context/AppContext';
 
@@ -84,19 +84,27 @@ const Cart = () => {
       <div className="container" style={{ padding: '3rem 1rem 5rem' }}>
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
-          <div>
-            <h1 style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--text-main)', marginBottom: '.25rem' }}>Shopping Cart</h1>
-            <p style={{ color: 'var(--text-muted)', fontSize: '.9rem' }}>{cart.length} {cart.length === 1 ? 'item' : 'items'} in your cart</p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+            <div style={{ width: 48, height: 48, borderRadius: 14, background: 'var(--color-info-light)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <ShoppingCart size={22} style={{ color: 'var(--primary-blue)' }}/>
+            </div>
+            <div>
+              <h1 style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--text-main)', marginBottom: '.15rem' }}>Shopping Cart</h1>
+              <p style={{ color: 'var(--text-muted)', fontSize: '.88rem' }}>{cart.length} {cart.length === 1 ? 'item' : 'items'} in your cart</p>
+            </div>
           </div>
-          <Link to="/browse" style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--primary-blue)', fontWeight: 600, fontSize: '.9rem', textDecoration: 'none' }}>
+          <Link to="/browse" style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--primary-blue)', fontWeight: 600, fontSize: '.9rem', textDecoration: 'none', padding: '.55rem 1.15rem', borderRadius: 10, border: '1px solid var(--primary-blue)', transition: 'all .2s' }}
+            onMouseOver={e=>{e.currentTarget.style.background='var(--primary-blue)';e.currentTarget.style.color='#fff';}}
+            onMouseOut={e=>{e.currentTarget.style.background='';e.currentTarget.style.color='var(--primary-blue)';}}
+          >
             ← Continue Shopping
           </Link>
         </div>
 
-        <div style={{ display: 'flex', gap: '2rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
+        <div className="cart-layout" style={{ display: 'flex', gap: '2rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
 
           {/* ── Cart Items ── */}
-          <div style={{ flex: '1 1 580px' }}>
+          <div className="cart-items-col" style={{ flex: '1 1 580px', minWidth: 0 }}>
             <div style={{ background: 'var(--bg-surface)', borderRadius: 20, border: '1px solid var(--border-color)', overflow: 'hidden' }}>
               {cart.map((item, index) => (
                 <div key={item.cartId} className={`cart-item ${removingIds.includes(item.cartId) ? 'cart-item-exit' : ''}`}
@@ -156,7 +164,7 @@ const Cart = () => {
           </div>
 
           {/* ── Order Summary ── */}
-          <div style={{ flex: '0 0 340px' }}>
+          <div className="cart-summary-col" style={{ flex: '0 0 340px' }}>
             <div style={{ background: 'var(--bg-surface)', borderRadius: 20, border: '1px solid var(--border-color)', padding: '1.75rem', position: 'sticky', top: '6rem' }}>
               <h2 style={{ fontSize: '1.15rem', fontWeight: 800, marginBottom: '1.5rem', color: 'var(--text-main)' }}>Order Summary</h2>
 

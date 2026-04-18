@@ -59,23 +59,24 @@ const TradeIn = () => {
   ];
 
   return (
-    <div style={{ backgroundColor: 'var(--bg-main)', minHeight: '100vh', padding: '4rem 1rem' }}>
-      <div className="container" style={{ maxWidth: '820px' }}>
+    <div style={{ backgroundColor: 'var(--bg-main)', minHeight: '100vh' }}>
 
-        {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-          <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'linear-gradient(135deg,#3B82F6,#1D4ED8)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem' }}>
-            <RefreshCw size={28} color="white" />
-          </div>
-          <h1 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '0.5rem', color: 'var(--text-main)' }}>Device Trade-In</h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: '1rem' }}>Turn your old device into credit towards your next OriginTech purchase.</p>
+      {/* Premium Page Header */}
+      <div className="page-header">
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+          <div className="ph-icon"><RefreshCw size={24}/></div>
+          <h1>Device Trade-In</h1>
+          <p>Turn your old device into credit towards your next OriginTech purchase</p>
           {tradeInCredit > 0 && (
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginTop: '1rem', padding: '0.5rem 1.25rem', background: '#F0FDF4', border: '1px solid #86EFAC', borderRadius: '999px', color: '#16A34A', fontWeight: 700, fontSize: '0.9rem' }}>
-              <CheckCircle size={16} /> You have {formatPrice(tradeInCredit, currency)} store credit available
+            <div className="ph-badge">
+              <CheckCircle size={14} /> You have {formatPrice(tradeInCredit, currency)} store credit available
             </div>
           )}
         </div>
+      </div>
 
+      <div style={{ padding: '0 1rem 4rem' }}>
+      <div className="container" style={{ maxWidth: '820px' }}>
         <div className="card" style={{ padding: '2.5rem' }}>
 
           {/* Step Progress Bar */}
@@ -261,6 +262,7 @@ const TradeIn = () => {
             </div>
           )}
         </div>
+      </div>
       </div>
     </div>
   );

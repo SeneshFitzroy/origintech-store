@@ -64,7 +64,7 @@ const Dashboard = () => {
 
       {/* Top Hero Banner */}
       <div style={{
-        background: 'linear-gradient(135deg, #0A1128 0%, #163A62 60%, #1E4D8C 100%)',
+        background: 'linear-gradient(160deg, #04101E 0%, #0B1D36 35%, #0F2847 65%, #132F52 100%)',
         padding: '3rem 0',
         position: 'relative',
         overflow: 'hidden'

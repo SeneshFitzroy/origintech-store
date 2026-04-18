@@ -66,7 +66,18 @@ const Orders = () => {
   };
 
   return (
-    <div style={{ backgroundColor: 'var(--bg-main)', minHeight: '100vh', padding: '3rem 1rem' }}>
+    <div style={{ backgroundColor: 'var(--bg-main)', minHeight: '100vh' }}>
+
+      {/* Premium Page Header */}
+      <div className="page-header">
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+          <div className="ph-icon"><Package size={24}/></div>
+          <h1>Order History</h1>
+          <p>Track, manage, and reorder from your complete purchase history</p>
+        </div>
+      </div>
+
+      <div style={{ padding: '0 1rem 3rem' }}>
       <style>{`
         .order-row { transition: background 0.15s; }
         .order-row:hover { background: var(--bg-soft) !important; }
@@ -76,11 +87,10 @@ const Orders = () => {
 
       <div className="container" style={{ maxWidth: '960px' }}>
 
-        {/* Header */}
+        {/* Search Bar */}
         <div className="flex justify-between items-end" style={{ marginBottom: '2rem' }}>
           <div>
-            <h1 style={{ fontSize: '2.2rem', fontWeight: 800, color: 'var(--text-main)' }}>Order History</h1>
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginTop: '0.25rem' }}>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
               {filteredOrders.length} order{filteredOrders.length !== 1 ? 's' : ''} found
             </p>
           </div>
@@ -228,6 +238,7 @@ const Orders = () => {
             })}
           </div>
         )}
+      </div>
       </div>
     </div>
   );

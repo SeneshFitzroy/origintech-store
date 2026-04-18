@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import ChatbotWidget from '../common/ChatbotWidget';
+import AccessibilityWidget from '../common/AccessibilityWidget';
 
 const CustomerLayout = () => {
   const [chatOpen, setChatOpen] = useState(false);
@@ -16,6 +17,7 @@ const CustomerLayout = () => {
       </main>
       <Footer />
       <ChatbotWidget forceOpen={chatOpen} onClose={() => setChatOpen(false)} />
+      <AccessibilityWidget />
     </div>
   );
 };

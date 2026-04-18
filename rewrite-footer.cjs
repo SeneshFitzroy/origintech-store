@@ -1,4 +1,7 @@
-import React from 'react';
+const fs = require('fs');
+const path = require('path');
+
+const footerContent = `import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUp, Mail, Phone, MapPin } from 'lucide-react';
 
@@ -105,11 +108,11 @@ const Footer = () => {
           gap: '.75rem',
         }}>
           <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: '.78rem' }}>
-            \u00A9 2026 OriginTech (Pvt) Ltd.
+            \\u00A9 2026 OriginTech (Pvt) Ltd.
           </span>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
             {['Privacy', 'Terms', 'Cookies'].map((l, i) => (
-              <Link key={i} to={`/${l.toLowerCase()}`}
+              <Link key={i} to={\`/\${l.toLowerCase()}\`}
                 className="footer-link" style={{ fontSize: '.75rem' }}>
                 {l}
               </Link>
@@ -131,7 +134,7 @@ const Footer = () => {
         </div>
       </div>
 
-      <style dangerouslySetInnerHTML={{__html: `
+      <style dangerouslySetInnerHTML={{__html: \`
         .footer-link {
           color: rgba(255,255,255,0.45);
           font-size: .82rem;
@@ -160,9 +163,14 @@ const Footer = () => {
             gap: .5rem !important;
           }
         }
-      `}} />
+      \`}} />
     </footer>
   );
 };
 
 export default Footer;
+`;
+
+const filePath = path.join(__dirname, 'src', 'components', 'layout', 'Footer.jsx');
+fs.writeFileSync(filePath, footerContent, 'utf8');
+console.log('Footer.jsx rewritten successfully');

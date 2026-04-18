@@ -33,6 +33,17 @@ const AuthenticityCheck = () => {
 
   return (
     <div style={{ backgroundColor: 'var(--bg-main)', minHeight: '100vh' }}>
+
+      {/* Premium Page Header */}
+      <div className="page-header">
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+          <div className="ph-icon"><ShieldCheck size={24}/></div>
+          <h1>Authenticity Check</h1>
+          <p>Verify your product's authenticity with our blockchain-backed certificate system</p>
+        </div>
+      </div>
+
+      <div style={{ padding: '0 1rem 3rem' }}>
       <style dangerouslySetInnerHTML={{__html:`
         @keyframes scanLine { 0%{top:0%} 100%{top:100%} }
         @keyframes shieldPop { 0%{transform:scale(0.3) rotate(-15deg);opacity:0} 60%{transform:scale(1.1) rotate(3deg)} 100%{transform:scale(1) rotate(0);opacity:1} }
@@ -44,17 +55,6 @@ const AuthenticityCheck = () => {
       `}}/>
 
       <div className="container" style={{ padding: '4rem 1rem 6rem', maxWidth: 780 }}>
-
-        {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-          <div style={{ width: 72, height: 72, borderRadius: '50%', background: 'linear-gradient(135deg,#EFF6FF,#DBEAFE)', border: '2px solid #BFDBFE', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem' }}>
-            <ShieldCheck size={34} color="#2563EB"/>
-          </div>
-          <h1 style={{ fontSize: '2.3rem', fontWeight: 900, letterSpacing: '-.02em', color: 'var(--text-main)', marginBottom: '.75rem' }}>Authenticity Verification</h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: '1rem', maxWidth: 520, margin: '0 auto', lineHeight: 1.7 }}>
-            Enter your device's IMEI or serial number to verify it's a genuine OriginTech product and view its digital certificate.
-          </p>
-        </div>
 
         {/* Search card */}
         <div style={{ background: 'var(--bg-surface)', borderRadius: 22, border: '1px solid var(--border-color)', padding: '2.5rem', marginBottom: '2rem', boxShadow: 'var(--shadow-card)' }}>
@@ -178,6 +178,7 @@ const AuthenticityCheck = () => {
             ))}
           </div>
         )}
+      </div>
       </div>
     </div>
   );

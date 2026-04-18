@@ -99,7 +99,7 @@ const Auth = () => {
 
       {/* Left branding panel */}
       <div className="auth-panel-left" style={{
-        flex: '0 0 45%', background: 'linear-gradient(145deg, #0A1628 0%, #0F2040 50%, #1a3557 100%)',
+        flex: '0 0 45%', background: 'var(--hero-gradient)',
         padding: '4rem 3.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center',
         position: 'relative', overflow: 'hidden',
       }}>

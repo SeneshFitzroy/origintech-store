@@ -105,14 +105,28 @@ const Checkout = () => {
   const labelStyle = { display: 'block', marginBottom: '0.5rem', fontSize: '0.88rem', fontWeight: 500, color: 'var(--text-muted)' };
 
   return (
-    <div style={{ backgroundColor: 'var(--bg-main)', minHeight: '100vh', padding: '3rem 1rem' }}>
+    <div style={{ backgroundColor: 'var(--bg-main)', minHeight: '100vh' }}>
+
+      {/* Secure Checkout Header */}
+      <div style={{ background: 'var(--bg-surface)', borderBottom: '1px solid var(--border-color)', padding: '1rem' }}>
+        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <Tag size={18} style={{ color: 'var(--primary-blue)' }}/>
+            <span style={{ fontWeight: 700, fontSize: '1.1rem', color: 'var(--text-main)' }}>Secure Checkout</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '.82rem', color: 'var(--color-success, #10B981)' }}>
+            <Check size={14}/> SSL Encrypted
+          </div>
+        </div>
+      </div>
+
+      <div style={{ padding: '2rem 1rem 3rem' }}>
       <div className="container">
-        <h1 style={{ fontSize: '2.2rem', fontWeight: 800, textAlign: 'center', marginBottom: '2.5rem', color: 'var(--text-main)' }}>Checkout</h1>
 
         <div style={{ maxWidth: '820px', margin: '0 auto' }}>
           {renderStepIndicator()}
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: '2rem', alignItems: 'flex-start' }}>
+          <div className="checkout-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: '2rem', alignItems: 'flex-start' }}>
 
             {/* Main Step Panel */}
             <div className="card" style={{ padding: '2rem' }}>
@@ -121,7 +135,7 @@ const Checkout = () => {
               {step === 1 && (
                 <form onSubmit={e => { e.preventDefault(); setStep(2); }}>
                   <h2 style={{ fontSize: '1.3rem', fontWeight: 700, marginBottom: '1.5rem' }}>Delivery Details</h2>
-                  <div className="grid" style={{ gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
+                  <div className="grid checkout-form-grid" style={{ gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
                     <div>
                       <label style={labelStyle}>First Name</label>
                       <input required style={inputStyle} value={delivery.firstName} onChange={e => setDelivery({ ...delivery, firstName: e.target.value })} placeholder="John" />
@@ -135,7 +149,7 @@ const Checkout = () => {
                     <label style={labelStyle}>Street Address</label>
                     <input required style={inputStyle} value={delivery.address} onChange={e => setDelivery({ ...delivery, address: e.target.value })} placeholder="123 Main Street" />
                   </div>
-                  <div className="grid" style={{ gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
+                  <div className="grid checkout-form-grid" style={{ gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
                     <div>
                       <label style={labelStyle}>City</label>
                       <input required style={inputStyle} value={delivery.city} onChange={e => setDelivery({ ...delivery, city: e.target.value })} placeholder="Colombo" />
@@ -196,7 +210,7 @@ const Checkout = () => {
                           }}
                         />
                       </div>
-                      <div className="grid" style={{ gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                      <div className="grid checkout-form-grid" style={{ gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                         <div>
                           <label style={labelStyle}>Expiry Date</label>
                           <input style={inputStyle} placeholder="MM/YY" maxLength={5} value={payment.expiry}
@@ -255,7 +269,7 @@ const Checkout = () => {
                   </div>
 
                   {/* Delivery + Payment summary — from real form state */}
-                  <div className="grid" style={{ gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.25rem' }}>
+                  <div className="grid checkout-form-grid" style={{ gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.25rem' }}>
                     <div style={{ padding: '1rem', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', background: 'var(--bg-surface)' }}>
                       <div className="flex justify-between items-center" style={{ marginBottom: '0.5rem' }}>
                         <h4 style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Delivery</h4>
@@ -392,6 +406,7 @@ const Checkout = () => {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

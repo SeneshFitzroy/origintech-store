@@ -65,21 +65,19 @@ const Support = () => {
   return (
     <div style={{ backgroundColor: 'var(--bg-main)', minHeight: '100vh' }}>
 
-      {/* Hero */}
-      <div style={{ background: 'linear-gradient(135deg,#0A1128,#163A62)', padding: '4rem 1rem', textAlign: 'center' }}>
-        <div className="container">
-          <LifeBuoy size={40} color="#60A5FA" style={{ margin: '0 auto 1rem' }} />
-          <h1 style={{ fontSize: '2.8rem', fontWeight: 800, color: 'white', marginBottom: '0.75rem' }}>Help & Support</h1>
-          <p style={{ color: '#94A3B8', fontSize: '1.05rem', maxWidth: '520px', margin: '0 auto' }}>
-            We're here to help. Find answers fast or reach a real person in minutes.
-          </p>
+      {/* Premium Page Header */}
+      <div className="page-header" style={{ padding: '4rem 1rem' }}>
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+          <div className="ph-icon"><LifeBuoy size={24}/></div>
+          <h1>Help & Support</h1>
+          <p>We're here to help. Find answers fast or reach a real person in minutes.</p>
         </div>
       </div>
 
       <div className="container" style={{ padding: '3rem 1rem 5rem' }}>
 
         {/* Contact Options */}
-        <div className="grid" style={{ gridTemplateColumns: 'repeat(3,1fr)', gap: '1.5rem', marginBottom: '4rem' }}>
+        <div className="grid support-cards-grid" style={{ gridTemplateColumns: 'repeat(3,1fr)', gap: '1.5rem', marginBottom: '4rem' }}>
           {[
             {
               icon: <MessageCircle size={32} color="#3B82F6" />, bg: '#EFF6FF', title: 'Live Chat',
@@ -114,7 +112,7 @@ const Support = () => {
         </div>
 
         {/* Ticket Tracker + Submit Form */}
-        <div className="grid" style={{ gridTemplateColumns: '1fr 1fr', gap: '3rem', marginBottom: '4rem', alignItems: 'flex-start' }}>
+        <div className="grid support-main-grid" style={{ gridTemplateColumns: '1fr 1fr', gap: '3rem', marginBottom: '4rem', alignItems: 'flex-start' }}>
 
           {/* Left: Submit Ticket */}
           <div>

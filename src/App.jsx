@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
+import SplashScreen from './components/common/SplashScreen';
 
 // Layouts
 import CustomerLayout from './components/layout/CustomerLayout';
@@ -44,8 +45,15 @@ import AgentTicketDetail from './pages/agent/AgentTicketDetail';
 import AgentLogin from './pages/agent/AgentLogin';
 
 function App() {
+  const [showSplash, setShowSplash] = useState(() => !sessionStorage.getItem('splash-shown'));
+  const onSplashComplete = useCallback(() => {
+    setShowSplash(false);
+    sessionStorage.setItem('splash-shown', '1');
+  }, []);
+
   return (
     <AppProvider>
+      {showSplash && <SplashScreen onComplete={onSplashComplete} />}
       <BrowserRouter>
         <Routes>
           {/* Customer Routes */}

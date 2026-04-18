@@ -24,6 +24,17 @@ const Tracking = () => {
 
   return (
     <div style={{ backgroundColor: 'var(--bg-main)', minHeight: '100vh' }}>
+
+      {/* Premium Page Header */}
+      <div className="page-header">
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+          <div className="ph-icon"><Truck size={24}/></div>
+          <h1>Order Tracking</h1>
+          <p>Real-time updates on your order's journey to your doorstep</p>
+        </div>
+      </div>
+
+      <div style={{ padding: '0 1rem 3rem' }}>
       <style dangerouslySetInnerHTML={{__html:`
         @keyframes pulseRing { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.25);opacity:.5} }
         .pulse-ring { animation: pulseRing 1.6s ease infinite; }
@@ -32,12 +43,6 @@ const Tracking = () => {
       `}}/>
 
       <div className="container" style={{ padding: '3rem 1rem 5rem', maxWidth: 860 }}>
-
-        {/* Header */}
-        <div style={{ marginBottom: '2rem' }}>
-          <h1 style={{ fontSize: '2.2rem', fontWeight: 900, color: 'var(--text-main)', letterSpacing: '-.02em', marginBottom: '.25rem' }}>Order Tracking</h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: '.9rem' }}>Real-time delivery updates for your order</p>
-        </div>
 
         {/* Status banner */}
         <div style={{ background: 'linear-gradient(135deg,var(--primary-blue),#1D4ED8)', borderRadius: 20, padding: '1.75rem 2rem', marginBottom: '2rem', color: '#fff', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', alignItems: 'center' }}>
@@ -148,6 +153,7 @@ const Tracking = () => {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );
