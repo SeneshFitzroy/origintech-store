@@ -52,7 +52,6 @@ const ProductDetail = () => {
   const [selectedStorage, setSelectedStorage] = useState(product?.storage?.[0]);
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('specs');
-  const [activeImg, setActiveImg] = useState(0);
   const [zoomed, setZoomed] = useState(false);
   const [toastVisible, setToastVisible] = useState(false);
   const [wishlisted, setWishlisted] = useState(false);
@@ -139,7 +138,7 @@ const ProductDetail = () => {
                 backgroundColor: 'var(--bg-surface)',
                 borderRadius: 20, padding: '2rem',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                height: 460, marginBottom: '1rem',
+                height: 460,
                 border: '1px solid var(--border-color)',
                 cursor: 'zoom-in', overflow: 'hidden', position: 'relative',
                 transition: 'box-shadow .2s',
@@ -160,23 +159,7 @@ const ProductDetail = () => {
               )}
             </div>
 
-            {/* Thumbnails */}
-            <div style={{ display: 'flex', gap: 10 }}>
-              {[0, 1, 2].map(i => (
-                <div key={i} onClick={() => { setActiveImg(i); setZoomed(false); }}
-                  style={{
-                    width: 80, height: 80, borderRadius: 12,
-                    backgroundColor: 'var(--bg-surface)',
-                    border: activeImg === i ? '2px solid var(--primary-blue)' : '2px solid transparent',
-                    outline: activeImg === i ? '1px solid transparent' : '1px solid var(--border-color)',
-                    cursor: 'pointer', padding: '0.5rem',
-                    transition: 'border-color .2s',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  }}>
-                  <img src={product.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }}/>
-                </div>
-              ))}
-            </div>
+
           </div>
 
           {/* ── Product Info ── */}
