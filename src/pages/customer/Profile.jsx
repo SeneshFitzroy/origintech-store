@@ -74,7 +74,7 @@ const Profile = () => {
       <div className="container" style={{ padding: '3rem 1rem 5rem', maxWidth: 720 }}>
 
         {/* Hero banner */}
-        <div style={{ background: 'linear-gradient(160deg, #04101E 0%, #0B1D36 35%, #0F2847 65%, #132F52 100%)', borderRadius: 24, padding: '2.5rem 2rem', marginBottom: '2.5rem', color: '#fff', display: 'flex', alignItems: 'center', gap: '2rem', flexWrap: 'wrap' }}>
+        <div style={{ background: 'linear-gradient(160deg, #001028 0%, #001c4a 35%, #002b6b 65%, #003689 100%)', borderRadius: 24, padding: '2.5rem 2rem', marginBottom: '2.5rem', color: '#fff', display: 'flex', alignItems: 'center', gap: '2rem', flexWrap: 'wrap' }}>
           {/* Avatar */}
           <div style={{ position: 'relative' }}>
             <div style={{ width: 90, height: 90, borderRadius: '50%', background: 'linear-gradient(135deg,var(--primary-blue),#7C3AED)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', fontWeight: 900, color: '#fff', flexShrink: 0, border: '3px solid rgba(255,255,255,0.2)' }}>

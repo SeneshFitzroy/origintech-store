@@ -155,7 +155,7 @@ const Home = () => {
           }
           .h-device{
             border-radius:18px;overflow:hidden;
-            background:linear-gradient(145deg,#0E1E35,#162D4D);
+            background:linear-gradient(145deg,#001f4d,#002b6b);
             border:1px solid rgba(0,74,198,.12);
             transition:border-color .5s,box-shadow .5s;
           }
@@ -164,7 +164,7 @@ const Home = () => {
             box-shadow:0 0 40px rgba(0,100,255,.08);
           }
           .h-scr{
-            background:linear-gradient(175deg,#0B1929 0%,#142640 100%);
+            background:linear-gradient(175deg,#001433 0%,#001f4d 100%);
             position:relative;overflow:hidden;
           }
           .h-cta{
@@ -243,7 +243,7 @@ const Home = () => {
 
             <div className="hf3 h-cta-row" style={{display:'flex',gap:14,flexWrap:'wrap',marginBottom:'2.8rem'}}>
               <Link to="/browse" className="h-cta" style={{
-                background:'#fff',color:'#0F172A',
+                background:'#fff',color:'#001433',
                 fontWeight:700,
                 boxShadow:'0 4px 24px rgba(255,255,255,.15)',
               }}
@@ -352,7 +352,7 @@ const Home = () => {
               }}>
                 {/* Dynamic Island */}
                 <div style={{width:56,height:6,borderRadius:3,
-                  background:'#060E1A',border:'1px solid rgba(255,255,255,.08)',
+                  background:'#000e24',border:'1px solid rgba(255,255,255,.08)',
                   margin:'0 auto 12px'}}/>
                 {/* Screen */}
                 <div className="h-scr" style={{
@@ -758,7 +758,7 @@ const Home = () => {
         <div className={saleVis ? 'anim-scale-in' : ''} style={{
           opacity: saleVis ? undefined : 0,
           display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',
-          background:'#0A1628', borderRadius:28, overflow:'hidden', color:'#fff',
+          background:'#001433', borderRadius:28, overflow:'hidden', color:'#fff',
         }}>
           {/* info */}
           <div style={{ padding:'clamp(2rem,5vw,4rem)', display:'flex', flexDirection:'column', justifyContent:'center' }}>
@@ -901,7 +901,7 @@ const Home = () => {
       <section ref={newsRef} className="container" style={{ padding:'6rem 1rem' }}>
         <div className={newsVis ? 'anim-scale-in' : ''} style={{
           opacity: newsVis ? undefined : 0,
-          background: theme==='dark' ? 'linear-gradient(135deg,#111827 0%,#1E293B 100%)' : 'linear-gradient(135deg,#e6f0ff 0%,#e6f0ff 100%)',
+          background: theme==='dark' ? 'linear-gradient(135deg,#001028 0%,#001f4d 100%)' : 'linear-gradient(135deg,#e6f0ff 0%,#e6f0ff 100%)',
           borderRadius:32, padding:'clamp(3rem,6vw,5.5rem) 2rem',
           textAlign:'center', position:'relative', overflow:'hidden',
         }}>
@@ -912,7 +912,7 @@ const Home = () => {
           }}/>
           <div style={{ position:'relative', zIndex:1, maxWidth:600, margin:'0 auto' }}>
             <Mail size={40} style={{ color: 'var(--primary-blue)', marginBottom: '1rem' }}/>
-            <h2 style={{ fontSize:'clamp(1.7rem,4vw,2.5rem)', fontWeight:800, marginBottom:'1rem', color: theme==='dark' ? '#F1F5F9' : '#1E293B' }}>
+            <h2 style={{ fontSize:'clamp(1.7rem,4vw,2.5rem)', fontWeight:800, marginBottom:'1rem', color: theme==='dark' ? '#F1F5F9' : '#001f4d' }}>
               {t.newsletter || 'Stay ahead of the curve.'}
             </h2>
             <p style={{ color: theme==='dark' ? '#94A3B8' : '#475569', fontSize:'1.05rem', marginBottom:'2.5rem', lineHeight:1.7 }}>
@@ -940,7 +940,7 @@ const Home = () => {
                   style={{
                     flex:'1 1 200px', padding:'1rem 1.4rem',
                     borderRadius:13, border:'1px solid #CBD5E1',
-                    outline:'none', fontSize:'1rem', color:'#1E293B',
+                    outline:'none', fontSize:'1rem', color:'#001f4d',
                     transition:'border-color .2s',
                   }}
                   onFocus={e=>e.target.style.borderColor='var(--primary-blue)'}

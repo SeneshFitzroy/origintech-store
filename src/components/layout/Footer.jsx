@@ -6,7 +6,7 @@ const Footer = () => {
   const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   return (
-    <footer style={{ backgroundColor: '#060E1F', color: '#fff', marginTop: 'auto' }}>
+    <footer style={{ backgroundColor: '#000e24', color: '#fff', marginTop: 'auto' }}>
 
       {/* ── Main Footer ── */}
       <div className="container footer-main" style={{

@@ -55,7 +55,7 @@ const AdminLayout = () => {
       {/* Sidebar */}
       <aside style={{
         width: '240px', flexShrink: 0,
-        background: 'linear-gradient(180deg,#0A1128 0%,#0F2044 100%)',
+        background: 'linear-gradient(180deg,#001028 0%,#002566 100%)',
         display: 'flex', flexDirection: 'column',
         borderRight: '1px solid rgba(255,255,255,0.06)',
         position: 'fixed', top: 0, left: 0, height: '100vh', 

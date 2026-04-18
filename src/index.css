@@ -2,7 +2,7 @@
   /* Brand Colors */
   --primary-blue: #004AC6;
   --primary-blue-hover: #003a9d;
-  --premium-navy: #0F172A;
+  --premium-navy: #001433;
 
   /* Neutrals - Light Mode */
   --pure-white: #FFFFFF;
@@ -50,8 +50,8 @@
   --color-info-border: #99c2ff;
 
   /* Page Header Gradient */
-  --header-gradient: linear-gradient(135deg, #04101E 0%, #0B1D36 45%, #132F52 100%);
-  --hero-gradient: linear-gradient(160deg, #04101E 0%, #0B1D36 35%, #0F2847 65%, #132F52 100%);
+  --header-gradient: linear-gradient(135deg, #001028 0%, #001c4a 45%, #003689 100%);
+  --hero-gradient: linear-gradient(160deg, #001028 0%, #001c4a 35%, #002b6b 65%, #003689 100%);
 
   /* Accessibility */
   --a11y-font-scale: 1;

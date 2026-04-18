@@ -32,7 +32,7 @@ const AdminLogin = () => {
       display: 'flex', 
       alignItems: 'center', 
       justifyContent: 'center',
-      background: 'radial-gradient(circle at center, #0F172A 0%, #020617 100%)',
+      background: 'radial-gradient(circle at center, #001433 0%, #000a1c 100%)',
       padding: '2rem'
     }}>
       {/* Decorative Elements */}

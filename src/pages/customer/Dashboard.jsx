@@ -64,7 +64,7 @@ const Dashboard = () => {
 
       {/* Top Hero Banner */}
       <div style={{
-        background: 'linear-gradient(160deg, #04101E 0%, #0B1D36 35%, #0F2847 65%, #132F52 100%)',
+        background: 'linear-gradient(160deg, #001028 0%, #001c4a 35%, #002b6b 65%, #003689 100%)',
         padding: '3rem 0',
         position: 'relative',
         overflow: 'hidden'
@@ -270,7 +270,7 @@ const Dashboard = () => {
 
             {/* AI Teaser */}
             <div className="dash-card" style={{
-              background:'linear-gradient(135deg,#1A1D24,#0F172A)',
+              background:'linear-gradient(135deg,#1A1D24,#001433)',
               borderRadius:'20px', padding:'1.5rem',
               border:'1px solid rgba(99,102,241,0.2)',
               animationDelay:'0.75s'
