@@ -1,8 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ShoppingCart, User, Search, Moon, Sun, Globe, X, ArrowRight, Menu, SlidersHorizontal, ShieldCheck } from 'lucide-react';
+import { ShoppingCart, User, Search, Moon, Sun, Globe, X, ArrowRight, Menu, SlidersHorizontal, ShieldCheck, Zap, Truck, Gift, Tag, Sparkles, Shield } from 'lucide-react';
 import { useAppContext } from '../../context/AppContext';
 import { translationStrings, mockProducts, formatPrice } from '../../data/mockData';
+
+const PROMO_ITEMS = [
+  { icon: Truck,     text: 'Free Shipping on orders over Rs. 100,000', highlight: 'FREE SHIPPING' },
+  { icon: Zap,       text: 'Flash Sale — Up to 24% off OriginBook Pro', highlight: '24% OFF' },
+  { icon: Shield,    text: '100% Authenticity Guaranteed on every product', highlight: 'VERIFIED' },
+  { icon: Gift,      text: 'Trade-In your old device — Get instant credit', highlight: 'TRADE-IN' },
+  { icon: Tag,       text: 'New Arrivals — Origin Spark 5G now available', highlight: 'NEW' },
+  { icon: Sparkles,  text: '12-Month Premium Warranty included free', highlight: 'WARRANTY' },
+];
 
 const CATEGORIES = [
   { key: 'all',         label: 'All Products' },
@@ -130,10 +139,55 @@ const Navbar = () => {
       boxShadow: scrolled ? '0 1px 0 rgba(0,0,0,0.08)' : 'none',
       transition: 'all 0.3s ease',
     }}>
-      {/* Top Banner (Settings) */}
+      {/* Promotional Ticker Strip */}
+      <div style={{
+        background: 'linear-gradient(90deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%)',
+        overflow: 'hidden', position: 'relative',
+        borderBottom: '1px solid rgba(255,255,255,0.06)',
+      }}>
+        {/* Shimmer overlay */}
+        <div style={{
+          position: 'absolute', inset: 0, pointerEvents: 'none',
+          background: 'linear-gradient(90deg, transparent 0%, rgba(0,74,198,.05) 50%, transparent 100%)',
+          animation: 'promoShimmer 4s ease-in-out infinite',
+        }}/>
+        <div style={{
+          display: 'flex', animation: 'promoScroll 35s linear infinite',
+          width: 'max-content', alignItems: 'center',
+        }}
+          onMouseEnter={e => e.currentTarget.style.animationPlayState = 'paused'}
+          onMouseLeave={e => e.currentTarget.style.animationPlayState = 'running'}
+        >
+          {[...PROMO_ITEMS, ...PROMO_ITEMS, ...PROMO_ITEMS].map((item, i) => {
+            const Icon = item.icon;
+            return (
+              <div key={i} style={{
+                display: 'flex', alignItems: 'center', gap: 8,
+                padding: '7px 32px', whiteSpace: 'nowrap', fontSize: '.76rem',
+                color: 'rgba(255,255,255,0.7)', letterSpacing: '.02em',
+              }}>
+                <Icon size={13} style={{ color: 'rgba(0,150,255,.8)', flexShrink: 0 }}/>
+                <span style={{
+                  background: 'linear-gradient(90deg, #0070F3, #00C6FF)',
+                  WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+                  fontWeight: 700, fontSize: '.68rem', letterSpacing: '.08em',
+                  marginRight: 6,
+                }}>{item.highlight}</span>
+                <span>{item.text}</span>
+                <span style={{ margin: '0 12px', color: 'rgba(255,255,255,.15)', fontSize: '.6rem' }}>✦</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Top Bar (Language / Currency) */}
       <div style={{ backgroundColor: '#1D1D1F', color: 'rgba(255,255,255,0.8)', padding: '0.3rem 0', fontSize: '0.75rem' }}>
         <div className="container flex justify-between items-center">
-          <div>Free shipping on orders over {currency === 'LKR' ? 'Rs. 100,000' : '$300'}</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <Truck size={13} style={{ opacity: .6 }}/>
+            <span>Free shipping on orders over {currency === 'LKR' ? 'Rs. 100,000' : '$300'}</span>
+          </div>
           <div className="flex gap-4 items-center">
             <select 
               value={language} 
@@ -498,6 +552,14 @@ const Navbar = () => {
       )}
 
       <style>{`
+        @keyframes promoScroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-33.333%); }
+        }
+        @keyframes promoShimmer {
+          0%, 100% { opacity: 0; }
+          50% { opacity: 1; }
+        }
         @keyframes fadeUp {
           from { opacity: 0; transform: translateY(10px); }
           to { opacity: 1; transform: translateY(0); }
