@@ -1,284 +1,496 @@
-import React from 'react';
+﻿import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { ShieldCheck, ArrowRight, Smartphone, RefreshCw } from 'lucide-react';
+import { ShieldCheck, ArrowRight, Smartphone, RefreshCw, Star, Package, Zap, Users } from 'lucide-react';
 import { mockProducts, formatPrice, translationStrings } from '../../data/mockData';
 import { useAppContext } from '../../context/AppContext';
+
+/* â”€â”€ scroll-reveal hook â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+const useReveal = (threshold = 0.12) => {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.unobserve(el); } },
+      { threshold }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [threshold]);
+  return [ref, visible];
+};
+
+/* â”€â”€ 3-D tilt handlers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+const onTilt = (e) => {
+  const el = e.currentTarget;
+  const r  = el.getBoundingClientRect();
+  const x  = (e.clientX - r.left) / r.width  - 0.5;
+  const y  = (e.clientY - r.top)  / r.height - 0.5;
+  el.style.transform  = `perspective(900px) rotateY(${x * 14}deg) rotateX(${-y * 14}deg) scale(1.025)`;
+  el.style.transition = 'none';
+};
+const offTilt = (e) => {
+  e.currentTarget.style.transform  = 'perspective(900px) rotateY(0) rotateX(0) scale(1)';
+  e.currentTarget.style.transition = 'transform 0.55s cubic-bezier(.22,1,.36,1)';
+};
 
 const Home = () => {
   const { currency, language } = useAppContext();
   const t = translationStrings[language] || translationStrings.EN;
 
+  /* â”€â”€ real-time countdown â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  const [timeLeft, setTimeLeft] = useState({ h: 7, m: 59, s: 59 });
+  useEffect(() => {
+    const tick = setInterval(() => {
+      setTimeLeft(prev => {
+        let { h, m, s } = prev;
+        if (s > 0)  return { h, m, s: s - 1 };
+        if (m > 0)  return { h, m: m - 1, s: 59 };
+        if (h > 0)  return { h: h - 1, m: 59, s: 59 };
+        clearInterval(tick);
+        return { h: 0, m: 0, s: 0 };
+      });
+    }, 1000);
+    return () => clearInterval(tick);
+  }, []);
+  const pad = n => String(n).padStart(2, '0');
+
+  /* â”€â”€ animated stats â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  const STATS = [
+    { target: 15000, suffix: '+', label: t.happyCustomers  || 'Happy Customers' },
+    { target: 98,    suffix: '%', label: t.authenticityRate || 'Authenticity Rate' },
+    { target: 500,   suffix: '+', label: t.productsListed  || 'Products Listed' },
+    { target: 12,    suffix: 'm', label: t.warrantyMonths  || 'Month Warranty' },
+  ];
+  const [statsRef, statsVisible] = useReveal();
+  const [counts, setCounts] = useState(STATS.map(() => 0));
+  useEffect(() => {
+    if (!statsVisible) return;
+    const dur   = 2200;
+    const steps = 70;
+    let step    = 0;
+    const timer = setInterval(() => {
+      step++;
+      const ease = 1 - Math.pow(1 - step / steps, 3);
+      setCounts(STATS.map(s => Math.floor(s.target * Math.min(ease, 1))));
+      if (step >= steps) clearInterval(timer);
+    }, dur / steps);
+    return () => clearInterval(timer);
+  }, [statsVisible]); // eslint-disable-line
+
+  /* â”€â”€ section refs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  const [trustRef,   trustVis]   = useReveal();
+  const [featRef,    featVis]    = useReveal();
+  const [tradeRef,   tradeVis]   = useReveal();
+  const [saleRef,    saleVis]    = useReveal();
+  const [latestRef,  latestVis]  = useReveal();
+  const [newsRef,    newsVis]    = useReveal();
+
+  /* â”€â”€ newsletter submit â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  const [email, setEmail]       = useState('');
+  const [subOk, setSubOk]       = useState(false);
+  const handleSub = (e) => {
+    e.preventDefault();
+    if (email) { setSubOk(true); setEmail(''); }
+  };
+
+  const featuredProducts = mockProducts.slice(0, 3);
+  const latestProducts   = mockProducts.slice(3, 9);
+
   return (
     <div style={{ backgroundColor: 'var(--bg-main)' }}>
-      {/* Hero Section */}
-      {/* Hero Section */}
-      <section style={{ 
-        position: 'relative', 
-        background: 'linear-gradient(135deg, #0A1128 0%, #163A62 100%)',
-        color: 'var(--pure-white)',
-        padding: '8rem 2rem',
-        overflow: 'hidden'
+
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+          HERO
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+      <section style={{
+        position: 'relative',
+        background: 'linear-gradient(135deg, #07101F 0%, #0F2140 45%, #163A62 100%)',
+        color: '#fff',
+        padding: 'clamp(6rem,14vw,10rem) 2rem clamp(4rem,8vw,7rem)',
+        overflow: 'hidden',
+        minHeight: '92vh',
+        display: 'flex',
+        alignItems: 'center',
       }}>
-        
-        {/* Real-time Blackscreen Removal Matrix */}
-        <svg width="0" height="0" style={{ position: 'absolute' }}>
-          <filter id="luma-key" colorInterpolationFilters="sRGB">
-            <feColorMatrix type="matrix" values="
-              1 0 0 0 0
-              0 1 0 0 0
-              0 0 1 0 0
-              2 2 2 0 -0.2
-            " />
-          </filter>
-        </svg>
+        <style dangerouslySetInnerHTML={{__html:`
+          @keyframes floatGlow {
+            0%,100% { transform:translateY(0) scale(1.02);
+              filter:drop-shadow(0 0 35px rgba(37,99,235,.4)); }
+            50%     { transform:translateY(-22px) scale(1.02);
+              filter:drop-shadow(0 0 75px rgba(37,99,235,.85))
+                     drop-shadow(0 30px 30px rgba(0,0,0,.35)); }
+          }
+          @keyframes hParticle {
+            0%  { transform:translateY(0)     rotate(0deg); opacity:0; }
+            6%  { opacity:.9; }
+            94% { opacity:.7; }
+            100%{ transform:translateY(-96vh) rotate(500deg); opacity:0; }
+          }
+          @keyframes heroFadeUp {
+            from { opacity:0; transform:translateY(32px); }
+            to   { opacity:1; transform:translateY(0); }
+          }
+          .hero-txt  { animation:heroFadeUp .8s .2s cubic-bezier(.22,1,.36,1) both; }
+          .hero-img  { animation:heroFadeUp .8s .45s cubic-bezier(.22,1,.36,1) both; }
+          .hero-float{ animation:floatGlow 6.5s ease-in-out infinite; }
+          .h-grid{
+            display:grid; grid-template-columns:1fr 1fr;
+            gap:2rem; align-items:center; position:relative;
+          }
+          @media(max-width:860px){
+            .h-grid{ grid-template-columns:1fr; text-align:center; }
+            .hero-img{ display:none!important; }
+            .hero-ctas{ justify-content:center!important; }
+            .hero-badge{ justify-content:center!important; }
+            .hero-h1{ font-size:clamp(2.2rem,8vw,3.4rem)!important; }
+          }
+        `}}/>
 
-        {/* Floating & Glowing Animation */}
-        <style dangerouslySetInnerHTML={{__html: `
-          @keyframes floatAndGlow {
-            0% { transform: translateY(0px) scale(1.05); filter: url(#luma-key) drop-shadow(0 0 40px rgba(59, 130, 246, 0.4)); opacity: 0.95; }
-            50% { transform: translateY(-25px) scale(1.05); filter: url(#luma-key) drop-shadow(0 0 80px rgba(59, 130, 246, 0.9)) drop-shadow(0 35px 35px rgba(0, 0, 0, 0.4)); opacity: 1; }
-            100% { transform: translateY(0px) scale(1.05); filter: url(#luma-key) drop-shadow(0 0 40px rgba(59, 130, 246, 0.4)); opacity: 0.95; }
-          }
-          .floating-laptop {
-            animation: floatAndGlow 6s ease-in-out infinite;
-            transform-origin: center;
-          }
-          .hero-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            align-items: center;
-            position: relative;
-          }
-          @media (max-width: 900px) {
-            .hero-grid {
-              grid-template-columns: 1fr;
-              text-align: center;
-            }
-          }
-        `}} />
+        {/* particles */}
+        {[
+          [8,  '8%',  '9s',  '0s'],
+          [12, '22%', '13s', '2s'],
+          [6,  '39%', '10s', '4s'],
+          [10, '55%', '14s', '1s'],
+          [8,  '71%', '11s', '3.5s'],
+          [14, '86%', '12s', '5s'],
+          [7,  '15%', '16s', '7s'],
+          [9,  '49%', '15s', '6.5s'],
+        ].map(([sz, left, dur, del], i) => (
+          <div key={i} className="hero-particle" style={{
+            width: sz, height: sz, left,
+            animationDuration: dur, animationDelay: del,
+          }}/>
+        ))}
 
-        <div className="container hero-grid">
-          <div style={{ paddingRight: '0' }} className="hero-text-container">
-            <style dangerouslySetInnerHTML={{__html: `
-              .hero-title { font-size: 4.2rem; }
-              @media (max-width: 768px) {
-                .hero-title { font-size: 2.5rem; }
-                .hero-text-container { text-align: center; }
-              }
-            `}} />
-            <h1 className="hero-title" style={{ fontWeight: 800, marginBottom: '1.5rem', lineHeight: 1.05, letterSpacing: '-0.02em' }}>
-              The Future of Tech.<br/> Right in Your Hands.
+        {/* ambient orbs */}
+        <div style={{ position:'absolute', top:'-18%', right:'-8%', width:560, height:560, borderRadius:'50%',
+          background:'radial-gradient(circle,rgba(37,99,235,.18) 0%,transparent 70%)', pointerEvents:'none' }}/>
+        <div style={{ position:'absolute', bottom:'-20%', left:'-8%', width:480, height:480, borderRadius:'50%',
+          background:'radial-gradient(circle,rgba(99,102,241,.14) 0%,transparent 70%)', pointerEvents:'none' }}/>
+
+        <div className="container h-grid">
+          {/* Text */}
+          <div className="hero-txt">
+            <div className="hero-badge flex items-center gap-2" style={{
+              display:'inline-flex', background:'rgba(37,99,235,.18)',
+              border:'1px solid rgba(37,99,235,.35)', borderRadius:999,
+              padding:'.4rem 1rem', marginBottom:'1.5rem',
+              fontSize:'.82rem', color:'#93C5FD',
+            }}>
+              <span style={{ width:7, height:7, borderRadius:'50%', background:'#22C55E', display:'inline-block' }}/>
+              Serving 15,000+ verified customers
+            </div>
+
+            <h1 className="hero-h1" style={{
+              fontSize:'clamp(2.6rem,5.5vw,4.8rem)',
+              fontWeight:800, lineHeight:1.06,
+              letterSpacing:'-.03em', marginBottom:'1.5rem',
+            }}>
+              The Future of Tech.<br/>
+              <span style={{ color:'#60A5FA' }}>Right in Your</span> Hands.
             </h1>
-            <p style={{ fontSize: '1.25rem', color: '#CBD5E1', marginBottom: '3rem', maxWidth: '100%', marginInline: 'auto' }}>
-              Discover the latest smartphones, premium laptops, and next-gen accessories with verified authenticity and unmatched trade-in deals.
+
+            <p style={{ fontSize:'1.2rem', color:'#94A3B8', marginBottom:'3rem', maxWidth:500, lineHeight:1.75 }}>
+              Discover the latest smartphones, premium laptops, and next-gen accessories with
+              verified authenticity and unmatched trade-in deals.
             </p>
-            <div className="flex gap-4 justify-center-mobile" style={{ flexWrap: 'wrap' }}>
-              <style dangerouslySetInnerHTML={{__html: `
-                @media (max-width: 480px) {
-                  .justify-center-mobile { justify-content: center; width: 100%; }
-                  .justify-center-mobile a { width: 100%; }
-                }
-              `}} />
-              <Link to="/browse" className="btn-primary" style={{ padding: '1rem 2rem', fontSize: '1.1rem', backgroundColor: '#F8FAFC', color: '#0F2A56' }}>
-                {t.shopNow}
+
+            <div className="hero-ctas flex gap-4" style={{ flexWrap:'wrap' }}>
+              <Link to="/browse" style={{
+                display:'inline-flex', alignItems:'center', gap:8,
+                background:'#fff', color:'#0F172A',
+                padding:'1rem 2rem', borderRadius:14,
+                fontWeight:700, fontSize:'1rem',
+                transition:'transform .2s,box-shadow .2s',
+              }}
+                onMouseOver={e=>{ e.currentTarget.style.transform='translateY(-3px)'; e.currentTarget.style.boxShadow='0 14px 32px rgba(255,255,255,.18)'; }}
+                onMouseOut={e=>{ e.currentTarget.style.transform=''; e.currentTarget.style.boxShadow=''; }}
+              >
+                {t.shopNow} <ArrowRight size={18}/>
               </Link>
-              <Link to="/pre-order" className="btn-primary" style={{ padding: '1rem 2rem', fontSize: '1.1rem', backgroundColor: 'transparent', border: '1px solid rgba(255,255,255,0.3)', color: 'white' }}>
+              <Link to="/pre-order" style={{
+                display:'inline-flex', alignItems:'center', gap:8,
+                background:'rgba(255,255,255,.1)', backdropFilter:'blur(12px)',
+                border:'1px solid rgba(255,255,255,.22)', color:'#fff',
+                padding:'1rem 2rem', borderRadius:14,
+                fontWeight:600, fontSize:'1rem', transition:'background .2s',
+              }}
+                onMouseOver={e=>e.currentTarget.style.background='rgba(255,255,255,.18)'}
+                onMouseOut={e=>e.currentTarget.style.background='rgba(255,255,255,.1)'}
+              >
                 {t.preOrder}
               </Link>
             </div>
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'center', position: 'relative' }}>
-             {/* True Transparent Real Photo AI MacBook using Luma Key */}
-             <img 
-               src="/images/macbook_real.png" 
-               alt="Premium MacBook" 
-               className="floating-laptop" 
-               style={{ 
-                 width: '125%', 
-                 maxWidth: '850px', 
-                 objectFit: 'contain', 
-                 marginRight: '-10%',
-                 WebkitUserDrag: 'none',
-                 mixBlendMode: 'lighten'
-               }} 
-             />
-
+          {/* Device image */}
+          <div className="hero-img" style={{ display:'flex', justifyContent:'center' }}>
+            <img src="/images/macbook_real.png" alt="Premium device"
+              className="hero-float"
+              style={{ width:'115%', maxWidth:780, objectFit:'contain', mixBlendMode:'lighten', userSelect:'none' }}
+            />
           </div>
+        </div>
+
+        {/* scroll cue */}
+        <div style={{ position:'absolute', bottom:'2rem', left:'50%', transform:'translateX(-50%)',
+          display:'flex', flexDirection:'column', alignItems:'center', gap:6, opacity:.45 }}>
+          <div style={{ width:1, height:40, background:'linear-gradient(to bottom,transparent,#fff)' }}/>
+          <span style={{ fontSize:'.65rem', letterSpacing:'2.5px', textTransform:'uppercase' }}>Scroll</span>
         </div>
       </section>
 
-      {/* Trust Badges */}
-      <section style={{ backgroundColor: 'var(--bg-surface)', padding: '2rem 0', borderBottom: '1px solid var(--border-color)' }}>
-        <div className="container flex justify-between items-center flex-wrap gap-4" style={{ color: 'var(--text-secondary)' }}>
-          <div className="flex items-center gap-2">
-            <ShieldCheck style={{ color: 'var(--primary-blue)' }} />
-            <span>Authenticity Guarantee</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <RefreshCw style={{ color: 'var(--primary-blue)' }} />
-            <span>Highest Trade-In Values</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Smartphone style={{ color: 'var(--primary-blue)' }} />
-            <span>12-Month Premium Warranty</span>
-          </div>
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+          TRUST BADGES
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+      <section ref={trustRef} style={{
+        backgroundColor:'var(--bg-surface)',
+        padding:'2.25rem 0',
+        borderBottom:'1px solid var(--border-color)',
+      }}>
+        <div className="container" style={{
+          display:'grid',
+          gridTemplateColumns:'repeat(auto-fit,minmax(180px,1fr))',
+          gap:'1rem',
+        }}>
+          {[
+            { icon:<ShieldCheck size={22}/>, title: t.authenticityGuarantee || 'Authenticity Guarantee', sub:'100% verified products' },
+            { icon:<RefreshCw   size={22}/>, title: t.highestTradeIn        || 'Highest Trade-In Values', sub:'Instant credit applied' },
+            { icon:<Smartphone  size={22}/>, title: t.premiumWarranty       || '12-Month Warranty',        sub:'Premium coverage' },
+            { icon:<Package     size={22}/>, title: t.freeShipping          || 'Free Shipping',            sub:'On orders over Rs. 100,000' },
+          ].map((b, i) => (
+            <div key={i}
+              className={trustVis ? 'anim-fade-up' : ''}
+              style={{
+                display:'flex', alignItems:'center', gap:12,
+                padding:'1rem', borderRadius:'var(--radius-md)',
+                opacity: trustVis ? undefined : 0,
+                animationDelay:`${i * .1}s`,
+                transition:'background .2s',
+              }}
+              onMouseOver={e=>e.currentTarget.style.background='var(--bg-main)'}
+              onMouseOut={e=>e.currentTarget.style.background=''}
+            >
+              <div style={{ color:'var(--primary-blue)', flexShrink:0 }}>{b.icon}</div>
+              <div>
+                <div style={{ fontWeight:600, fontSize:'.88rem' }}>{b.title}</div>
+                <div style={{ color:'var(--text-muted)', fontSize:'.78rem' }}>{b.sub}</div>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* Featured Products */}
-      <section className="container" style={{ padding: '5rem 1rem' }}>
-        <div className="flex justify-between items-center" style={{ marginBottom: '3rem' }}>
-          <h2 style={{ fontSize: '2rem' }}>Featured Products</h2>
-          <Link to="/browse" className="flex items-center gap-2" style={{ color: 'var(--primary-blue)', fontWeight: 600 }}>
-            View All <ArrowRight size={18} />
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+          STATS STRIP
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+      <section ref={statsRef} style={{
+        padding:'5rem 1rem',
+        background:'linear-gradient(135deg,var(--primary-blue) 0%,#1E40AF 100%)',
+        color:'#fff', overflow:'hidden', position:'relative',
+      }}>
+        <div style={{
+          position:'absolute', inset:0, pointerEvents:'none',
+          backgroundImage:`radial-gradient(circle at 20% 50%,rgba(255,255,255,.05) 0%,transparent 50%),
+                          radial-gradient(circle at 80% 50%,rgba(255,255,255,.05) 0%,transparent 50%)`,
+        }}/>
+        <div className="container" style={{
+          display:'grid',
+          gridTemplateColumns:'repeat(auto-fit,minmax(140px,1fr))',
+          gap:'2rem', textAlign:'center', position:'relative',
+        }}>
+          {STATS.map((s, i) => (
+            <div key={i}
+              className={statsVisible ? 'anim-fade-up' : ''}
+              style={{ opacity: statsVisible ? undefined : 0, animationDelay:`${i*.15}s` }}
+            >
+              <div style={{ fontSize:'clamp(2.2rem,4vw,3.2rem)', fontWeight:800, lineHeight:1, marginBottom:8, fontVariantNumeric:'tabular-nums' }}>
+                {counts[i].toLocaleString()}{s.suffix}
+              </div>
+              <div style={{ color:'rgba(255,255,255,.72)', fontSize:'.92rem' }}>{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+          FEATURED PRODUCTS
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+      <section ref={featRef} className="container" style={{ padding:'6rem 1rem' }}>
+        {/* header */}
+        <div className={`flex justify-between items-center ${featVis ? 'anim-fade-up' : ''}`}
+          style={{ marginBottom:'3rem', opacity: featVis ? undefined : 0 }}>
+          <div>
+            <span className="section-eyebrow">{t.curated || 'Curated for you'}</span>
+            <h2 style={{ fontSize:'clamp(1.8rem,3.5vw,2.4rem)', fontWeight:800 }}>
+              {t.featuredProducts || 'Featured Products'}
+            </h2>
+          </div>
+          <Link to="/browse"
+            style={{
+              display:'inline-flex', alignItems:'center', gap:6,
+              color:'var(--primary-blue)', fontWeight:600,
+              border:'1px solid var(--primary-blue)', padding:'.5rem 1.25rem',
+              borderRadius:999, fontSize:'.88rem', transition:'all .2s',
+            }}
+            onMouseOver={e=>{ e.currentTarget.style.background='var(--primary-blue)'; e.currentTarget.style.color='#fff'; }}
+            onMouseOut={e=>{ e.currentTarget.style.background=''; e.currentTarget.style.color='var(--primary-blue)'; }}
+          >
+            {t.viewAll || 'View All'} <ArrowRight size={15}/>
           </Link>
         </div>
-        
-        <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '2rem' }}>
-          {mockProducts.map(product => (
-            <div key={product.id} className="card" style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-              <div style={{ position: 'relative', padding: '1.5rem', backgroundColor: '#F8FAFC', borderBottom: '1px solid var(--border-color)', marginBottom: '1.5rem', textAlign: 'center', height: '320px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {product.badges.length > 0 && (
-                  <span style={{ position: 'absolute', top: '1rem', left: '1rem', backgroundColor: 'var(--primary-blue)', color: 'white', padding: '0.4rem 0.8rem', borderRadius: '4px', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.5px', textTransform: 'uppercase' }}>
-                    {product.badges[0]}
+
+        {/* 3-D tilt cards */}
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(290px,1fr))', gap:'2rem' }}>
+          {featuredProducts.map((p, i) => (
+            <div key={p.id}
+              className={featVis ? 'anim-fade-up' : ''}
+              onMouseMove={onTilt} onMouseLeave={offTilt}
+              style={{
+                opacity: featVis ? undefined : 0,
+                animationDelay:`${i * .15}s`,
+                borderRadius:22, overflow:'hidden',
+                background:'var(--bg-surface)',
+                boxShadow:'var(--shadow-card)',
+                display:'flex', flexDirection:'column',
+                transformStyle:'preserve-3d',
+                transition:'transform .55s cubic-bezier(.22,1,.36,1)',
+              }}
+            >
+              {/* image area */}
+              <div style={{
+                position:'relative', padding:'2rem',
+                background:'var(--bg-soft)', textAlign:'center',
+                height:290, display:'flex', alignItems:'center', justifyContent:'center',
+              }}>
+                {p.badges[0] && (
+                  <span style={{
+                    position:'absolute', top:14, left:14,
+                    background:'var(--primary-blue)', color:'#fff',
+                    padding:'.32rem .72rem', borderRadius:6,
+                    fontSize:'.68rem', fontWeight:700, letterSpacing:'.8px', textTransform:'uppercase',
+                  }}>{p.badges[0]}</span>
+                )}
+                {p.isAuthentic && (
+                  <span style={{
+                    position:'absolute', top:14, right:14,
+                    background:'#10B981', color:'#fff',
+                    padding:'.25rem .55rem', borderRadius:6,
+                    fontSize:'.62rem', fontWeight:700,
+                    display:'flex', alignItems:'center', gap:3,
+                  }}>
+                    <ShieldCheck size={11}/> Verified
                   </span>
                 )}
-                <img src={product.image} alt={product.name} style={{ width: '90%', height: '90%', objectFit: 'contain', mixBlendMode: 'multiply', transition: 'transform 0.4s ease' }} onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.1)'} onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'} />
+                <img src={p.image} alt={p.name}
+                  style={{ maxWidth:'88%', maxHeight:'88%', objectFit:'contain', mixBlendMode:'multiply', transition:'transform .4s ease' }}
+                  onMouseOver={e=>e.currentTarget.style.transform='scale(1.1)'}
+                  onMouseOut={e=>e.currentTarget.style.transform=''}
+                />
               </div>
-              <div style={{ flex: 1, padding: '0 1.5rem' }}>
-                <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '0.5rem' }}>{product.brand}</div>
-                <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>{product.name}</h3>
-                <div style={{ fontSize: '1.25rem', fontWeight: 600, color: 'var(--text-main)', marginBottom: '1.5rem' }}>
-                  {formatPrice(product.price, currency)}
-                  {product.originalPrice && (
-                    <span style={{ textDecoration: 'line-through', color: 'var(--text-muted)', fontSize: '0.9rem', marginLeft: '0.5rem', fontWeight: 400 }}>
-                      {formatPrice(product.originalPrice, currency)}
+
+              {/* info */}
+              <div style={{ flex:1, padding:'1.5rem' }}>
+                <div style={{ color:'var(--text-muted)', fontSize:'.75rem', textTransform:'uppercase', letterSpacing:'1px', marginBottom:4 }}>{p.brand}</div>
+                <h3 style={{ fontSize:'1.18rem', fontWeight:700, marginBottom:8 }}>{p.name}</h3>
+                <div style={{ display:'flex', alignItems:'center', gap:6, marginBottom:12 }}>
+                  <div style={{ display:'flex', color:'#F59E0B' }}>
+                    {[...Array(5)].map((_, j) => (
+                      <Star key={j} size={12} fill={j < Math.floor(p.rating) ? 'currentColor' : 'none'} stroke="currentColor"/>
+                    ))}
+                  </div>
+                  <span style={{ fontSize:'.78rem', color:'var(--text-muted)' }}>({p.reviews})</span>
+                </div>
+                <div style={{ fontSize:'1.25rem', fontWeight:700 }}>
+                  {formatPrice(p.price, currency)}
+                  {p.originalPrice && (
+                    <span style={{ textDecoration:'line-through', color:'var(--text-muted)', fontSize:'.88rem', marginLeft:8, fontWeight:400 }}>
+                      {formatPrice(p.originalPrice, currency)}
                     </span>
                   )}
                 </div>
               </div>
-              <Link to={`/product/${product.id}`} className="btn-primary" style={{ textAlign: 'center', width: '100%', backgroundColor: 'var(--slate-2)' }}>
-                View Details
+
+              <Link to={`/product/${p.id}`} className="btn-primary"
+                style={{ textAlign:'center', borderRadius:'0 0 22px 22px', padding:'1rem', fontSize:'.94rem' }}>
+                {t.viewDetails || 'View Details'}
               </Link>
             </div>
           ))}
         </div>
       </section>
-      
-      {/* Trade In Promo Callout */}
-      <section style={{ backgroundColor: 'var(--bg-surface)', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)', padding: '5rem 1rem' }}>
-        <div className="container flex items-center justify-between gap-6 flex-wrap md-grid-cols-1">
-          <div style={{ flex: '1 1 500px', minWidth: '300px' }}>
-            <h2 style={{ fontSize: 'clamp(2rem, 5vw, 2.5rem)', marginBottom: '1rem' }}>Trade in. Upgrade.</h2>
-            <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', marginBottom: '2rem', maxWidth: '500px' }}>
-              Get credit towards your next device when you trade in your eligible smartphone or tablet. The process is quick, easy, and secure.
+
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+          TRADE-IN
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+      <section ref={tradeRef} style={{
+        background:'var(--bg-surface)',
+        borderTop:'1px solid var(--border-color)',
+        borderBottom:'1px solid var(--border-color)',
+        padding:'6rem 1rem',
+      }}>
+        <div className="container" style={{
+          display:'grid',
+          gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',
+          gap:'4rem', alignItems:'center',
+        }}>
+          {/* text */}
+          <div className={tradeVis ? 'anim-fade-left' : ''} style={{ opacity: tradeVis ? undefined : 0 }}>
+            <div style={{
+              display:'inline-flex', alignItems:'center', gap:7,
+              background:'rgba(37,99,235,.1)', border:'1px solid rgba(37,99,235,.22)',
+              borderRadius:999, padding:'.38rem .9rem',
+              marginBottom:'1.5rem', fontSize:'.78rem',
+              color:'var(--primary-blue)', fontWeight:700,
+            }}>
+              <RefreshCw size={13}/> {t.tradeIn || 'Trade-In Programme'}
+            </div>
+            <h2 style={{ fontSize:'clamp(2rem,5vw,2.9rem)', fontWeight:800, marginBottom:'1rem', lineHeight:1.2 }}>
+              {t.tradeInSubtitle || 'Trade in. Upgrade.'}
+            </h2>
+            <p style={{ fontSize:'1.1rem', color:'var(--text-secondary)', marginBottom:'2rem', lineHeight:1.75, maxWidth:460 }}>
+              {t.tradeInDesc || 'Get credit towards your next device when you trade in your eligible smartphone or tablet. Quick, easy, and secure.'}
             </p>
-            <Link to="/trade-in" className="btn-primary">Get Your Valuation</Link>
+            <Link to="/trade-in" className="btn-primary"
+              style={{ display:'inline-flex', alignItems:'center', gap:8, padding:'1rem 2rem', borderRadius:13 }}>
+              {t.getValuation || 'Get Your Valuation'} <ArrowRight size={18}/>
+            </Link>
           </div>
-          <div style={{ flex: '1 1 400px', position: 'relative', display: 'flex', justifyContent: 'center' }}>
-            <div style={{ width: '100%', maxWidth: '420px', position: 'relative' }}>
-               {/* Decorative Glow */}
-               <div style={{ position: 'absolute', top: '0', left: '0', right: '0', bottom: '0', background: 'radial-gradient(circle at center, rgba(59,130,246,0.15), transparent 70%)', zIndex: 0 }}></div>
-               
-               {/* Connecting Line */}
-               <div style={{ position: 'absolute', top: '30px', bottom: '30px', left: '30px', width: '2px', background: 'linear-gradient(to bottom, #3B82F6, #22C55E, #F59E0B)', zIndex: 0, opacity: 0.4 }}></div>
 
-               {/* Step 1 */}
-               <div style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: '1.5rem', marginBottom: '2rem', transform: 'translateX(-10px)' }}>
-                 <div style={{ width: '60px', height: '60px', borderRadius: '50%', backgroundColor: '#EFF6FF', color: '#3B82F6', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 10px 25px -5px rgba(59, 130, 246, 0.3)', border: '2px solid white', flexShrink: 0 }}>
-                   <Smartphone size={28} />
-                 </div>
-                 <div style={{ padding: '1.25rem 1.5rem', backgroundColor: 'var(--pure-white)', borderRadius: '16px', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.05)', flex: 1, border: '1px solid rgba(0,0,0,0.02)' }}>
-                   <h4 style={{ fontWeight: 600, fontSize: '1.15rem', marginBottom: '0.25rem', color: 'var(--text-main)' }}>1. Select Device</h4>
-                   <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Choose your current model.</p>
-                 </div>
-               </div>
-
-               {/* Step 2 */}
-               <div style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: '1.5rem', marginBottom: '2rem', transform: 'translateX(20px)' }}>
-                 <div style={{ width: '60px', height: '60px', borderRadius: '50%', backgroundColor: '#F0FDF4', color: '#22C55E', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 10px 25px -5px rgba(34, 197, 94, 0.3)', border: '2px solid white', flexShrink: 0 }}>
-                   <ShieldCheck size={28} />
-                 </div>
-                 <div style={{ padding: '1.25rem 1.5rem', backgroundColor: 'var(--pure-white)', borderRadius: '16px', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.05)', flex: 1, border: '1px solid rgba(0,0,0,0.02)' }}>
-                   <h4 style={{ fontWeight: 600, fontSize: '1.15rem', marginBottom: '0.25rem', color: 'var(--text-main)' }}>2. Instant Valuation</h4>
-                   <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Get a guaranteed price quote.</p>
-                 </div>
-               </div>
-
-               {/* Step 3 */}
-               <div style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', gap: '1.5rem', transform: 'translateX(-5px)' }}>
-                 <div style={{ width: '60px', height: '60px', borderRadius: '50%', backgroundColor: '#FFFBEB', color: '#F59E0B', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 10px 25px -5px rgba(245, 158, 11, 0.3)', border: '2px solid white', flexShrink: 0 }}>
-                   <RefreshCw size={28} />
-                 </div>
-                 <div style={{ padding: '1.25rem 1.5rem', backgroundColor: 'var(--pure-white)', borderRadius: '16px', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.05)', flex: 1, border: '1px solid rgba(0,0,0,0.02)' }}>
-                   <h4 style={{ fontWeight: 600, fontSize: '1.15rem', marginBottom: '0.25rem', color: 'var(--text-main)' }}>3. Upgrade & Get Paid</h4>
-                   <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Ship it free, get paid fast.</p>
-                 </div>
-               </div>
-
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Flash Sale Section */}
-      <section className="container" style={{ padding: '5rem 1rem' }}>
-        <div style={{ display: 'flex', backgroundColor: '#1A1D24', borderRadius: '24px', overflow: 'hidden', color: 'white', flexWrap: 'wrap' }}>
-          <div style={{ flex: '1 1 500px', padding: 'clamp(2rem, 5vw, 4rem)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <span style={{ color: '#3B82F6', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', fontSize: '0.8rem', marginBottom: '1rem' }}>Flash Sale Ending Soon</span>
-            <h2 style={{ fontSize: '3rem', lineHeight: 1.1, marginBottom: '2rem' }}>OriginBook Pro<br/>16"</h2>
-            
-            <div className="flex gap-4" style={{ marginBottom: '2.5rem' }}>
-              {[{v: '08', l: 'HOURS'}, {v: '42', l: 'MINS'}, {v: '15', l: 'SECS'}].map((time, idx) => (
-                <div key={idx} style={{ display: 'flex', alignItems: 'center' }}>
-                  <div style={{ backgroundColor: 'rgba(255,255,255,0.1)', padding: '1rem', borderRadius: '8px', textAlign: 'center', minWidth: '70px' }}>
-                    <div style={{ fontSize: '1.5rem', fontWeight: 700 }}>{time.v}</div>
-                    <div style={{ fontSize: '0.6rem', color: '#94A3B8', marginTop: '0.25rem' }}>{time.l}</div>
-                  </div>
-                  {idx !== 2 && <span style={{ fontSize: '1.5rem', margin: '0 10px', color: '#64748B' }}>:</span>}
-                </div>
-              ))}
-            </div>
-
-            <div className="flex items-center gap-6">
-              <div>
-                <div style={{ textDecoration: 'line-through', color: '#64748B', fontSize: '1rem' }}>{formatPrice(249900, currency)}</div>
-                <div style={{ fontSize: '2rem', fontWeight: 700 }}>{formatPrice(189900, currency)}</div>
-              </div>
-              <Link to="/product/p4" className="btn-primary" style={{ padding: '1rem 2rem' }}>Claim This Offer</Link>
-            </div>
-          </div>
-          <div style={{ flex: '1 1 500px', backgroundColor: '#E2E8F0', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '300px' }}>
-             <div style={{ position: 'absolute', top: '2rem', right: '2rem', backgroundColor: '#2563EB', color: 'white', padding: '1rem', borderRadius: '50%', fontWeight: 700, fontSize: '1.2rem', transform: 'rotate(15deg)' }}>
-               -24%
-             </div>
-             <img src="/images/macbook_real.png" alt="OriginBook Pro" style={{ width: '90%', objectFit: 'contain', filter: 'drop-shadow(0 25px 25px rgba(0,0,0,0.15))', mixBlendMode: 'multiply' }} />
-          </div>
-        </div>
-      </section>
-
-      {/* Latest Arrivals */}
-      <section style={{ backgroundColor: 'var(--bg-surface)', padding: '5rem 1rem' }}>
-        <div className="container">
-          <h2 style={{ fontSize: '2rem', marginBottom: '3rem' }}>Latest Arrivals</h2>
-          <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '2rem' }}>
+          {/* steps */}
+          <div className={tradeVis ? 'anim-fade-right' : ''} style={{ opacity: tradeVis ? undefined : 0 }}>
             {[
-              { id: 'buds-3', name: 'SonicPods Gen 3', price: 10900, img: '/images/phone.png', badge: 'NEW' },
-              { id: 'display-4k', name: 'VisionDisplay 4K', price: 59900, img: '/images/vision.png', badge: 'IN STOCK' },
-              { id: 'keyboard', name: 'KeyPro Wireless', price: 14900, img: '/images/tablet.png', badge: 'EXCLUSIVE' },
-              { id: 'drone', name: 'SkyView Drone X1', price: 89900, img: '/images/laptop.png', badge: 'NEW ARRIVAL' }
-            ].map(p => (
-              <div key={p.id} className="card" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column' }}>
-                <div style={{ height: '200px', backgroundColor: 'var(--bg-main)', borderRadius: 'var(--radius-md)', padding: '2rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <img src={p.img} alt={p.name} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
+              { icon:<Smartphone size={24}/>, title:'1. Select Device',    desc:'Choose your current model from our database.', c:'#3B82F6', bg:'#EFF6FF', off:0   },
+              { icon:<ShieldCheck size={24}/>, title:'2. Instant Valuation', desc:'Get a guaranteed price quote in seconds.',      c:'#22C55E', bg:'#F0FDF4', off:24  },
+              { icon:<RefreshCw  size={24}/>, title:'3. Upgrade & Get Paid',desc:'Ship it free, get your credit applied fast.',   c:'#F59E0B', bg:'#FFFBEB', off:0   },
+            ].map((step, i) => (
+              <div key={i} style={{
+                display:'flex', alignItems:'center', gap:'1.25rem',
+                marginBottom: i < 2 ? '1.5rem' : 0,
+                transform:`translateX(${step.off}px)`,
+              }}>
+                <div style={{
+                  width:56, height:56, borderRadius:'50%',
+                  background:step.bg, color:step.c,
+                  display:'flex', alignItems:'center', justifyContent:'center',
+                  flexShrink:0, boxShadow:`0 8px 20px ${step.c}30`,
+                }}>
+                  {step.icon}
                 </div>
-                <div style={{ fontSize: '0.7rem', color: 'var(--primary-blue)', fontWeight: 700, marginBottom: '0.5rem', letterSpacing: '1px' }}>{p.badge}</div>
-                <h3 style={{ fontSize: '1.1rem', marginBottom: '1rem', flex: 1 }}>{p.name}</h3>
-                <div className="flex justify-between items-center">
-                  <div style={{ fontWeight: 600, fontSize: '1.2rem' }}>{formatPrice(p.price, currency)}</div>
-                  <Link to={`/product/${p.id}`} style={{ color: 'var(--primary-blue)', fontSize: '0.9rem', fontWeight: 500 }}>View Details</Link>
+                <div style={{
+                  background:'var(--bg-surface)', border:'1px solid var(--border-color)',
+                  borderRadius:16, padding:'1.2rem 1.4rem', flex:1,
+                  boxShadow:'var(--shadow-card)',
+                  transition:'transform .3s,box-shadow .3s',
+                }}
+                  onMouseOver={e=>{ e.currentTarget.style.transform='translateY(-3px)'; e.currentTarget.style.boxShadow='0 16px 30px rgba(0,0,0,.1)'; }}
+                  onMouseOut={e=>{ e.currentTarget.style.transform=''; e.currentTarget.style.boxShadow='var(--shadow-card)'; }}
+                >
+                  <div style={{ fontWeight:700, marginBottom:4 }}>{step.title}</div>
+                  <div style={{ fontSize:'.85rem', color:'var(--text-muted)' }}>{step.desc}</div>
                 </div>
               </div>
             ))}
@@ -286,21 +498,214 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Newsletter */}
-      <section className="container" style={{ padding: '5rem 1rem' }}>
-        <div style={{ backgroundColor: '#E2E8F0', borderRadius: '32px', padding: '5rem 2rem', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-           <div style={{ position: 'absolute', top: '-50%', left: '-10%', width: '60%', height: '200%', background: 'radial-gradient(ellipse at center, rgba(255,255,255,0.4) 0%, transparent 70%)', transform: 'rotate(-20deg)', pointerEvents: 'none' }}></div>
-           <div style={{ position: 'relative', zIndex: 1, maxWidth: '600px', margin: '0 auto' }}>
-             <h2 style={{ fontSize: '2.5rem', marginBottom: '1.5rem', color: '#1E293B' }}>Stay ahead of the curve.</h2>
-             <p style={{ color: '#475569', fontSize: '1.1rem', marginBottom: '2.5rem' }}>
-               Join our inner circle to receive exclusive early access to product launches and curated tech deals.
-             </p>
-             <div className="flex gap-2" style={{ maxWidth: '450px', margin: '0 auto', marginBottom: '1rem', flexWrap: 'wrap' }}>
-               <input type="email" placeholder="Enter email" style={{ flex: '1 1 250px', padding: '1rem 1.5rem', borderRadius: 'var(--radius-xl)', border: 'none', outline: 'none' }} />
-               <button className="btn-primary" style={{ flex: '1 1 100px', padding: '1rem 2rem', borderRadius: 'var(--radius-xl)' }}>Subscribe</button>
-             </div>
-             <div style={{ fontSize: '0.8rem', color: '#64748B' }}>By subscribing you agree to our Privacy Policy and Terms of Service.</div>
-           </div>
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+          FLASH SALE (LIVE COUNTDOWN)
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+      <section ref={saleRef} className="container" style={{ padding:'6rem 1rem' }}>
+        <div className={saleVis ? 'anim-scale-in' : ''} style={{
+          opacity: saleVis ? undefined : 0,
+          display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(280px,1fr))',
+          background:'#0A1628', borderRadius:28, overflow:'hidden', color:'#fff',
+        }}>
+          {/* info */}
+          <div style={{ padding:'clamp(2rem,5vw,4rem)', display:'flex', flexDirection:'column', justifyContent:'center' }}>
+            <div style={{ display:'flex', alignItems:'center', gap:7, color:'#60A5FA', fontWeight:700,
+              letterSpacing:'2px', textTransform:'uppercase', fontSize:'.72rem', marginBottom:'1rem' }}>
+              <Zap size={13}/> {t.flashSale || 'Flash Sale'} â€” Ending Soon
+            </div>
+            <h2 style={{ fontSize:'clamp(1.9rem,4vw,3rem)', lineHeight:1.1, marginBottom:'2rem', fontWeight:800 }}>
+              OriginBook Pro<br/>16&quot;
+            </h2>
+
+            {/* live countdown */}
+            <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:'2.5rem', flexWrap:'wrap' }}>
+              {[
+                { v: pad(timeLeft.h), l:'HRS' },
+                { v: pad(timeLeft.m), l:'MINS' },
+                { v: pad(timeLeft.s), l:'SECS' },
+              ].map((tile, i) => (
+                <React.Fragment key={i}>
+                  <div className="countdown-tile">
+                    <div style={{ fontSize:'1.85rem', fontWeight:800, lineHeight:1 }}>{tile.v}</div>
+                    <div style={{ fontSize:'.58rem', color:'#94A3B8', marginTop:4 }}>{tile.l}</div>
+                  </div>
+                  {i < 2 && <span style={{ fontSize:'1.4rem', color:'#475569' }}>:</span>}
+                </React.Fragment>
+              ))}
+            </div>
+
+            <div style={{ display:'flex', alignItems:'center', gap:24, flexWrap:'wrap' }}>
+              <div>
+                <div style={{ textDecoration:'line-through', color:'#64748B', fontSize:'.9rem' }}>
+                  {formatPrice(249900, currency)}
+                </div>
+                <div style={{ fontSize:'2.1rem', fontWeight:800 }}>{formatPrice(189900, currency)}</div>
+              </div>
+              <Link to="/product/p4" className="btn-primary"
+                style={{ padding:'1rem 2rem', borderRadius:13, whiteSpace:'nowrap' }}>
+                {t.claimOffer || 'Claim This Offer'}
+              </Link>
+            </div>
+          </div>
+
+          {/* product image */}
+          <div style={{
+            background:'linear-gradient(135deg,#E2E8F0 0%,#F1F5F9 100%)',
+            position:'relative', display:'flex', alignItems:'center', justifyContent:'center',
+            minHeight:300, overflow:'hidden',
+          }}>
+            <div style={{
+              position:'absolute', top:16, right:16,
+              background:'#2563EB', color:'#fff',
+              padding:'.85rem', borderRadius:'50%',
+              fontWeight:800, fontSize:'1.1rem', transform:'rotate(15deg)', zIndex:1,
+            }}>-24%</div>
+            <img src="/images/macbook_real.png" alt="OriginBook Pro"
+              style={{ width:'88%', objectFit:'contain', mixBlendMode:'multiply',
+                filter:'drop-shadow(0 20px 24px rgba(0,0,0,.14))',
+                animation:'floatGlow 6.5s ease-in-out infinite',
+              }}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+          LATEST ARRIVALS
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+      <section ref={latestRef} style={{ background:'var(--bg-surface)', padding:'6rem 1rem' }}>
+        <div className="container">
+          <div className={`flex justify-between items-center ${latestVis ? 'anim-fade-up' : ''}`}
+            style={{ marginBottom:'3rem', opacity: latestVis ? undefined : 0 }}>
+            <div>
+              <span className="section-eyebrow">{t.justDropped || 'Just dropped'}</span>
+              <h2 style={{ fontSize:'clamp(1.8rem,3.5vw,2.4rem)', fontWeight:800 }}>
+                {t.latestArrivals || 'Latest Arrivals'}
+              </h2>
+            </div>
+            <Link to="/browse" style={{ color:'var(--primary-blue)', fontWeight:600, display:'flex', alignItems:'center', gap:5 }}>
+              {t.viewAll || 'See all'} <ArrowRight size={15}/>
+            </Link>
+          </div>
+
+          <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(220px,1fr))', gap:'1.5rem' }}>
+            {latestProducts.map((p, i) => (
+              <div key={p.id}
+                className={`card ${latestVis ? 'anim-fade-up' : ''}`}
+                style={{
+                  padding:'1.4rem', display:'flex', flexDirection:'column',
+                  opacity: latestVis ? undefined : 0,
+                  animationDelay:`${i * .08}s`,
+                  borderRadius:18, transition:'transform .3s ease,box-shadow .3s ease',
+                }}
+                onMouseOver={e=>{ e.currentTarget.style.transform='translateY(-7px)'; e.currentTarget.style.boxShadow='0 22px 44px rgba(0,0,0,.13)'; }}
+                onMouseOut={e=>{ e.currentTarget.style.transform=''; e.currentTarget.style.boxShadow=''; }}
+              >
+                <div style={{
+                  height:175, background:'var(--bg-main)', borderRadius:'var(--radius-md)',
+                  padding:'1.4rem', marginBottom:'1.25rem',
+                  display:'flex', alignItems:'center', justifyContent:'center',
+                  position:'relative',
+                }}>
+                  {p.badges[0] && (
+                    <span style={{
+                      position:'absolute', top:8, left:8,
+                      background:'var(--primary-blue)', color:'#fff',
+                      padding:'.2rem .55rem', borderRadius:5,
+                      fontSize:'.6rem', fontWeight:700, letterSpacing:'.5px', textTransform:'uppercase',
+                    }}>{p.badges[0]}</span>
+                  )}
+                  {!p.inStock && (
+                    <span style={{
+                      position:'absolute', inset:0, borderRadius:'var(--radius-md)',
+                      background:'rgba(0,0,0,.35)', display:'flex', alignItems:'center', justifyContent:'center',
+                      color:'#fff', fontWeight:700, fontSize:'.8rem',
+                    }}>{t.outOfStock || 'Out of Stock'}</span>
+                  )}
+                  <img src={p.image} alt={p.name}
+                    style={{ maxWidth:'88%', maxHeight:'88%', objectFit:'contain',
+                      opacity: p.inStock ? 1 : .55 }}
+                  />
+                </div>
+                <div style={{ fontSize:'.72rem', color:'var(--primary-blue)', fontWeight:700, marginBottom:4, textTransform:'uppercase', letterSpacing:'1px' }}>{p.brand}</div>
+                <h3 style={{ fontSize:'1rem', marginBottom:'0.75rem', flex:1, fontWeight:600 }}>{p.name}</h3>
+                <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+                  <div style={{ fontWeight:700, fontSize:'1.08rem' }}>{formatPrice(p.price, currency)}</div>
+                  <Link to={`/product/${p.id}`}
+                    style={{ color:'var(--primary-blue)', fontSize:'.84rem', fontWeight:600, display:'flex', alignItems:'center', gap:3 }}>
+                    View <ArrowRight size={13}/>
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+          NEWSLETTER
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+      <section ref={newsRef} className="container" style={{ padding:'6rem 1rem' }}>
+        <div className={newsVis ? 'anim-scale-in' : ''} style={{
+          opacity: newsVis ? undefined : 0,
+          background:'linear-gradient(135deg,#EFF6FF 0%,#E0F2FE 100%)',
+          borderRadius:32, padding:'clamp(3rem,6vw,5.5rem) 2rem',
+          textAlign:'center', position:'relative', overflow:'hidden',
+        }}>
+          <div style={{
+            position:'absolute', top:'-25%', right:'-5%', width:400, height:400,
+            borderRadius:'50%', pointerEvents:'none',
+            background:'radial-gradient(circle,rgba(37,99,235,.08) 0%,transparent 70%)',
+          }}/>
+          <div style={{ position:'relative', zIndex:1, maxWidth:600, margin:'0 auto' }}>
+            <div style={{ fontSize:'2.5rem', marginBottom:'1rem' }}>ðŸ“¬</div>
+            <h2 style={{ fontSize:'clamp(1.7rem,4vw,2.5rem)', fontWeight:800, marginBottom:'1rem', color:'#1E293B' }}>
+              {t.newsletter || 'Stay ahead of the curve.'}
+            </h2>
+            <p style={{ color:'#475569', fontSize:'1.05rem', marginBottom:'2.5rem', lineHeight:1.7 }}>
+              {t.subscribeDesc || 'Join our inner circle to receive exclusive early access to product launches and curated tech deals.'}
+            </p>
+
+            {subOk ? (
+              <div style={{
+                background:'#10B981', color:'#fff',
+                padding:'1rem 2rem', borderRadius:14,
+                display:'inline-flex', alignItems:'center', gap:8, fontWeight:700,
+              }}>
+                <ShieldCheck size={20}/> You&apos;re subscribed â€” welcome!
+              </div>
+            ) : (
+              <form onSubmit={handleSub} style={{
+                display:'flex', gap:12, maxWidth:450,
+                margin:'0 auto 1rem', flexWrap:'wrap',
+              }}>
+                <input
+                  type="email" required
+                  placeholder={t.emailPlaceholder || 'Enter your email'}
+                  value={email}
+                  onChange={e=>setEmail(e.target.value)}
+                  style={{
+                    flex:'1 1 200px', padding:'1rem 1.4rem',
+                    borderRadius:13, border:'1px solid #CBD5E1',
+                    outline:'none', fontSize:'1rem', color:'#1E293B',
+                    transition:'border-color .2s',
+                  }}
+                  onFocus={e=>e.target.style.borderColor='var(--primary-blue)'}
+                  onBlur={e=>e.target.style.borderColor='#CBD5E1'}
+                />
+                <button type="submit" className="btn-primary"
+                  style={{ flex:'0 0 auto', padding:'1rem 1.75rem', borderRadius:13, fontSize:'1rem', whiteSpace:'nowrap' }}>
+                  {t.subscribe || 'Subscribe'}
+                </button>
+              </form>
+            )}
+            <p style={{ fontSize:'.78rem', color:'#94A3B8', marginTop:'0.75rem' }}>
+              By subscribing you agree to our{' '}
+              <Link to="/privacy" style={{ color:'var(--primary-blue)' }}>Privacy Policy</Link>
+              {' '}and{' '}
+              <Link to="/terms" style={{ color:'var(--primary-blue)' }}>Terms of Service</Link>.
+            </p>
+          </div>
         </div>
       </section>
 
