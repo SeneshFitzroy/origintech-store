@@ -13,11 +13,19 @@ const Navbar = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const searchRef = useRef(null);
 
   const toggleTheme = () => {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark');
   };
+
+  // Scroll state for blur effect
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   // Close search results on click outside
   useEffect(() => {
@@ -60,9 +68,12 @@ const Navbar = () => {
   return (
     <header style={{ 
       position: 'sticky', top: 0, zIndex: 100,
-      backgroundColor: 'var(--bg-surface)', 
+      backgroundColor: scrolled ? 'var(--bg-surface)' : 'var(--bg-surface)',
+      backdropFilter: scrolled ? 'blur(20px) saturate(180%)' : 'none',
+      WebkitBackdropFilter: scrolled ? 'blur(20px) saturate(180%)' : 'none',
       borderBottom: '1px solid var(--border-color)',
-      boxShadow: 'var(--shadow-sm)'
+      boxShadow: scrolled ? '0 4px 24px rgba(0,0,0,0.1)' : 'var(--shadow-sm)',
+      transition: 'box-shadow 0.3s ease, backdrop-filter 0.3s ease',
     }}>
       {/* Top Banner (Settings) */}
       <div style={{ backgroundColor: 'var(--premium-navy)', color: 'var(--pure-white)', padding: '0.25rem 0', fontSize: '0.85rem' }}>
