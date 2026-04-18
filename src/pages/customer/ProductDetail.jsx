@@ -1,8 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { Star, ShieldCheck, Heart, ShoppingBag, Truck, RefreshCw, ArrowLeft, Check, ZoomIn } from 'lucide-react';
+import { Star, ShieldCheck, Heart, ShoppingBag, Truck, RefreshCw, ArrowLeft, Check, ZoomIn, Play } from 'lucide-react';
 import { mockProducts, formatPrice } from '../../data/mockData';
 import { useAppContext } from '../../context/AppContext';
+
+const PRODUCT_VIDEOS = {
+  p1:  { id: 'bNYhDkecnpE', title: 'iPhone 15 Pro Max Unboxing & First Impressions', channel: 'TechDaily' },
+  p2:  { id: 'nPH1DZRqSy8', title: 'M2 iPad Air 11" Unboxing and First Review', channel: 'FishBee Productions' },
+  p3:  { id: 'bbfRJCfnjUE', title: 'AirPods Pro 2 USB-C Unboxing & Review', channel: 'Karl Conrad' },
+  p4:  { id: 'B2BMePLvkGs', title: 'MacBook Pro M3 Max 16" Unboxing - ASMR', channel: 'Dr Debox' },
+  p5:  { id: 'FbjbQ_U1GBc', title: 'Apple Watch Series 9 Unboxing', channel: 'Apple' },
+  p6:  { id: '6CsJZxfZsL0', title: 'Sony WH-1000XM5 Review', channel: 'MKBHD' },
+  p7:  { id: 'dv1Di17cSo8', title: 'iPhone 15 Pro Max Clear Case with MagSafe Review', channel: 'Andrew Clare' },
+  p8:  { id: '-SkP6LgcM4U', title: 'Samsung Galaxy A55 5G Unboxing & 100 Hour Review', channel: 'Tech Spurt' },
+  p9:  { id: 'QpbGctuHoMY', title: 'iPhone SE (2022) Review: Old Dog. New Trick.', channel: 'MKBHD' },
+  p10: { id: 'zUVq32UpW7Y', title: 'iPad Pro M2 12.9" Unboxing, Setup & What\'s New', channel: 'zollotech' },
+  p11: { id: 'mTpIuOm-dNE', title: 'MacBook Air M3 Unboxing, Setup and First Look', channel: 'zollotech' },
+  p12: { id: 'aZHCr5NGP68', title: '65W GaN Charger Review for Mobiles & Laptops', channel: 'Geekyranjit' },
+  p13: { id: 'Lu49Stt4DF0', title: 'iPhone 16 Pro Max Unboxing & First Impressions', channel: 'TechDaily' },
+};
 
 const Toast = ({ show, product }) => (
   <div style={{
@@ -83,6 +99,7 @@ const ProductDetail = () => {
   const TABS = [
     { key: 'specs', label: 'Specifications' },
     { key: 'reviews', label: `Reviews (${product.reviews})` },
+    { key: 'video', label: '▶ Video Review' },
     { key: 'qa', label: 'Q&A' },
   ];
 
@@ -339,6 +356,41 @@ const ProductDetail = () => {
                   <p style={{ color: 'var(--text-secondary)', fontSize: '.9rem', lineHeight: 1.6, margin: 0 }}>{r.text}</p>
                 </div>
               ))}
+            </div>
+          )}
+
+          {activeTab === 'video' && (
+            <div style={{ maxWidth: 780 }}>
+              {PRODUCT_VIDEOS[product.id] ? (
+                <div>
+                  <div style={{
+                    position: 'relative', width: '100%', paddingBottom: '56.25%',
+                    borderRadius: 16, overflow: 'hidden',
+                    border: '1px solid var(--border-color)',
+                    boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+                  }}>
+                    <iframe
+                      src={`https://www.youtube.com/embed/${PRODUCT_VIDEOS[product.id].id}`}
+                      title={PRODUCT_VIDEOS[product.id].title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      style={{
+                        position: 'absolute', top: 0, left: 0,
+                        width: '100%', height: '100%', border: 'none',
+                      }}
+                    />
+                  </div>
+                  <div style={{ marginTop: '1rem', display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <Play size={18} style={{ color: 'var(--primary-blue)', flexShrink: 0 }}/>
+                    <div>
+                      <div style={{ fontWeight: 700, fontSize: '.95rem', color: 'var(--text-main)' }}>{PRODUCT_VIDEOS[product.id].title}</div>
+                      <div style={{ fontSize: '.82rem', color: 'var(--text-muted)' }}>by {PRODUCT_VIDEOS[product.id].channel}</div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-muted)' }}>No video available for this product.</div>
+              )}
             </div>
           )}
 
