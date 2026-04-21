@@ -26,6 +26,12 @@ export const AppProvider = ({ children }) => {
     return Number(localStorage.getItem('tradeInCredit') || 0);
   });
 
+  // Wishlist State
+  const [wishlist, setWishlist] = useState(() => {
+    const saved = localStorage.getItem('wishlist');
+    return saved ? JSON.parse(saved) : [];
+  });
+
   // Order History (persisted)
   const [orderHistory, setOrderHistory] = useState(() => {
     const saved = localStorage.getItem('orderHistory');
@@ -69,8 +75,28 @@ export const AppProvider = ({ children }) => {
   }, [tradeInCredit]);
 
   useEffect(() => {
+    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+  }, [wishlist]);
+
+  useEffect(() => {
     localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
   }, [orderHistory]);
+
+  const addBundleToCart = (bundle, resolvedProducts) => {
+    const bundleId = `${bundle.id}-${Date.now()}`;
+    const newItems = resolvedProducts.map(product => ({
+      ...product,
+      cartId: `${product.id}-${bundleId}`,
+      selectedColor: product.colors?.[0] || null,
+      selectedStorage: product.storage?.[0] || null,
+      quantity: 1,
+      isBundleItem: true,
+      bundleId,
+      bundleName: bundle.name,
+      bundleDiscountPct: bundle.discountPct,
+    }));
+    setCart(prev => [...prev, ...newItems]);
+  };
 
   const value = {
     theme, setTheme,
@@ -79,7 +105,9 @@ export const AppProvider = ({ children }) => {
     user, setUser,
     cart, setCart,
     tradeInCredit, setTradeInCredit,
+    wishlist, setWishlist,
     orderHistory, setOrderHistory,
+    addBundleToCart,
   };
 
   return (

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Trash2, ArrowRight, ShoppingBag, ShoppingCart, Tag, CheckCircle, ChevronRight, Shield } from 'lucide-react';
+import { Trash2, ArrowRight, ShoppingBag, ShoppingCart, Tag, CheckCircle, ChevronRight, Shield, Package } from 'lucide-react';
 import { formatPrice, mockProducts } from '../../data/mockData';
 import { useAppContext } from '../../context/AppContext';
 
@@ -15,9 +15,25 @@ const Cart = () => {
   const [removingIds, setRemovingIds] = useState([]);
 
   const subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
-  const discount = appliedCoupon ? subtotal * VALID_COUPONS[appliedCoupon] : 0;
-  const creditApplied = Math.min(tradeInCredit, subtotal - discount);
-  const total = subtotal - discount - creditApplied;
+
+  // Group bundle items by bundleId and compute total bundle savings
+  const bundleGroups = {};
+  cart.forEach(item => {
+    if (item.isBundleItem && item.bundleId) {
+      if (!bundleGroups[item.bundleId]) {
+        bundleGroups[item.bundleId] = { name: item.bundleName, discountPct: item.bundleDiscountPct, groupTotal: 0 };
+      }
+      bundleGroups[item.bundleId].groupTotal += item.price * item.quantity;
+    }
+  });
+  const bundleSavings = Object.values(bundleGroups).reduce(
+    (acc, g) => acc + Math.round(g.groupTotal * g.discountPct / 100), 0
+  );
+
+  const effectiveSubtotal = subtotal - bundleSavings;
+  const discount = appliedCoupon ? effectiveSubtotal * VALID_COUPONS[appliedCoupon] : 0;
+  const creditApplied = Math.min(tradeInCredit, effectiveSubtotal - discount);
+  const total = effectiveSubtotal - discount - creditApplied;
 
   const updateQuantity = (cartId, newQty) => {
     if (newQty < 1) return;
@@ -130,7 +146,12 @@ const Cart = () => {
                           {item.selectedColor && item.selectedStorage && <span> · </span>}
                           {item.selectedStorage && <span>Storage: {item.selectedStorage}</span>}
                         </div>
-                        {item.verified && (
+                        {item.isBundleItem && (
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: '.4rem', color: 'var(--primary-blue)', fontSize: '.75rem', fontWeight: 600 }}>
+                            <Package size={11}/> {item.bundleName} · {item.bundleDiscountPct}% bundle saving
+                          </div>
+                        )}
+                        {item.verified && !item.isBundleItem && (
                           <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: '.4rem', color: '#10B981', fontSize: '.75rem', fontWeight: 600 }}>
                             <Shield size={11}/> Authenticity Verified
                           </div>
@@ -174,6 +195,14 @@ const Cart = () => {
                   <span style={{ color: 'var(--text-muted)' }}>Subtotal ({cart.length} items)</span>
                   <span style={{ fontWeight: 600 }}>{formatPrice(subtotal, currency)}</span>
                 </div>
+                {bundleSavings > 0 && Object.values(bundleGroups).map((g, i) => (
+                  <div key={i} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '.9rem', color: 'var(--primary-blue)' }}>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+                      <Package size={13}/> {g.name}
+                    </span>
+                    <span>−{formatPrice(Math.round(g.groupTotal * g.discountPct / 100), currency)}</span>
+                  </div>
+                ))}
                 {discount > 0 && (
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '.9rem', color: '#10B981' }}>
                     <span>Coupon ({appliedCoupon})</span>

@@ -26,6 +26,7 @@ import Tracking from './pages/customer/Tracking';
 import Orders from './pages/customer/Orders';
 import Wishlist from './pages/customer/Wishlist';
 import PaymentFailed from './pages/customer/PaymentFailed';
+import Bundles from './pages/customer/Bundles';
 
 // Pages - Admin
 import AdminDashboard from './pages/admin/AdminDashboard';
@@ -75,6 +76,7 @@ function App() {
             <Route path="orders" element={<Orders />} />
             <Route path="wishlist" element={<Wishlist />} />
             <Route path="payment-failed" element={<PaymentFailed />} />
+            <Route path="bundles" element={<Bundles />} />
           </Route>
 
           {/* Admin Routes */}

@@ -1,10 +1,11 @@
-﻿import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { ShieldCheck, ArrowRight, Smartphone, RefreshCw, Star, Package, Zap, Users, Mail, Laptop, Monitor } from 'lucide-react';
-import { mockProducts, formatPrice, translationStrings } from '../../data/mockData';
+import { ShieldCheck, ArrowRight, Smartphone, RefreshCw, Star, Package, Zap, Users, Mail, Laptop, Monitor, Gift, Truck } from 'lucide-react';
+import { mockProducts, mockBundles, formatPrice, translationStrings } from '../../data/mockData';
+import BundleCard from '../../components/common/BundleCard';
 import { useAppContext } from '../../context/AppContext';
 
-/* â”€â”€ scroll-reveal hook â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── scroll-reveal hook ──────────────────────────────────────── */
 const useReveal = (threshold = 0.12) => {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
@@ -21,7 +22,7 @@ const useReveal = (threshold = 0.12) => {
   return [ref, visible];
 };
 
-/* â”€â”€ 3-D tilt handlers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── 3-D tilt handlers ─────────────────────────────────────────── */
 const onTilt = (e) => {
   const el = e.currentTarget;
   const r  = el.getBoundingClientRect();
@@ -39,7 +40,7 @@ const Home = () => {
   const { currency, language, theme } = useAppContext();
   const t = translationStrings[language] || translationStrings.EN;
 
-  /* â”€â”€ real-time countdown â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── real-time countdown ──────────────────────────────────────── */
   const [timeLeft, setTimeLeft] = useState({ h: 7, m: 59, s: 59 });
   useEffect(() => {
     const tick = setInterval(() => {
@@ -56,7 +57,7 @@ const Home = () => {
   }, []);
   const pad = n => String(n).padStart(2, '0');
 
-  /* â”€â”€ animated stats â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── animated stats ───────────────────────────────────────────── */
   const STATS = [
     { target: 15000, suffix: '+', label: t.happyCustomers  || 'Happy Customers' },
     { target: 98,    suffix: '%', label: t.authenticityRate || 'Authenticity Rate' },
@@ -79,15 +80,16 @@ const Home = () => {
     return () => clearInterval(timer);
   }, [statsVisible]); // eslint-disable-line
 
-  /* â”€â”€ section refs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── section refs ─────────────────────────────────────────────── */
   const [trustRef,   trustVis]   = useReveal();
   const [featRef,    featVis]    = useReveal();
   const [tradeRef,   tradeVis]   = useReveal();
   const [saleRef,    saleVis]    = useReveal();
+  const [bundlesRef, bundlesVis] = useReveal();
   const [latestRef,  latestVis]  = useReveal();
   const [newsRef,    newsVis]    = useReveal();
 
-  /* â”€â”€ newsletter submit â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── newsletter submit ────────────────────────────────────────── */
   const [email, setEmail]       = useState('');
   const [subOk, setSubOk]       = useState(false);
   const handleSub = (e) => {
@@ -97,6 +99,7 @@ const Home = () => {
 
   const featuredProducts = mockProducts.slice(0, 3);
   const latestProducts   = mockProducts.slice(3, 9);
+  const heroProduct      = mockProducts.find(p => p.id === 'p13');
 
   return (
     <div style={{ backgroundColor: 'var(--bg-main)' }}>
@@ -117,23 +120,30 @@ const Home = () => {
         alignItems:'center',
       }}>
         <style dangerouslySetInnerHTML={{__html:`
-          @keyframes hFloat{
-            0%,100%{transform:translateY(0)}
-            50%{transform:translateY(-12px)}
-          }
           @keyframes hFadeUp{
             from{opacity:0;transform:translateY(32px)}
             to{opacity:1;transform:translateY(0)}
-          }
-          @keyframes hScan{
-            0%{top:-20%}100%{top:120%}
           }
           @keyframes hShimmer{
             0%{background-position:-200% center}
             100%{background-position:200% center}
           }
-          @keyframes hGlow{
-            0%,100%{opacity:.5}50%{opacity:1}
+          @keyframes glassFloat1{
+            0%,100%{transform:translateY(0) rotate(0deg)}
+            33%{transform:translateY(-12px) rotate(1deg)}
+            66%{transform:translateY(6px) rotate(-0.8deg)}
+          }
+          @keyframes glassFloat2{
+            0%,100%{transform:translateY(0) rotate(0deg)}
+            40%{transform:translateY(10px) rotate(-1.5deg)}
+            70%{transform:translateY(-9px) rotate(1deg)}
+          }
+          @keyframes pulseGlow{
+            0%,100%{opacity:.35;transform:scale(1)}
+            50%{opacity:.75;transform:scale(1.07)}
+          }
+          @keyframes hScan{
+            0%{top:-20%}100%{top:120%}
           }
           .hf1{animation:hFadeUp .8s .1s cubic-bezier(.16,1,.3,1) both}
           .hf2{animation:hFadeUp .8s .22s cubic-bezier(.16,1,.3,1) both}
@@ -141,7 +151,7 @@ const Home = () => {
           .hf4{animation:hFadeUp .9s .45s cubic-bezier(.16,1,.3,1) both}
           .h-layout{
             display:grid;
-            grid-template-columns:1fr 1.3fr;
+            grid-template-columns:1fr 1fr;
             gap:clamp(2rem,4vw,3.5rem);
             align-items:center;
             max-width:1400px;
@@ -149,23 +159,24 @@ const Home = () => {
             padding:clamp(8rem,15vh,11rem) clamp(1.5rem,4vw,3rem) clamp(5rem,10vh,8rem);
             position:relative;z-index:2;
           }
-          .h-dev-area{
-            position:relative;display:flex;justify-content:center;
-            align-items:flex-end;min-height:580px;
+          .h-right{
+            position:relative;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            min-height:560px;
           }
-          .h-device{
-            border-radius:18px;overflow:hidden;
-            background:linear-gradient(145deg,#001f4d,#002b6b);
-            border:1px solid rgba(0,74,198,.12);
-            transition:border-color .5s,box-shadow .5s;
-          }
-          .h-device:hover{
-            border-color:rgba(0,74,198,.25);
-            box-shadow:0 0 40px rgba(0,100,255,.08);
-          }
-          .h-scr{
-            background:linear-gradient(175deg,#001433 0%,#001f4d 100%);
-            position:relative;overflow:hidden;
+          .glass-card{
+            position:absolute;
+            background:rgba(255,255,255,.07);
+            backdrop-filter:blur(18px);
+            -webkit-backdrop-filter:blur(18px);
+            border:1px solid rgba(255,255,255,.14);
+            border-radius:18px;
+            padding:14px 20px;
+            min-width:172px;
+            box-shadow:0 8px 32px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.1);
+            z-index:4;
           }
           .h-cta{
             display:inline-flex;align-items:center;gap:10px;
@@ -179,18 +190,19 @@ const Home = () => {
           }
           @media(max-width:960px){
             .h-layout{grid-template-columns:1fr;text-align:center}
-            .h-dev-area{min-height:420px;transform:scale(.75)}
+            .h-right{min-height:400px;transform:scale(.82)}
             .h-cta-row{justify-content:center!important}
             .h-tag-row{justify-content:center!important}
             .h-h1{font-size:clamp(2.2rem,8vw,3.4rem)!important}
             .h-trust{justify-content:center!important}
+            .glass-card{display:none}
           }
           @media(max-width:600px){
-            .h-dev-area{min-height:320px;transform:scale(.55)}
+            .h-right{min-height:320px;transform:scale(.68)}
             .h-h1{font-size:clamp(1.8rem,7vw,2.8rem)!important}
           }
           @media(max-width:400px){
-            .h-dev-area{min-height:280px;transform:scale(.45)}
+            .h-right{min-height:270px;transform:scale(.56)}
           }
         `}} />
 
@@ -241,12 +253,34 @@ const Home = () => {
 
             <p className="hf2" style={{
               fontSize:'1.1rem',color:'#94A3B8',
-              marginBottom:'2.5rem',maxWidth:460,lineHeight:1.8,fontWeight:400,
+              marginBottom:'1.8rem',maxWidth:460,lineHeight:1.8,fontWeight:400,
             }}>
               Shop verified smartphones, laptops &amp; accessories with
               authenticity guaranteed. Instant trade-in credit &amp; free shipping
               on every order over Rs. 100,000.
             </p>
+
+            {/* Inline stat strip */}
+            <div className="hf2" style={{
+              display:'flex',gap:0,marginBottom:'2.2rem',
+              background:'rgba(255,255,255,.04)',border:'1px solid rgba(255,255,255,.08)',
+              borderRadius:14,overflow:'hidden',maxWidth:460,
+            }}>
+              {[
+                {val:'15k+',label:'Customers'},
+                {val:'98%', label:'Authentic'},
+                {val:'500+',label:'Products'},
+                {val:'12m', label:'Warranty'},
+              ].map((s,i)=>(
+                <div key={i} style={{
+                  flex:1,padding:'12px 6px',textAlign:'center',
+                  borderRight: i < 3 ? '1px solid rgba(255,255,255,.08)' : 'none',
+                }}>
+                  <div style={{fontSize:'1.05rem',fontWeight:800,color:'#fff',lineHeight:1}}>{s.val}</div>
+                  <div style={{fontSize:'.62rem',color:'rgba(255,255,255,.4)',marginTop:3,fontWeight:500}}>{s.label}</div>
+                </div>
+              ))}
+            </div>
 
             <div className="hf3 h-cta-row" style={{display:'flex',gap:14,flexWrap:'wrap',marginBottom:'2.8rem'}}>
               <Link to="/browse" className="h-cta" style={{
@@ -259,7 +293,7 @@ const Home = () => {
               >
                 {t.shopNow} <ArrowRight size={16} strokeWidth={2.5}/>
               </Link>
-              <Link to="/trade-in" className="h-cta" style={{
+              <Link to="/bundles" className="h-cta" style={{
                 background:'rgba(255,255,255,.06)',color:'#E2E8F0',
                 border:'1px solid rgba(255,255,255,.15)',
                 backdropFilter:'blur(8px)',
@@ -267,7 +301,7 @@ const Home = () => {
                 onMouseOver={e=>{e.currentTarget.style.background='rgba(255,255,255,.12)';e.currentTarget.style.borderColor='rgba(255,255,255,.3)';}}
                 onMouseOut={e=>{e.currentTarget.style.background='rgba(255,255,255,.06)';e.currentTarget.style.borderColor='rgba(255,255,255,.15)';}}
               >
-                Trade-In Deals
+                <Gift size={15}/> Bundle Deals
               </Link>
             </div>
 
@@ -289,202 +323,99 @@ const Home = () => {
             </div>
           </div>
 
-          {/* ── RIGHT: 3D Device Showcase ── */}
-          <div className="hf4 h-dev-area">
-
-            {/* ─── LAPTOP (back-left) ─── */}
+          {/* ── RIGHT: Premium Glassmorphism Showcase ── */}
+          <div className="hf4 h-right">
+            {/* Outer glow ring */}
             <div style={{
-              position:'absolute',left:'-8%',bottom:'10%',zIndex:1,
-              width:300,perspective:1200,
-              animation:'hFloat 8s ease-in-out infinite',animationDelay:'.4s',
+              position:'absolute',width:420,height:420,borderRadius:'50%',
+              background:'radial-gradient(circle,rgba(0,74,198,.22) 0%,transparent 68%)',
+              animation:'pulseGlow 3.2s ease-in-out infinite',
+              pointerEvents:'none',zIndex:1,
+            }}/>
+            {/* Inner ring border */}
+            <div style={{
+              position:'absolute',width:330,height:330,borderRadius:'50%',
+              border:'1px solid rgba(0,74,198,.2)',
+              animation:'pulseGlow 3.2s ease-in-out infinite 1.6s',
+              pointerEvents:'none',zIndex:1,
+            }}/>
+
+            {/* Hero product image */}
+            <img
+              src={heroProduct?.image || '/images/iphone_real.png'}
+              alt={heroProduct?.name || 'Origin Vision X Pro'}
+              style={{
+                width:230,height:310,objectFit:'contain',
+                position:'relative',zIndex:2,
+                filter:'drop-shadow(0 30px 60px rgba(0,74,198,.4)) drop-shadow(0 10px 30px rgba(0,0,0,.55))',
+                animation:'glassFloat1 7s ease-in-out infinite',
+              }}
+            />
+
+            {/* Authenticity seal — bottom-center */}
+            <div style={{
+              position:'absolute',bottom:'9%',left:'50%',transform:'translateX(-50%)',
+              background:'rgba(16,185,129,.1)',
+              border:'1px solid rgba(16,185,129,.35)',
+              borderRadius:999,padding:'7px 20px',
+              display:'flex',alignItems:'center',gap:7,
+              backdropFilter:'blur(14px)',WebkitBackdropFilter:'blur(14px)',
+              zIndex:5,whiteSpace:'nowrap',
             }}>
-              <div className="h-device" style={{
-                transform:'rotateY(14deg) rotateX(-4deg)',borderRadius:16,
-                boxShadow:'0 25px 70px rgba(0,0,0,.5), 0 0 30px rgba(0,74,198,.06)',
-                padding:'10px 10px 3px',
-              }}>
-                <div className="h-scr" style={{
-                  borderRadius:10,height:180,padding:12,
-                  display:'flex',flexDirection:'column',gap:5,
-                }}>
-                  <div style={{position:'absolute',left:0,right:0,height:'30%',
-                    background:'linear-gradient(180deg,transparent,rgba(0,74,198,.03),transparent)',
-                    animation:'hScan 5s linear infinite',pointerEvents:'none'}}/>
-                  {/* Browser dots */}
-                  <div style={{display:'flex',gap:4,marginBottom:6}}>
-                    <div style={{width:5,height:5,borderRadius:'50%',background:'#EF4444',opacity:.7}}/>
-                    <div style={{width:5,height:5,borderRadius:'50%',background:'#F59E0B',opacity:.7}}/>
-                    <div style={{width:5,height:5,borderRadius:'50%',background:'#22C55E',opacity:.7}}/>
-                  </div>
-                  {/* Search bar */}
-                  <div style={{width:'90%',height:7,borderRadius:4,background:'rgba(255,255,255,.06)',
-                    border:'1px solid rgba(255,255,255,.05)',marginBottom:6}}/>
-                  {/* Product grid mockup */}
-                  <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:4,flex:1}}>
-                    {[1,2,3,4].map(n=>(
-                      <div key={n} style={{borderRadius:4,background:'rgba(0,74,198,.04)',
-                        border:'1px solid rgba(0,74,198,.06)',
-                        display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:2,padding:3}}>
-                        <div style={{width:'60%',height:3,borderRadius:1,background:'rgba(255,255,255,.08)'}}/>
-                        <div style={{width:'40%',height:2,borderRadius:1,background:'rgba(0,74,198,.15)'}}/>
-                      </div>
-                    ))}
-                  </div>
+              <ShieldCheck size={13} style={{color:'#4ADE80'}}/>
+              <span style={{fontSize:'.67rem',color:'#4ADE80',fontWeight:700,letterSpacing:'1px'}}>AUTHENTICITY VERIFIED</span>
+            </div>
+
+            {/* Card 1: Blazing 5G — top-left */}
+            <div className="glass-card" style={{top:'6%',left:'2%',animation:'glassFloat2 6s ease-in-out infinite'}}>
+              <div style={{display:'flex',alignItems:'center',gap:10}}>
+                <div style={{width:36,height:36,borderRadius:11,background:'rgba(99,102,241,.2)',
+                  display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>
+                  <Zap size={17} style={{color:'#818CF8'}}/>
                 </div>
-                <div style={{height:6,marginTop:3,borderRadius:'0 0 8px 8px',
-                  background:'linear-gradient(90deg,rgba(255,255,255,.03),rgba(255,255,255,.06),rgba(255,255,255,.03))'}}/>
-              </div>
-              <div style={{textAlign:'center',marginTop:12,fontSize:'.62rem',
-                color:'rgba(148,163,184,.5)',letterSpacing:'3px',textTransform:'uppercase',
-                display:'flex',alignItems:'center',justifyContent:'center',gap:6,fontWeight:500}}>
-                <Laptop size={11} strokeWidth={1.5}/> Laptops
+                <div>
+                  <div style={{fontSize:'.6rem',color:'rgba(255,255,255,.45)',fontWeight:500,marginBottom:1}}>Connectivity</div>
+                  <div style={{fontSize:'.86rem',color:'#fff',fontWeight:700}}>Blazing 5G</div>
+                </div>
               </div>
             </div>
 
-            {/* ─── PHONE (center-front, hero device) ─── */}
-            <div style={{
-              position:'relative',zIndex:3,width:230,flexShrink:0,
-              animation:'hFloat 6s ease-in-out infinite',
-            }}>
-              {/* Glow behind phone */}
-              <div style={{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)',
-                width:320,height:440,borderRadius:'40%',
-                background:'radial-gradient(ellipse,rgba(0,74,198,.08) 0%,transparent 65%)',
-                pointerEvents:'none',animation:'hGlow 4s ease-in-out infinite'}}/>
-              <div className="h-device" style={{
-                borderRadius:36,
-                border:'1.5px solid rgba(0,74,198,.18)',
-                boxShadow:'0 40px 100px rgba(0,0,0,.5), 0 0 50px rgba(0,74,198,.08), inset 0 1px 0 rgba(255,255,255,.06)',
-                padding:'16px 12px',position:'relative',
-              }}>
-                {/* Dynamic Island */}
-                <div style={{width:70,height:7,borderRadius:4,
-                  background:'#000e24',border:'1px solid rgba(255,255,255,.08)',
-                  margin:'0 auto 14px'}}/>
-                {/* Screen */}
-                <div className="h-scr" style={{
-                  borderRadius:24,height:310,padding:20,
-                  display:'flex',flexDirection:'column',alignItems:'center',
-                  justifyContent:'center',gap:10,
-                }}>
-                  <div style={{position:'absolute',left:0,right:0,height:'25%',
-                    background:'linear-gradient(180deg,transparent,rgba(0,74,198,.03),transparent)',
-                    animation:'hScan 3.5s linear infinite',pointerEvents:'none'}}/>
-                  {/* Product card mockup inside phone */}
-                  <div style={{
-                    width:'85%',borderRadius:12,overflow:'hidden',
-                    background:'rgba(255,255,255,.03)',
-                    border:'1px solid rgba(255,255,255,.06)',
-                  }}>
-                    {/* Product image area */}
-                    <div style={{height:85,background:'rgba(0,74,198,.04)',
-                      display:'flex',alignItems:'center',justifyContent:'center'}}>
-                      <Smartphone size={28} strokeWidth={1.2} style={{color:'rgba(0,74,198,.35)'}}/>    
-                    </div>
-                    {/* Product info */}
-                    <div style={{padding:'10px 12px'}}>
-                      <div style={{width:'70%',height:5,borderRadius:2,background:'rgba(255,255,255,.12)',marginBottom:6}}/>
-                      <div style={{width:'45%',height:4,borderRadius:2,background:'rgba(255,255,255,.06)',marginBottom:10}}/>    
-                      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-                        <div style={{fontSize:'.65rem',color:'#4d94ff',fontWeight:700}}>Rs. 120,000</div>
-                        <div style={{display:'flex',gap:1}}>
-                          {[1,2,3,4,5].map(s=>(
-                            <Star key={s} size={8} fill="#FACC15" stroke="none" style={{opacity:s<=4?.8:.3}}/>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {/* Verified badge */}
-                  <div style={{
-                    display:'flex',alignItems:'center',gap:6,
-                    background:'rgba(34,197,94,.08)',border:'1px solid rgba(34,197,94,.15)',
-                    borderRadius:10,padding:'7px 16px',
-                  }}>
-                    <ShieldCheck size={14} strokeWidth={2} style={{color:'#4ADE80'}}/>
-                    <span style={{fontSize:'.7rem',color:'#4ADE80',fontWeight:600,letterSpacing:'1px'}}>VERIFIED AUTHENTIC</span>
-                  </div>
-                  {/* Buy button mockup */}
-                  <div style={{
-                    width:'75%',height:30,borderRadius:8,
-                    background:'linear-gradient(135deg,#004AC6,#003a9d)',
-                    display:'flex',alignItems:'center',justifyContent:'center',
-                    boxShadow:'0 4px 12px rgba(0,74,198,.3)',
-                  }}>
-                    <span style={{fontSize:'.65rem',color:'#fff',fontWeight:700,letterSpacing:'.5px'}}>ADD TO CART</span>
-                  </div>
+            {/* Card 2: Rating — top-right */}
+            <div className="glass-card" style={{top:'10%',right:'0%',animation:'glassFloat1 5.5s ease-in-out infinite .8s'}}>
+              <div style={{display:'flex',alignItems:'center',gap:10}}>
+                <div style={{width:36,height:36,borderRadius:11,background:'rgba(250,204,21,.15)',
+                  display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>
+                  <Star size={17} fill="#FACC15" stroke="none"/>
                 </div>
-                {/* Home bar */}
-                <div style={{width:60,height:5,borderRadius:3,
-                  background:'rgba(255,255,255,.12)',margin:'14px auto 0'}}/>
-              </div>
-              <div style={{textAlign:'center',marginTop:14,fontSize:'.62rem',
-                color:'rgba(148,163,184,.5)',letterSpacing:'3px',textTransform:'uppercase',
-                display:'flex',alignItems:'center',justifyContent:'center',gap:6,fontWeight:500}}>
-                <Smartphone size={11} strokeWidth={1.5}/> Phones
+                <div>
+                  <div style={{fontSize:'.6rem',color:'rgba(255,255,255,.45)',fontWeight:500,marginBottom:1}}>User Rating</div>
+                  <div style={{fontSize:'.86rem',color:'#fff',fontWeight:700}}>4.9 / 5.0</div>
+                </div>
               </div>
             </div>
 
-            {/* ─── MONITOR (back-right) ─── */}
-            <div style={{
-              position:'absolute',right:'-8%',bottom:'10%',zIndex:1,
-              width:310,perspective:1200,
-              animation:'hFloat 9s ease-in-out infinite',animationDelay:'1s',
-            }}>
-              <div className="h-device" style={{
-                transform:'rotateY(-14deg) rotateX(-4deg)',borderRadius:16,
-                boxShadow:'0 25px 70px rgba(0,0,0,.5), 0 0 30px rgba(0,74,198,.06)',
-                padding:'10px 10px 4px',
-              }}>
-                <div className="h-scr" style={{
-                  borderRadius:10,height:190,padding:12,
-                  display:'flex',flexDirection:'column',gap:5,
-                }}>
-                  <div style={{position:'absolute',left:0,right:0,height:'28%',
-                    background:'linear-gradient(180deg,transparent,rgba(0,74,198,.03),transparent)',
-                    animation:'hScan 5.5s linear infinite',pointerEvents:'none'}}/>
-                  {/* Dashboard header */}
-                  <div style={{display:'flex',alignItems:'center',gap:5,marginBottom:4}}>
-                    <div style={{width:'25%',height:7,borderRadius:4,background:'rgba(0,74,198,.12)'}}/>
-                    <div style={{flex:1}}/>
-                    <div style={{width:7,height:7,borderRadius:'50%',background:'rgba(0,74,198,.1)'}}/>
-                    <div style={{width:7,height:7,borderRadius:'50%',background:'rgba(0,74,198,.07)'}}/>
-                  </div>
-                  {/* Analytics-style content */}
-                  <div style={{display:'flex',gap:4,marginBottom:4}}>
-                    {[{w:'30%',c:'rgba(34,197,94,.12)'},{w:'25%',c:'rgba(0,74,198,.1)'},{w:'20%',c:'rgba(250,204,21,.08)'}].map((b,i)=>(
-                      <div key={i} style={{width:b.w,height:16,borderRadius:4,background:b.c,
-                        border:'1px solid rgba(255,255,255,.03)'}}/>
-                    ))}
-                  </div>
-                  {/* Product list rows */}
-                  {[1,2,3].map(r=>(
-                    <div key={r} style={{display:'flex',alignItems:'center',gap:5,
-                      padding:'3px 4px',borderRadius:4,background:'rgba(255,255,255,.015)'}}>
-                      <div style={{width:10,height:10,borderRadius:3,background:'rgba(0,74,198,.08)'}}/>
-                      <div style={{flex:1,height:3,borderRadius:2,background:'rgba(255,255,255,.06)'}}/>
-                      <div style={{width:'20%',height:3,borderRadius:2,background:'rgba(0,74,198,.12)'}}/>
-                    </div>
-                  ))}
+            {/* Card 3: Free Delivery — bottom-left */}
+            <div className="glass-card" style={{bottom:'19%',left:'0%',animation:'glassFloat2 6.5s ease-in-out infinite 1.2s'}}>
+              <div style={{display:'flex',alignItems:'center',gap:10}}>
+                <div style={{width:36,height:36,borderRadius:11,background:'rgba(16,185,129,.15)',
+                  display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>
+                  <Truck size={17} style={{color:'#4ADE80'}}/>
                 </div>
-                {/* Stand */}
-                <div style={{display:'flex',flexDirection:'column',alignItems:'center',marginTop:4,gap:1}}>
-                  <div style={{width:2,height:12,background:'rgba(255,255,255,.05)'}}/>
-                  <div style={{width:40,height:3,borderRadius:2,background:'rgba(255,255,255,.05)'}}/>
+                <div>
+                  <div style={{fontSize:'.6rem',color:'rgba(255,255,255,.45)',fontWeight:500,marginBottom:1}}>Shipping</div>
+                  <div style={{fontSize:'.86rem',color:'#fff',fontWeight:700}}>Free Delivery</div>
                 </div>
-              </div>
-              <div style={{textAlign:'center',marginTop:12,fontSize:'.62rem',
-                color:'rgba(148,163,184,.5)',letterSpacing:'3px',textTransform:'uppercase',
-                display:'flex',alignItems:'center',justifyContent:'center',gap:6,fontWeight:500}}>
-                <Monitor size={11} strokeWidth={1.5}/> Desktops
               </div>
             </div>
 
-            {/* Connector lines */}
-            <svg style={{position:'absolute',inset:0,width:'100%',height:'100%',pointerEvents:'none',zIndex:0}}>
-              <line x1="22%" y1="55%" x2="45%" y2="58%" stroke="rgba(0,74,198,.07)" strokeWidth=".75" strokeDasharray="5 7"/>
-              <line x1="78%" y1="55%" x2="55%" y2="58%" stroke="rgba(0,74,198,.07)" strokeWidth=".75" strokeDasharray="5 7"/>
-            </svg>
+            {/* Card 4: Price tag — bottom-right */}
+            <div className="glass-card" style={{bottom:'23%',right:'1%',animation:'glassFloat1 7s ease-in-out infinite .4s'}}>
+              <div>
+                <div style={{fontSize:'.6rem',color:'rgba(255,255,255,.45)',fontWeight:500,marginBottom:3}}>Starting from</div>
+                <div style={{fontSize:'1.08rem',color:'#fff',fontWeight:800,lineHeight:1}}>Rs. 189,900</div>
+                <div style={{fontSize:'.62rem',color:'#4ADE80',fontWeight:600,marginTop:4}}>▼ Save 15% today</div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -502,9 +433,9 @@ const Home = () => {
       </section>
 
 
-      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+      {/* ═══════════════════════════════════════════
           TRUST BADGES
-      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+      ═══════════════════════════════════════════ */}
       <section ref={trustRef} style={{
         backgroundColor:'var(--bg-surface)',
         padding:'2.25rem 0',
@@ -544,9 +475,9 @@ const Home = () => {
         </div>
       </section>
 
-      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+      {/* ═══════════════════════════════════════════
           STATS STRIP
-      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+      ═══════════════════════════════════════════ */}
       <section ref={statsRef} style={{
         padding:'5rem 1rem',
         background:'linear-gradient(135deg,var(--primary-blue) 0%,#003a9d 100%)',
@@ -576,9 +507,9 @@ const Home = () => {
         </div>
       </section>
 
-      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+      {/* ═══════════════════════════════════════════
           FEATURED PRODUCTS
-      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+      ═══════════════════════════════════════════ */}
       <section ref={featRef} className="container" style={{ padding:'6rem 1rem' }}>
         {/* header */}
         <div className={`flex justify-between items-center ${featVis ? 'anim-fade-up' : ''}`}
@@ -683,9 +614,9 @@ const Home = () => {
         </div>
       </section>
 
-      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+      {/* ═══════════════════════════════════════════
           TRADE-IN
-      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+      ═══════════════════════════════════════════ */}
       <section ref={tradeRef} style={{
         background:'var(--bg-surface)',
         borderTop:'1px solid var(--border-color)',
@@ -758,9 +689,9 @@ const Home = () => {
         </div>
       </section>
 
-      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+      {/* ═══════════════════════════════════════════
           FLASH SALE (LIVE COUNTDOWN)
-      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+      ═══════════════════════════════════════════ */}
       <section ref={saleRef} className="container" style={{ padding:'6rem 1rem' }}>
         <div className={saleVis ? 'anim-scale-in' : ''} style={{
           opacity: saleVis ? undefined : 0,
@@ -830,9 +761,53 @@ const Home = () => {
         </div>
       </section>
 
-      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+      {/* ═══════════════════════════════════════════
+          BUNDLE DEALS
+      ═══════════════════════════════════════════ */}
+      <section ref={bundlesRef} className="container" style={{ padding: '6rem 1rem' }}>
+        <div className={`flex justify-between items-center ${bundlesVis ? 'anim-fade-up' : ''}`}
+          style={{ marginBottom: '3rem', opacity: bundlesVis ? undefined : 0 }}>
+          <div>
+            <span className="section-eyebrow" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <Gift size={13}/> Save More Together
+            </span>
+            <h2 style={{ fontSize: 'clamp(1.8rem,3.5vw,2.4rem)', fontWeight: 800 }}>
+              Bundle Deals
+            </h2>
+          </div>
+          <Link to="/bundles"
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: 6,
+              color: 'var(--primary-blue)', fontWeight: 600,
+              border: '1px solid var(--primary-blue)', padding: '.5rem 1.25rem',
+              borderRadius: 999, fontSize: '.88rem', transition: 'all .2s',
+            }}
+            onMouseOver={e => { e.currentTarget.style.background = 'var(--primary-blue)'; e.currentTarget.style.color = '#fff'; }}
+            onMouseOut={e => { e.currentTarget.style.background = ''; e.currentTarget.style.color = 'var(--primary-blue)'; }}
+          >
+            View All <ArrowRight size={15}/>
+          </Link>
+        </div>
+        <div
+          className={bundlesVis ? 'anim-fade-up' : ''}
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(300px,1fr))',
+            gap: '2rem',
+            opacity: bundlesVis ? undefined : 0,
+          }}
+        >
+          {mockBundles.map((bundle, i) => (
+            <div key={bundle.id} style={{ animationDelay: `${i * .12}s` }}>
+              <BundleCard bundle={bundle} />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════
           LATEST ARRIVALS
-      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+      ═══════════════════════════════════════════ */}
       <section ref={latestRef} style={{ background:'var(--bg-surface)', padding:'6rem 1rem' }}>
         <div className="container">
           <div className={`flex justify-between items-center ${latestVis ? 'anim-fade-up' : ''}`}
@@ -902,9 +877,9 @@ const Home = () => {
         </div>
       </section>
 
-      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+      {/* ═══════════════════════════════════════════
           NEWSLETTER
-      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+      ═══════════════════════════════════════════ */}
       <section ref={newsRef} className="container" style={{ padding:'6rem 1rem' }}>
         <div className={newsVis ? 'anim-scale-in' : ''} style={{
           opacity: newsVis ? undefined : 0,

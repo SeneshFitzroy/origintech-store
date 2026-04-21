@@ -189,8 +189,8 @@ const Navbar = () => {
             <span>Free shipping on orders over {currency === 'LKR' ? 'Rs. 100,000' : '$300'}</span>
           </div>
           <div className="flex gap-4 items-center">
-            <select 
-              value={language} 
+            <select
+              value={language}
               onChange={(e) => setLanguage(e.target.value)}
               style={{ background: 'transparent', color: 'white', border: 'none', outline: 'none', cursor: 'pointer' }}
             >
@@ -198,8 +198,8 @@ const Navbar = () => {
               <option value="SI" style={{color: 'black'}}>Sinhala</option>
               <option value="TA" style={{color: 'black'}}>Tamil</option>
             </select>
-            <select 
-              value={currency} 
+            <select
+              value={currency}
               onChange={(e) => setCurrency(e.target.value)}
               style={{ background: 'transparent', color: 'white', border: 'none', outline: 'none', cursor: 'pointer' }}
             >
@@ -208,6 +208,8 @@ const Navbar = () => {
               <option value="GBP" style={{color: 'black'}}>GBP</option>
               <option value="EUR" style={{color: 'black'}}>EUR</option>
             </select>
+            <span style={{ color: 'rgba(255,255,255,.18)', fontSize: '1rem', userSelect: 'none' }}>|</span>
+            <div id="google_translate_element" style={{ lineHeight: 1, display: 'flex', alignItems: 'center' }} />
           </div>
         </div>
       </div>

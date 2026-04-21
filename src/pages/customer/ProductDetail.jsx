@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { Star, ShieldCheck, Heart, ShoppingBag, Truck, RefreshCw, ArrowLeft, Check, ZoomIn, Play } from 'lucide-react';
-import { mockProducts, formatPrice } from '../../data/mockData';
+import { Star, ShieldCheck, Heart, ShoppingBag, Truck, RefreshCw, ArrowLeft, Check, ZoomIn, Play, Package } from 'lucide-react';
+import { mockProducts, mockBundles, formatPrice } from '../../data/mockData';
+import BundleCard from '../../components/common/BundleCard';
 import { useAppContext } from '../../context/AppContext';
 
 const PRODUCT_VIDEOS = {
@@ -388,6 +389,30 @@ const ProductDetail = () => {
             </div>
           )}
         </div>
+
+        {/* ── Bundle Deals ── */}
+        {(() => {
+          const relevantBundles = mockBundles.filter(b => b.productIds.includes(product.id));
+          if (relevantBundles.length === 0) return null;
+          return (
+            <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '3rem', marginBottom: '4rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: '.5rem' }}>
+                <div style={{ width: 38, height: 38, borderRadius: 10, background: 'rgba(0,74,198,.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Package size={18} style={{ color: 'var(--primary-blue)' }}/>
+                </div>
+                <div>
+                  <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--text-main)', lineHeight: 1 }}>Bundle Deals</h2>
+                  <p style={{ fontSize: '.82rem', color: 'var(--text-muted)', marginTop: '.2rem' }}>Save more when you buy this product as part of a bundle.</p>
+                </div>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px,1fr))', gap: '1.5rem', marginTop: '1.75rem' }}>
+                {relevantBundles.map(bundle => (
+                  <BundleCard key={bundle.id} bundle={bundle} />
+                ))}
+              </div>
+            </div>
+          );
+        })()}
 
         {/* ── Related Products ── */}
         {related.length > 0 && (

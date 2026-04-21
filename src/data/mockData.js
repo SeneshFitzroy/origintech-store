@@ -215,6 +215,69 @@ export const mockProducts = [
   }
 ];
 
+export const mockBundles = [
+  {
+    id: 'b1',
+    name: 'Ultimate Smartphone Kit',
+    tagline: 'The complete setup — flagship phone, premium protection, and audiophile sound.',
+    description: 'Experience the pinnacle of smartphone living. The Origin Pro Max delivers class-leading triple-camera photography and all-day performance, the Clear Case keeps it pristine without hiding its beauty, and the Sonic Over-Ear Max wraps you in reference-quality spatial audio. Every component is authenticity-certified and covered by a 12-month OriginTech warranty.',
+    productIds: ['p1', 'p7', 'p6'],
+    discountPct: 15,
+    badge: 'Save 15%',
+    color: '#004AC6',
+  },
+  {
+    id: 'b2',
+    name: "Creator's Power Pack",
+    tagline: 'Everything a professional needs — powerful laptop, pristine audio, and fast charging.',
+    description: "Built for creators who refuse to compromise. The OriginBook Pro 16\" handles any workload with headroom to spare, the Sonic Over-Ear Max delivers the flat, accurate sound that mixing engineers trust, and the 65W GaN Hub keeps all your devices charged from a single compact adapter — no desk clutter, no excuses.",
+    productIds: ['p4', 'p6', 'p12'],
+    discountPct: 12,
+    badge: 'Save 12%',
+    color: '#7C3AED',
+  },
+  {
+    id: 'b3',
+    name: 'Pro Tablet Setup',
+    tagline: 'The ultimate mobile workspace — large-format tablet, smartwatch, and rapid charging.',
+    description: "Take your productivity anywhere. The Origin Pro Tab 12.9\" brings a desktop-class display and Origin Pencil support to your bag, the Watch Series X keeps your schedule and fitness on your wrist at all times, and the QuickCharge GaN Hub tops everything up at home or on the road. The complete mobile office, in one box.",
+    productIds: ['p10', 'p5', 'p12'],
+    discountPct: 10,
+    badge: 'Save 10%',
+    color: '#059669',
+  },
+  {
+    id: 'b4',
+    name: 'Student Starter Pack',
+    tagline: 'Everything you need to ace the semester — compact, capable, and budget-smart.',
+    description: "Smart tech doesn't have to break the bank. The Origin Lite Phone SE punches well above its price with flagship performance in a compact form factor. The Clear Case guards it through every lecture and library session, while the 65W GaN Hub charges your phone, laptop, and tablet from a single wall plug — making shared desks and packed bags a thing of the past.",
+    productIds: ['p9', 'p7', 'p12'],
+    discountPct: 8,
+    badge: 'Save 8%',
+    color: '#F59E0B',
+  },
+  {
+    id: 'b5',
+    name: 'Flagship Titan Kit',
+    tagline: 'The most powerful setup OriginTech offers — for those who accept no compromise.',
+    description: "When only the very best will do. The Origin Vision X Pro's titanium chassis and periscope zoom camera set new standards for mobile imaging. The Watch Series X tracks every health metric while keeping you seamlessly connected, and the Sonic Over-Ear Max delivers spatial audio so immersive you forget you're wearing headphones. The definitive OriginTech premium trio.",
+    productIds: ['p13', 'p5', 'p6'],
+    discountPct: 18,
+    badge: 'Save 18%',
+    color: '#6366F1',
+  },
+  {
+    id: 'b6',
+    name: 'Home Office Power Bundle',
+    tagline: 'Your complete remote work station — ultra-thin laptop, versatile tablet, and universal charging.',
+    description: "Design your ideal home office without compromise. The OriginBook Air 14\" is impossibly thin yet powerful enough for any workday. The Origin Tablet Z doubles as a second display or a focused reading and annotation device. And the QuickCharge 65W GaN Hub keeps everything charged through back-to-back video calls. One bundle — the whole desk sorted.",
+    productIds: ['p11', 'p2', 'p12'],
+    discountPct: 10,
+    badge: 'Save 10%',
+    color: '#DC2626',
+  },
+];
+
 export const mockCurrencies = {
   LKR: { symbol: 'Rs.', rate: 1 },
   USD: { symbol: '$', rate: 0.0031 },

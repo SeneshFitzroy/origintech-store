@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Check, CreditCard, Truck, Tag, AlertTriangle } from 'lucide-react';
+import { Check, CreditCard, Truck, Tag, AlertTriangle, Package } from 'lucide-react';
 import { useAppContext } from '../../context/AppContext';
 import { formatPrice } from '../../data/mockData';
 
@@ -36,8 +36,23 @@ const Checkout = () => {
   }
 
   const subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
-  const discount = appliedCoupon ? subtotal * VALID_COUPONS[appliedCoupon] : 0;
-  const total = subtotal - discount;
+
+  const bundleGroups = {};
+  cart.forEach(item => {
+    if (item.isBundleItem && item.bundleId) {
+      if (!bundleGroups[item.bundleId]) {
+        bundleGroups[item.bundleId] = { name: item.bundleName, discountPct: item.bundleDiscountPct, groupTotal: 0 };
+      }
+      bundleGroups[item.bundleId].groupTotal += item.price * item.quantity;
+    }
+  });
+  const bundleSavings = Object.values(bundleGroups).reduce(
+    (acc, g) => acc + Math.round(g.groupTotal * g.discountPct / 100), 0
+  );
+
+  const effectiveSubtotal = subtotal - bundleSavings;
+  const discount = appliedCoupon ? effectiveSubtotal * VALID_COUPONS[appliedCoupon] : 0;
+  const total = effectiveSubtotal - discount;
 
   const handleApplyCoupon = () => {
     const code = couponInput.trim().toUpperCase();
@@ -301,7 +316,15 @@ const Checkout = () => {
                       <span style={{ color: 'var(--text-muted)' }}>Subtotal</span>
                       <span>{formatPrice(subtotal, currency)}</span>
                     </div>
-                    {appliedCoupon && (
+                    {bundleSavings > 0 && Object.values(bundleGroups).map((g, i) => (
+                      <div key={i} className="flex justify-between" style={{ marginBottom: '0.5rem', fontSize: '0.95rem', color: 'var(--primary-blue)' }}>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+                          <Package size={13}/> {g.name}
+                        </span>
+                        <span>-{formatPrice(Math.round(g.groupTotal * g.discountPct / 100), currency)}</span>
+                      </div>
+                    ))}
+                  {appliedCoupon && (
                       <div className="flex justify-between" style={{ marginBottom: '0.5rem', fontSize: '0.95rem', color: '#10B981' }}>
                         <span>Coupon ({appliedCoupon}) -{Math.round(VALID_COUPONS[appliedCoupon] * 100)}%</span>
                         <span>-{formatPrice(discount, currency)}</span>
@@ -351,6 +374,12 @@ const Checkout = () => {
                   <div className="flex justify-between" style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginBottom: '0.4rem' }}>
                     <span>Subtotal</span><span>{formatPrice(subtotal, currency)}</span>
                   </div>
+                  {bundleSavings > 0 && (
+                    <div className="flex justify-between" style={{ fontSize: '0.88rem', color: 'var(--primary-blue)', marginBottom: '0.4rem' }}>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><Package size={12}/> Bundle savings</span>
+                      <span>-{formatPrice(bundleSavings, currency)}</span>
+                    </div>
+                  )}
                   {appliedCoupon && (
                     <div className="flex justify-between" style={{ fontSize: '0.88rem', color: '#10B981', marginBottom: '0.4rem' }}>
                       <span>Discount</span><span>-{formatPrice(discount, currency)}</span>
