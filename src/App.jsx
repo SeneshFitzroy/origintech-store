@@ -27,6 +27,7 @@ import Orders from './pages/customer/Orders';
 import Wishlist from './pages/customer/Wishlist';
 import PaymentFailed from './pages/customer/PaymentFailed';
 import Bundles from './pages/customer/Bundles';
+import BundleDetail from './pages/customer/BundleDetail';
 
 // Pages - Admin
 import AdminDashboard from './pages/admin/AdminDashboard';
@@ -77,6 +78,7 @@ function App() {
             <Route path="wishlist" element={<Wishlist />} />
             <Route path="payment-failed" element={<PaymentFailed />} />
             <Route path="bundles" element={<Bundles />} />
+            <Route path="bundle/:id" element={<BundleDetail />} />
           </Route>
 
           {/* Admin Routes */}
